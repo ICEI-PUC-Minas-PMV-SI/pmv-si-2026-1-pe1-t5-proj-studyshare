@@ -16,8 +16,30 @@ Apresente a paleta de cores que será utilizada. Uma ferramenta interessante par
 
 ## Tipografia
 
-Apresente as fontes que serão utilizadas e sua função no site. As principais funções são: Título de página, Título de Seção, Rótulos de componentes e Corpo de Texto.
+A tipografia utilizada na plataforma será a Inria Sans, uma fonte sem serifa moderna, reconhecida por sua excelente legibilidade em interfaces digitais e pela sua capacidade de construir hierarquias visuais claras em sistemas baseados em componentes como cards e navegação por abas.
 
+---
+
+## Hierarquia e Função
+
+| Elemento                     | Estilo Tipográfico                                      | Função principal                                                                 |
+|----------------------------|----------------------------------------------------------|----------------------------------------------------------------------------------|
+| Título de Página            | Inria Sans, 28px, Bold (700)                             | Indicar o tema principal da página                                              |
+| Título de Seção             | Inria Sans, 22px, Semi-Bold (600)                        | Organizar e destacar subdivisões do conteúdo                                    |
+| Navegação (abas)            | Inria Sans, 14px, Medium (500)                           | Permitir alternância entre categorias (Feed, Artigos, etc.)                     |
+| Título em cards             | Inria Sans, 16px, Semi-Bold (600)                        | Destacar informações principais dentro dos cards                                |
+| Descrição em cards          | Inria Sans, 13px, Regular (400)                          | Complementar informações exibidas nos cards                                     |
+| Rótulos de Componentes      | Inria Sans, 14px, Medium (500)                           | Identificar campos, botões e elementos interativos                              |
+| Corpo de Texto              | Inria Sans, 14px, Regular (400), line-height 1.5         | Apresentar conteúdos descritivos, instruções e materiais                        |
+
+---
+
+## Observações de Uso
+
+- Utilizar no máximo dois pesos principais na maior parte da interface (Regular e Semi-Bold) para manter consistência visual.
+- Reservar o peso Bold para títulos principais e pontos de maior destaque.
+- Garantir espaçamento adequado entre linhas (line-height entre 1.5 e 1.6) para melhor legibilidade, especialmente em conteúdos educacionais.
+- Manter consistência tipográfica em todos os componentes para reforçar a identidade visual da plataforma.
 
 ## Iconografia
 
