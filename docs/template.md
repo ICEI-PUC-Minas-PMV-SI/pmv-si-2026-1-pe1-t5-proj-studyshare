@@ -138,31 +138,31 @@ Os ícones permitem customização via CSS:
 
 ## Tabela de Ícones
 
-| Ícone | Nome              | Função        |
-|------|-------------------|--------------|
-| 🏠   | `home`            | Dashboard     |
-| 📖   | `auto_stories`    | Materiais     |
-| 🧭   | `explore`         | Explorar      |
-| 🔖   | `bookmark`        | Salvos        |
-| 👤   | `person`          | Perfil        |
-| ⚙️  | `settings`        | Configurações |
-| 🔍   | `search`          | Busca         |
-| ⬆️  | `upload_file`     | Upload        |
-| ➕   | `add_circle`      | Novo          |
-| ✏️  | `edit`            | Editar        |
-| 🗑️  | `delete`          | Excluir       |
-| ⬇️  | `download`        | Download      |
-| 📤   | `ios_share`       | Compartilhar  |
-| 🔎   | `filter_list`     | Filtro        |
-| 🏷️  | `sell`            | Categoria     |
-| 🔲   | `grid_view`       | Grade         |
-| 📄   | `view_list`       | Lista         |
-| 👁️  | `visibility`      | Visualizar    |
-| ❤️   | `favorite`        | Curtir        |
-| 💬   | `chat_bubble`     | Comentário    |
-| ⚠️  | `warning`         | Alerta        |
-| ❌   | `close`           | Fechar        |
-| ➡️  | `arrow_forward`   | Navegação     |
+| Ícone | Nome | Função |
+|------|------|--------|
+| <img src="./icons/home.svg" width="20"/> | `home` | Dashboard |
+| <img src="./icons/book2.svg" width="20"/> | `book2` | Materiais |
+| <img src="./icons/explore.svg" width="20"/> | `explore` | Explorar |
+| <img src="./icons/bookmark.svg" width="20"/> | `bookmark` | Salvos |
+| <img src="./icons/person.svg" width="20"/> | `person` | Perfil |
+| <img src="./icons/settings.svg" width="20"/> | `settings` | Configurações |
+| <img src="./icons/search.svg" width="20"/> | `search` | Busca |
+| <img src="./icons/upload.svg" width="20"/> | `upload` | Upload |
+| <img src="./icons/add_circle.svg" width="20"/> | `add_circle` | Novo |
+| <img src="./icons/edit_square.svg" width="20"/> | `edit_square` | Editar |
+| <img src="./icons/delete.svg" width="20"/> | `delete` | Excluir |
+| <img src="./icons/download.svg" width="20"/> | `download` | Download |
+| <img src="./icons/ios_share.svg" width="20"/> | `ios_share` | Compartilhar |
+| <img src="./icons/filter_list.svg" width="20"/> | `filter_list` | Filtro |
+| <img src="./icons/sell.svg" width="20"/> | `sell` | Categoria |
+| <img src="./icons/grid_view.svg" width="20"/> | `grid_view` | Grade |
+| <img src="./icons/view_list.svg" width="20"/> | `view_list` | Lista |
+| <img src="./icons/visibility.svg" width="20"/> | `visibility` | Visualizar |
+| <img src="./icons/favorite.svg" width="20"/> | `favorite` | Curtir |
+| <img src="./icons/chat_bubble.svg" width="20"/> | `chat_bubble` | Comentário |
+| <img src="./icons/warning.svg" width="20"/> | `warning` | Alerta |
+| <img src="./icons/close.svg" width="20"/> | `close` | Fechar |
+| <img src="./icons/arrow_forward.svg" width="20"/> | `arrow_forward` | Navegação |
 
 ---
 
