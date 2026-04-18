@@ -28,6 +28,16 @@ Apresente a paleta de cores que será utilizada. Uma ferramenta interessante par
 | Botão Configurações                     |Abre as opções de configuração da conta e do sistema |
 | Botão Novo material                     |Permite ao usuário enviar e compartilhar novos materiais de estudo na plataforma |
 
+## Área de Conteúdo Principal
+
+| ![conteudoprinciapal](https://github.com/ICEI-PUC-Minas-PMV-SI/pmv-si-2026-1-pe1-t5-proj-studyshare/blob/main/docs/img/menulateral-conteudoprinciapal/conteudoprincipal.png) |
+|:----------------------------------------------------------------------------------------------------------:|
+| **Figura 2:** Área de conteúdo principal da StudyShare |
+- Interface baseada em cards para exibição dos materiais de estudo compartilhados pelos usuários
+- Cada card apresenta informações essenciais como autor, título, tipo de conteúdo e pré-visualização
+- Utilização de indicadores de engajamento (visualizações, curtidas e comentários) para destacar a relevância dos materiais
+- Organização em layout responsivo em formato de grade, permitindo melhor distribuição e leitura dos conteúdos
+- Uso de elementos visuais como cores e tags para facilitar a identificação rápida dos diferentes tipos de materiais
 
 ## Tipografia
 
