@@ -21,11 +21,46 @@ Fluxo de usuário (User Flow) é uma técnica que permite ao desenvolvedor mapea
 
 São protótipos usados em design de interface para sugerir a estrutura de um site web e seu relacionamentos entre suas páginas. Um wireframe web é uma ilustração semelhante do layout de elementos fundamentais na interface e é fundamental sempre relacionar cada wireframe com o(s) requisito(s) que ele atende.
 
-### Exemplo
+### Tela de Login
 
-A tela inicial apresenta um menu lateral com as principais seções do portal, enquanto a navigation bar, ao topo, apresenta informações de envio de imagens ou navegação pela galeria de fotos. A área central apresenta a galeria de fotos na forma de uma grade. Nesta tela, são apresentados os seguintes requisitos
+|![Tela de Login](img/wireframes/StudyShare_SecondPage_Login.png)|
+|:--------------------------------------------------------------------------------------------:|
+| **Figura 2: Tela de Login** 
 
-![Exemplo de Wireframe](img/wireframe-example.png)
+### Tela de Recuperação de Senha
+
+|![Tela de Recuperação de Senha](img/wireframes/StudyShare_SecondPage_ResetPassword.png)|
+|:--------------------------------------------------------------------------------------------:|
+| **Figura 3: Tela de Recuperação de Senha** 
+
+| Componente    | Requisitos Atendidos |
+| :-------------: | ------------- |
+| Tela de Recuperação de Senha  | RF-13: O sistema deve permitir a redefinição de senha através de um link enviado por e-mail ou SMS.  
+|
+
+### Tela de Cadastro
+
+|![Tela de Cadastro](img/wireframes/StudyShare_ThirdPage_Register.png)|
+|:--------------------------------------------------------------------------------------------:|
+| **Figura 4: Tela de Cadastro** 
+
+
+| Componente    | Requisitos Atendidos |
+| :-------------: | ------------- |
+| Tela de Cadastro  | RF-06: O sistema deve permitir a criação de conta e autenticação de usuários.
+ |
+
+
+### Tela Inicial ("Feed") de Postagens de Materiais
+
+|![Tela Inicial](img/wireframes/StudyShare_FirstPage_Feed.png)|
+|:--------------------------------------------------------------------------------------------:|
+| **Figura 5: Tela Inicial**   
+
+| Componente    | Requisitos Atendidos |
+| :-------------: | ------------- |
+| Tela Inicial ("Feed")  | RF-01: O sistema deve permitir que o estudante faça upload de arquivos nos formatos PDF, resumos (texto) e slides. <br> RF-02: O sistema deve oferecer um motor de busca que permita filtrar materiais por disciplina, curso ou palavras-chave. <br> RF-04: O sistema deve permitir que usuários "curtam" ou atribuam notas (estrelas/pontuação) aos materiais. <br> RF-16: O sistema deve exibir no feed principal os materiais e perguntas mais recentes das disciplinas que o usuário selecionou como "Interesses" no perfil.
+ |
 
  
 > **Links Úteis**:
