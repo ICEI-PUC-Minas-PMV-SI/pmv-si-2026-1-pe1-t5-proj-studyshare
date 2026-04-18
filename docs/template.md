@@ -15,7 +15,7 @@ Apresente a paleta de cores que será utilizada. Uma ferramenta interessante par
 
 
 ## Menu Lateral
-|![Menu_studyshare](docs/img/menulateral-conteudoprinciapal/menulateral.png)|
+|![Menu_studyshare](https://github.com/ICEI-PUC-Minas-PMV-SI/pmv-si-2026-1-pe1-t5-proj-studyshare/blob/main/docs/img/menulateral-conteudoprinciapal/menulateral.png)|
 |:------------------------------------------------------------------------------------------------:|
 | **Figura 1:** Menu lateral da StudyShare |
 
