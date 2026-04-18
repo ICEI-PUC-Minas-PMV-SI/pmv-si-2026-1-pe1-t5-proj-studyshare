@@ -14,6 +14,19 @@ Detalhe os layouts que serão utilizados. Apresente onde será colocado o logo d
 Apresente a paleta de cores que será utilizada. Uma ferramenta interessante para a criação de palestas de cores é o *Adobe Color* ([https://color.adobe.com/pt/create/color-wheel](https://color.adobe.com/pt/create/color-wheel)).
 
 
+## Menu Lateral
+|![Menu_studyshare](docs/img/menulateral-conteudoprinciapal/menulateral.png)|
+|:------------------------------------------------------------------------------------------------:|
+| **Figura 1:** Menu lateral da StudyShare |
+
+| Elemento                  | Função                            |
+|---------------------------|-----------------------------------|
+| Botão Feed             | Direciona o usuário para a página inicial |
+| Botão Meus materiais                   | Exibe os arquivos e materiais enviados pelo próprio usuário |
+| Botão Explorar                   |  Permite descobrir e pesquisar materiais compartilhados pela comunidade |
+| Botão Salvos                    | Lista os materiais que o usuário marcou para salvar/favoritar |
+| Botão Configurações                     |Abre as opções de configuração da conta e do sistema |
+| Botão Novo material                     |Permite ao usuário enviar e compartilhar novos materiais de estudo na plataforma |
 
 
 ## Tipografia
