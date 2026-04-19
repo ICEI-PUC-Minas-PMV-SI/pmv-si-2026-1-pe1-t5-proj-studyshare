@@ -2,12 +2,38 @@
 
 Layout padrão do site (HTML e CSS) que será utilizado em todas as páginas com a definição de identidade visual, aspectos de responsividade e iconografia.
 
-Explique as guias de estilo utilizadas no seu projeto.
+>Estas diretrizes devem ser seguidas rigorosamente em todas as etapas de desenvolvimento da interface (UI) e implementação de componentes para garantir a consistência da marca.
 
 ## Design
 
-Detalhe os layouts que serão utilizados. Apresente onde será colocado o logo do sistema. Defina os menus padrões, entre outras coisas.
+<p align="center">
+  <img src="https://github.com/ICEI-PUC-Minas-PMV-SI/pmv-si-2026-1-pe1-t5-proj-studyshare/blob/main/docs/img/designprincipal_studyshare.png" alt="Página inicial do StudyShare" width="600">
+  <br>
+  <em>Figura 1: Página inicial do StudyShare</em>
+</p>
 
+Interface baseada em **Cabeçalho + Menu Principal**, com conteúdo central organizado em **campo de busca e cards de publicações de conteúdos educacionais**.
+
+## Logo da Aplicação
+
+<table align="center">
+  <tr>
+    <td align="center">
+      <img src="https://github.com/ICEI-PUC-Minas-PMV-SI/pmv-si-2026-1-pe1-t5-proj-studyshare/blob/main/docs/img/logostudyshare.png" alt="Logo do StudyShare" width="150">
+      <br>
+      <em>Figura 2: Logo da StudyShare</em>
+    </td>
+    <td>
+      <table>
+        <tr><th>Propriedade</th><th>Descrição</th></tr>
+        <tr><td><b>Localização</b></td><td>Canto superior esquerdo, dentro do menu lateral</td></tr>
+        <tr><td><b>Nome exibido</b></td><td>StudyShare</td></tr>
+        <tr><td><b>Função</b></td><td>Redireciona para a tela inicial</td></tr>
+        <tr><td><b>Acessibilidade</b></td><td><code>alt="Logo StudyShare - Início"</code></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
 
 ## Cores
 
@@ -239,11 +265,3 @@ Os ícones permitem customização via CSS:
 
 [1]: https://developers.google.com/fonts/docs/material_symbols?utm_source=chatgpt.com "Material Symbols guide  |  Google Fonts  |  Google for Developers"
 
-
-> **Links Úteis**:
->
-> -  [Como criar um guia de estilo de design da Web](https://edrodrigues.com.br/blog/como-criar-um-guia-de-estilo-de-design-da-web/#)
-> - [CSS Website Layout (W3Schools)](https://www.w3schools.com/css/css_website_layout.asp)
-> - [Website Page Layouts](http://www.cellbiol.com/bioinformatics_web_development/chapter-3-your-first-web-page-learning-html-and-css/website-page-layouts/)
-> - [Perfect Liquid Layout](https://matthewjamestaylor.com/perfect-liquid-layouts)
-> - [How and Why Icons Improve Your Web Design](https://usabilla.com/blog/how-and-why-icons-improve-you-web-design/)
