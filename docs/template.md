@@ -67,7 +67,7 @@ Apresente a paleta de cores que será utilizada. Uma ferramenta interessante par
 
 ## Tipografia
 
-A tipografia utilizada na plataforma será a Inria Sans, uma fonte sem serifa moderna, reconhecida por sua excelente legibilidade em interfaces digitais e pela sua capacidade de construir hierarquias visuais claras em sistemas baseados em componentes como cards e navegação por abas.
+A tipografia utilizada na plataforma será a Inter, uma fonte sem serifa altamente otimizada para interfaces digitais. Ela foi projetada para oferecer excelente legibilidade em diferentes tamanhos e densidades de informação, sendo especialmente adequada para dashboards, sistemas baseados em cards e navegação estruturada.
 
 ---
 
@@ -75,25 +75,25 @@ A tipografia utilizada na plataforma será a Inria Sans, uma fonte sem serifa mo
 
 | Elemento                     | Estilo Tipográfico                                      | Função principal                                                                 |
 |----------------------------|----------------------------------------------------------|----------------------------------------------------------------------------------|
-| Título de Página            | Inria Sans, 28px, Bold (700)                             | Indicar o tema principal da página                                              |
-| Título de Seção             | Inria Sans, 22px, Semi-Bold (600)                        | Organizar e destacar subdivisões do conteúdo                                    |
-| Navegação (abas)            | Inria Sans, 14px, Medium (500)                           | Permitir alternância entre categorias (Feed, Artigos, etc.)                     |
-| Título em cards             | Inria Sans, 16px, Semi-Bold (600)                        | Destacar informações principais dentro dos cards                                |
-| Descrição em cards          | Inria Sans, 13px, Regular (400)                          | Complementar informações exibidas nos cards                                     |
-| Rótulos de Componentes      | Inria Sans, 14px, Medium (500)                           | Identificar campos, botões e elementos interativos                              |
-| Corpo de Texto              | Inria Sans, 14px, Regular (400), line-height 1.5         | Apresentar conteúdos descritivos, instruções e materiais                        |
+| Título de Página            | Inter, 28px, Semi-Bold (600)                             | Indicar o tema principal da página                                              |
+| Título de Seção             | Inter, 22px, Medium (500)                                | Organizar e destacar subdivisões do conteúdo                                    |
+| Navegação (abas/menu)       | Inter, 14px, Medium (500)                                | Permitir alternância entre categorias (Feed, Explorar, etc.)                    |
+| Título em cards             | Inter, 16px, Semi-Bold (600)                             | Destacar informações principais dentro dos cards                                |
+| Descrição em cards          | Inter, 13px, Regular (400)                               | Complementar informações exibidas nos cards                                     |
+| Rótulos de Componentes      | Inter, 14px, Medium (500)                                | Identificar campos, botões e elementos interativos                              |
+| Corpo de Texto              | Inter, 14px, Regular (400), line-height 1.5              | Apresentar conteúdos descritivos, instruções e materiais                        |
+| Metadados (likes, views)    | Inter, 12px, Regular (400)                               | Exibir informações secundárias nos cards                                        |
 
 ---
 
 ## Observações de Uso
 
-- Utilizar no máximo dois pesos principais na maior parte da interface (Regular e Semi-Bold) para manter consistência visual.
-- Reservar o peso Bold para títulos principais e pontos de maior destaque.
-- Garantir espaçamento adequado entre linhas (line-height entre 1.5 e 1.6) para melhor legibilidade, especialmente em conteúdos educacionais.
-- Manter consistência tipográfica em todos os componentes para reforçar a identidade visual da plataforma.
-
-
-
+- Priorizar os pesos **Regular (400)** e **Medium (500)** para a maior parte da interface, aproveitando a clareza natural da Inter.
+- Utilizar **Semi-Bold (600)** para títulos e elementos que exigem maior destaque, evitando o uso excessivo de Bold (700), já que a Inter possui contraste suficiente em pesos intermediários.
+- Manter **line-height entre 1.5 e 1.6** para blocos de texto e descrições, garantindo boa leitura em ambientes densos como feeds.
+- Aproveitar a boa renderização da Inter em tamanhos pequenos (12px–14px), ideal para metadados e informações secundárias nos cards.
+- Garantir consistência tipográfica entre navegação lateral, topo e conteúdo para reforçar a hierarquia visual do sistema.
+- Evitar misturar muitos pesos diferentes na mesma tela — a força da Inter está na sutileza das variações.
 
 ## Iconografia
 
