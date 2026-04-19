@@ -37,13 +37,37 @@ Interface baseada em **Cabeçalho + Menu Principal**, com conteúdo central orga
 
 ## Cores
 
-Apresente a paleta de cores que será utilizada. Uma ferramenta interessante para a criação de palestas de cores é o *Adobe Color* ([https://color.adobe.com/pt/create/color-wheel](https://color.adobe.com/pt/create/color-wheel)).
+<table align="center">
+  <tr>
+    <td align="center" width="350">
+      <img src="https://github.com/ICEI-PUC-Minas-PMV-SI/pmv-si-2026-1-pe1-t5-proj-studyshare/blob/main/docs/img/paletadecores_studyshare.png" alt="Paleta de Cores do StudyShare" width="300">
+      <br>
+      <em>Figura 3: Paleta de Cores do StudyShare</em>
+    </td>
+    <td valign="middle">
+      <table>
+        <tr><th>Cor</th><th>HEX</th><th>Função na Interface</th></tr>
+        <tr><td>Royal Blue</td><td><code>#004AAD</code></td><td>Cor primária: botões principais (call-to-action), destaques, links e identidade visual.</td></tr>
+        <tr><td>White</td><td><code>#FFFFFF</code></td><td>Fundo de seções secundárias, cards de conteúdo e áreas de leitura clara.</td></tr>
+        <tr><td>Off-White</td><td><code>#F5F7FA</code></td><td>Fundo principal, áreas de input e diferenciação de agrupamentos.</td></tr>
+        <tr><td>Deep Black</td><td><code>#000000</code></td><td>Textos principais, títulos de alta hierarquia e ícones estruturais.</td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+| Padrão | Descrição |
+|--------|-----------|
+| **Contraste Elevado** | A combinação do azul primário (`#004AAD`) sobre o fundo branco (`#FFFFFF`) garante que elementos de interação sejam perfeitamente visíveis para usuários com baixa visão. |
+| **Legibilidade Textual** | O uso do preto puro para textos sobre fundos claros maximiza o conforto visual durante longos períodos de leitura e estudo, reduzindo a fadiga ocular. |
+| **Hierarquia Visual Clara** | A distinção entre o branco puro e o off-white permite criar camadas na interface sem a necessidade de bordas pesadas, tornando o layout mais intuitivo e menos poluído visualmente. |
+| **Neutralidade e Foco** | A ausência de cores vibrantes excessivas garante que o conteúdo educativo seja o protagonista, evitando distrações desnecessárias para o estudante. |
 
 
 ## Menu Lateral
 |![menulateral](https://github.com/ICEI-PUC-Minas-PMV-SI/pmv-si-2026-1-pe1-t5-proj-studyshare/blob/main/docs/img/menulateral-conteudoprinciapal/menulateral.png)|
 |:------------------------------------------------------------------------------------------------:|
-| **Figura 1:** Menu lateral da StudyShare |
+| **Figura 4:** Menu lateral da StudyShare |
 
 | Elemento                  | Função                            |
 |---------------------------|-----------------------------------|
@@ -58,7 +82,7 @@ Apresente a paleta de cores que será utilizada. Uma ferramenta interessante par
 
 | ![conteudoprinciapal](https://github.com/ICEI-PUC-Minas-PMV-SI/pmv-si-2026-1-pe1-t5-proj-studyshare/blob/main/docs/img/menulateral-conteudoprinciapal/conteudoprincipal.png) |
 |:----------------------------------------------------------------------------------------------------------:|
-| **Figura 2:** Área de conteúdo principal da StudyShare |
+| **Figura 5:** Área de conteúdo principal da StudyShare |
 - Interface baseada em cards para exibição dos materiais de estudo compartilhados pelos usuários
 - Cada card apresenta informações essenciais como autor, título, tipo de conteúdo e pré-visualização
 - Utilização de indicadores de engajamento (visualizações, curtidas e comentários) para destacar a relevância dos materiais
