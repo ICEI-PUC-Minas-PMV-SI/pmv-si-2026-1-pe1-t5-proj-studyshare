@@ -27,8 +27,23 @@ As tabelas que se seguem apresentam os requisitos funcionais e não-funcionais q
 
 |ID    | Descrição do Requisito | Responsável | Artefato Criado |
 |------|------------------------|------------|-----------------|
-|RF-001| A aplicação deve permitir que o usuário gerencie suas tarefas | João | index.html |
-|RF-002| A aplicação deve permitir a emissão de um relatório de tarefas realizadas no mês | Ana Paula | cadastro-noticia.html |
+|RF-01| O sistema deve permitir que o estudante faça upload de arquivos nos formatos PDF, resumos (texto) e slides. | Yago Silva | upload.html |
+|RF-02| O sistema deve oferecer um motor de busca que permita filtrar materiais por disciplina, curso ou palavras-chave. | Otavio Santos | feed.html |
+|RF-03| O sistema deve permitir a postagem de perguntas e respostas vinculadas aos usuários. | Ana Paula | visualizacao-conteudo.html |
+|RF-04| O sistema deve permitir que usuários "curtam" ou atribuam notas (estrelas/pontuação) aos materiais. | Otavio Santos | feed.html |
+|RF-05| O sistema deve permitir que o usuário salve materiais em uma lista de "Favoritos" para acesso rápido. | Ana Paula | visualizacao-conteudo.html |
+|RF-06| O sistema deve permitir a criação de conta e autenticação de usuários. | Ana Paula | cadastro-usuario.html |
+|RF-07| O sistema deve permitir que o estudante visualize e edite suas informações pessoais e histórico de atividades. | João Victor | perfil-usuario.html |
+|RF-08| O sistema deve permitir que um usuário siga outros perfis para receber atualizações de novos conteúdos. | João Victor | perfil-usuario.html |
+|RF-10| O sistema deve permitir que o administrador remova ou edite conteúdos publicados. | Livia Moreira | administracao-conteudo.html |
+|RF-11| O sistema deve permitir que usuários denunciem conteúdos e que o administrador visualize e trate esses chamados. | Livia Moreira | administracao-conteudo.html |
+|RF-12| O sistema deve permitir ao administrador banir ou suspender contas que violem os termos de uso. | Livia Moreira | administracao-usuarios.html |
+|RF-13| O sistema deve permitir a redefinição de senha através de um link enviado por e-mail ou SMS. | Yago Silva | redefinicao-senha.html |
+|RF-15| O sistema deve permitir que o usuário visualize as primeiras 3 páginas de um PDF antes de decidir fazer o download ou favoritar. | Otavio Santos | feed.html |
+|RF-16| O sistema deve exibir no feed principal os materiais e perguntas mais recentes das disciplinas que o usuário selecionou como "Interesses" no perfil. | Otavio Santos | feed.html |
+|RF-17| O sistema deve permitir marcar outros usuários em comentários ou dúvidas utilizando o caractere @ seguido do nome de usuário. | Ana Paula | visualizacao-conteudo.html |
+|RF-18| O sistema deve possuir um filtro automático que impede a publicação de mensagens contendo palavras de baixo calão ou links externos suspeitos. | Ana Paula | visualizacao-conteudo.html |
+
 
 ## Descrição das estruturas:
 

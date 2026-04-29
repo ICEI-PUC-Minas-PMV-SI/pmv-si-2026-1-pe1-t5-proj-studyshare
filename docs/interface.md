@@ -84,7 +84,7 @@ São protótipos usados em design de interface para sugerir a estrutura de um si
 
 | Componente    | Requisitos Atendidos |
 | :-------------: | ------------- |
-| Tela de Visualização de Conteúdo  | RF-05: O sistema deve permitir que o usuário salve materiais em uma lista de "Favoritos" para acesso rápido. <br> RF-11: O sistema deve permitir que usuários denunciem conteúdos e que o administrador visualize e trate esses chamados. <br> RF-15: O sistema deve permitir que o usuário visualize as primeiras 3 páginas de um PDF antes de decidir fazer o download ou favoritar.|  
+| Tela de Visualização de Conteúdo  | RF-03: O sistema deve permitir a postagem de perguntas e respostas vinculadas aos usuários. <br> RF-05: O sistema deve permitir que o usuário salve materiais em uma lista de "Favoritos" para acesso rápido. <br> RF-17: O sistema deve permitir marcar outros usuários em comentários ou dúvidas utilizando o caractere @ seguido do nome de usuário. <br> RF-18: O sistema deve possuir um filtro automático que impede a publicação de mensagens contendo palavras de baixo calão ou links externos suspeitos.|  
 
  ### Tela de Administrador - Visão Geral
 
