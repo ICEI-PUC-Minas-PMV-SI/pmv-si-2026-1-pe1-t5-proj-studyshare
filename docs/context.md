@@ -32,23 +32,24 @@ Apresente também alguns (pelo menos 2) objetivos específicos dependendo de ond
 
 ## Justificativa
 
-Descreva a importância ou a motivação para trabalhar com esta aplicação que você escolheu. Indique as razões pelas quais você escolheu seus objetivos específicos ou as razões para aprofundar em certos aspectos do software.
+Embora a democratização do acesso à informação ofereça benefícios significativos permitindo que o indivíduo acesse conteúdos globais sobre qualquer tema com agilidade, essa abundância informacional impõe desafios críticos no que tange à curadoria de conteúdo. Para estudantes de graduação, a dificuldade em filtrar e validar a qualidade de materiais em um vasto oceano digital pode resultar em atrasos no cronograma de aprendizado e no aumento de níveis de ansiedade.
 
-Lembre-se de pesquisar e utilizar números que justifiquem por que é importante que tal problema seja resolvido ou que mostrem o impacto do problema na vida das pessoas.
+Este fenômeno é definido pelo conceito de infoxicação, termo cunhado pelo físico Alfons Cornellá em 1996. A infoxicação refere-se ao excesso de informações consumidas diariamente, o que pode sobrecarregar a capacidade de processamento cognitivo do cérebro, desencadeando sintomas como exaustão mental, estresse e paralisia na tomada de decisão (MARTINO, 2024). No contexto acadêmico, essa sobrecarga dificulta a seleção de fontes confiáveis, tornando o estudo menos produtivo e mais oneroso ao estudante.
 
-O grupo de trabalho pode fazer uso de questionários, entrevistas e dados estatísticos, que podem ser apresentados, com o objetivo de esclarecer detalhes do problema que será abordado pelo grupo.
+Para o corpo discente, a ausência de mecanismos que ofereçam respostas rápidas ou materiais de alta curadoria gera gargalos significativos na absorção de conhecimento. Tal problemática acentua-se na modalidade de Educação a Distância (EAD), conforme explicado por Fornari, Freitas e Araújo (2020), onde a interação com pares e docentes ocorre de forma mediada, muitas vezes carecendo da dinamicidade presente no ensino presencial. Diante dessa lacuna, o desenvolvimento deste projeto fundamenta-se na necessidade de mitigar as dificuldades dos estudantes de graduação por meio de uma plataforma que centraliza materiais de qualidade e fomenta espaços colaborativos. A solução proposta visa não apenas facilitar o percurso acadêmico imediato, mas também promover o aprendizado contínuo e a troca de experiências para além do ambiente formal de sala de aula.
 
-> **Links Úteis**:
-> - [Como montar a justificativa](https://guiadamonografia.com.br/como-montar-justificativa-do-tcc/)
+Visto isso, a plataforma StudyShare visa fornecer a estudantes informações significativas oriundas de fontes confiáveis, além de resumos, exercícios resolvidos e espaço colaborativo, que podem auxiliar na jornada acadêmica e evitar a desmotivação causada pelo excesso de informação.
 
 ## Público-Alvo
 
-Descreva quem serão as pessoas que usarão a sua aplicação indicando os diferentes perfis. O objetivo aqui não é definir quem serão os clientes ou quais serão os papéis dos usuários na aplicação. A ideia é, dentro do possível, conhecer um pouco mais sobre o perfil dos usuários: conhecimentos prévios, relação com a tecnologia, relações hierárquicas, etc.
+O público-alvo da plataforma são três perfis distintos de usuários. O primeiro engloba estudantes (ensino médio, graduações, pós-graduações, etc) que, embora familiarizados com termos técnicos e tecnologias de busca, buscam apoio em tópicos específicos da grade curricular. Para eles, a prioridade é o acesso rápido a conteúdos como resumos, provas antigas e exercícios resolvidos para o esclarecimento de dúvidas extraclasse.
 
-Adicione informações sobre o público-alvo por meio de uma descrição textual, diagramas de personas e mapa de stakeholders.
+Complementando esse ecossistema, os estudantes tutores são aqueles que, após um bom desempenho acadêmico, desejam compartilhar conhecimento ou organizar seu portfólio. Com facilidade em gerir arquivos e moderar discussões, esse grupo busca uma estrutura organizada para hospedar materiais e obter reconhecimento na comunidade estudantil.
 
-> **Links Úteis**:
-> - [Público-alvo](https://blog.hotmart.com/pt-br/publico-alvo/)
-> - [Como definir o público alvo](https://exame.com/pme/5-dicas-essenciais-para-definir-o-publico-alvo-do-seu-negocio/)
-> - [Público-alvo: o que é, tipos, como definir seu público e exemplos](https://klickpages.com.br/blog/publico-alvo-o-que-e/)
-> - [Qual a diferença entre público-alvo e persona?](https://rockcontent.com/blog/diferenca-publico-alvo-e-persona/)
+Por fim, o público inclui pessoas recém-formadas, profissionais que, já inseridos no mercado, ainda consultam bases teóricas ou desejam auxiliar quem está começando a jornada. Assim como os demais perfis, possuem boa navegação digital e, caso atuem como tutores, utilizam sua experiência para a organização de diretórios e mediação de conteúdos.
+
+
+> **Referências**:
+> - FORNARI, Aline; FREITAS, Maria do Carmo Duarte; ARAÚJO, Everton Coimbra de. Desafios da EaD na percepção de professores, tutores e alunos da UTFPR. In: CONGRESSO BRASILEIRO DE ENSINO SUPERIOR A DISTÂNCIA (ESUD), 17.; CONGRESSO INTERNACIONAL DE EDUCAÇÃO SUPERIOR A DISTÂNCIA (CIESUD), 6., 2020, Goiânia. Anais [...]. Goiânia: CIAR/UFG, 2020. p. 1-11. Disponível em: https://esud2020.ciar.ufg.br/wp-content/anais-esud/209338.pdf. Acesso em: 30 abr. 2026.
+>
+> - MARTINO, Luís Mauro Sá. A era da infoxicação. SESC SP, 2024. Disponível em: https://www.sescsp.org.br/editorial/a-era-da-infoxicacao/. Acesso em: 19 mar. 2026.
