@@ -104,7 +104,7 @@ São protótipos usados em design de interface para sugerir a estrutura de um si
  
  ### Tela de Gerenciamento de Usuários
 
-|![Tela Gerenciamento](img/wireframes/StudyShare_SeventhPage_Admin_ModeraçãoConteúdo.png)|
+|![Tela Gerenciamento](img/wireframes/StudyShare_SeventhPage_Admin_Gerenciador%20de%20Usuário.png)|
 |:--------------------------------------------------------------------------------------------:|
 | **Figura 11: Tela de Gerenciamento de Usuários**   
 
