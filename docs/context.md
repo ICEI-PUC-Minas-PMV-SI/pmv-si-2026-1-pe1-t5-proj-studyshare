@@ -53,3 +53,58 @@ Por fim, o público inclui pessoas recém-formadas, profissionais que, já inser
 > - FORNARI, Aline; FREITAS, Maria do Carmo Duarte; ARAÚJO, Everton Coimbra de. Desafios da EaD na percepção de professores, tutores e alunos da UTFPR. In: CONGRESSO BRASILEIRO DE ENSINO SUPERIOR A DISTÂNCIA (ESUD), 17.; CONGRESSO INTERNACIONAL DE EDUCAÇÃO SUPERIOR A DISTÂNCIA (CIESUD), 6., 2020, Goiânia. Anais [...]. Goiânia: CIAR/UFG, 2020. p. 1-11. Disponível em: https://esud2020.ciar.ufg.br/wp-content/anais-esud/209338.pdf. Acesso em: 30 abr. 2026.
 >
 > - MARTINO, Luís Mauro Sá. A era da infoxicação. SESC SP, 2024. Disponível em: https://www.sescsp.org.br/editorial/a-era-da-infoxicacao/. Acesso em: 19 mar. 2026.
+
+## especificaçoes do projeto
+
+**Perfis de Usuários**
+
+***Perfil: Estudantes de Graduação.***
+
+Descrição: 
+Estudantes de Graduação: Estudantes de ensino superior que
+possuem uma rotina agitada e dinâmica que buscam centralizar e
+otimizar seus estudos fora dos momentos de aula.
+
+*Necessidades:* 
+
+1.Localização de materiais confiáveis para trabalhos científicos e
+construção de conhecimento.
+
+2.Espaço para esclarecimento de dúvidas fora do horário de aula
+
+3.Ferramentas para que facilitem a organização e gestão do fluxo
+de aprendizagem.
+
+***Perfil: Estudantes tutores.***
+
+*Descrição:*
+Estudantes tutores: Alunos de ensino superior com alto
+desempenho e inclinação para produzir conteúdo e reforçar seus
+conhecimentos auxiliando na gestão de estudo de outros
+estudantes.
+
+*Necessidades:* 
+
+1.Localização de materiais confiáveis para trabalhos científicos e
+construção de conhecimento.
+
+2.Espaço para esclarecimento de dúvidas fora do horário de aula
+
+3.Ferramentas para que facilitem a organização e gestão do fluxo
+de aprendizagem
+
+***Perfil: Estudantes EAD.***
+
+*Descrição:*
+Estudantes EAD: Alunos de ensino remoto que buscam mais
+interações e suporte em seus estudos.
+
+*Necessidades:*
+
+1.Localização de materiais confiáveis para trabalhos científicos e
+construção de conhecimento.
+
+2.Espaço para esclarecimento de dúvidas fora do horário de aula.
+
+3.Ferramentas para que facilitem a organização e gestão do fluxo
+de aprendizagem.
