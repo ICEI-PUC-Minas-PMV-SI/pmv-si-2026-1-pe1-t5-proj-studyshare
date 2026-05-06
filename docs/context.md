@@ -17,17 +17,19 @@ Descreva também o contexto em que essa aplicação será usada, se  houver: emp
 Nesse momento, o grupo pode optar por fazer uso  de ferramentas como Design Thinking, que permite um olhar de ponta a ponta para o problema.
 
 > **Links Úteis**:
+>
 > - [Objetivos, Problema de pesquisa e Justificativa](https://medium.com/@versioparole/objetivos-problema-de-pesquisa-e-justificativa-c98c8233b9c3)
 > - [Matriz Certezas, Suposições e Dúvidas](https://medium.com/educa%C3%A7%C3%A3o-fora-da-caixa/matriz-certezas-suposi%C3%A7%C3%B5es-e-d%C3%BAvidas-fa2263633655)
 > - [Brainstorming](https://www.euax.com.br/2018/09/brainstorming/)
 
 ## Objetivos
 
-Aqui você deve descrever os objetivos do trabalho indicando que o objetivo geral é desenvolver um software para solucionar o problema apresentado acima. 
+Aqui você deve descrever os objetivos do trabalho indicando que o objetivo geral é desenvolver um software para solucionar o problema apresentado acima.
 
 Apresente também alguns (pelo menos 2) objetivos específicos dependendo de onde você vai querer concentrar a sua prática investigativa, ou como você vai aprofundar no seu trabalho.
  
 > **Links Úteis**:
+>
 > - [Objetivo geral e objetivo específico: como fazer e quais verbos utilizar](https://blog.mettzer.com/diferenca-entre-objetivo-geral-e-objetivo-especifico/)
 
 ## Justificativa
@@ -48,24 +50,24 @@ Complementando esse ecossistema, os estudantes tutores são aqueles que, após u
 
 Por fim, o público inclui pessoas recém-formadas, profissionais que, já inseridos no mercado, ainda consultam bases teóricas ou desejam auxiliar quem está começando a jornada. Assim como os demais perfis, possuem boa navegação digital e, caso atuem como tutores, utilizam sua experiência para a organização de diretórios e mediação de conteúdos.
 
-
 > **Referências**:
+>
 > - FORNARI, Aline; FREITAS, Maria do Carmo Duarte; ARAÚJO, Everton Coimbra de. Desafios da EaD na percepção de professores, tutores e alunos da UTFPR. In: CONGRESSO BRASILEIRO DE ENSINO SUPERIOR A DISTÂNCIA (ESUD), 17.; CONGRESSO INTERNACIONAL DE EDUCAÇÃO SUPERIOR A DISTÂNCIA (CIESUD), 6., 2020, Goiânia. Anais [...]. Goiânia: CIAR/UFG, 2020. p. 1-11. Disponível em: https://esud2020.ciar.ufg.br/wp-content/anais-esud/209338.pdf. Acesso em: 30 abr. 2026.
 >
 > - MARTINO, Luís Mauro Sá. A era da infoxicação. SESC SP, 2024. Disponível em: https://www.sescsp.org.br/editorial/a-era-da-infoxicacao/. Acesso em: 19 mar. 2026.
 
-## especificaçoes do projeto
+## Especificaçoes do projeto
 
-**Perfis de Usuários**
+### Perfis de Usuários
 
 ***Perfil: Estudantes de Graduação.***
 
-Descrição: 
+Descrição:
 Estudantes de Graduação: Estudantes de ensino superior que
 possuem uma rotina agitada e dinâmica que buscam centralizar e
 otimizar seus estudos fora dos momentos de aula.
 
-*Necessidades:* 
+*Necessidades:*
 
 1.Localização de materiais confiáveis para trabalhos científicos e
 construção de conhecimento.
@@ -83,7 +85,7 @@ desempenho e inclinação para produzir conteúdo e reforçar seus
 conhecimentos auxiliando na gestão de estudo de outros
 estudantes.
 
-*Necessidades:* 
+*Necessidades:*
 
 1.Localização de materiais confiáveis para trabalhos científicos e
 construção de conhecimento.
