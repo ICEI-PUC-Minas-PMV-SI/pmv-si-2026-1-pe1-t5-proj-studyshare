@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Orientação a Objetos – StudyShare</title>
+
+  <!-- Inter (tipografia padrão) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- Material Symbols Outlined (iconografia padrão) -->
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=arrow_forward,bookmark,chat_bubble,close,delete,download,edit_square,explore,favorite,filter_list,grid_view,home,ios_share,menu,person,search,sell,settings,upload,view_list,visibility,warning,add_circle,book_2,description" rel="stylesheet" />
+
+  <!-- CSS do Design System -->
+  <link rel="stylesheet" href="css/estilo-visualizacao-conteudo.css" />
+</head>
+<body>
+
+<div class="app-layout">
+
+  <!-- =====================================================
+       SIDEBAR / MENU LATERAL
+       ===================================================== -->
+  <aside class="sidebar" aria-label="Menu de navegação">
+
+    <!-- Logo 
+    <div class="sidebar-logo">
+      <a href="#" aria-label="Logo StudyShare - Início">
+        <img src="https://raw.githubusercontent.com/ICEI-PUC-Minas-PMV-SI/pmv-si-2026-1-pe1-t5-proj-studyshare/main/docs/img/logostudyshare.png" alt="Logo StudyShare - Início" height="40" />
+      </a>
+    </div>
+    -->
+
+    <!-- Navegação principal -->
+    <nav class="sidebar-nav" aria-label="Navegação principal">
+
+      <a href="#" class="nav-item active" aria-current="page">
+        <span class="material-symbols-outlined icon-md" aria-hidden="true">home</span>
+        Feed
+      </a>
+
+      <a href="#" class="nav-item">
+        <span class="material-symbols-outlined icon-md" aria-hidden="true">book_2</span>
+        Meus materiais
+      </a>
+
+      <a href="#" class="nav-item">
+        <span class="material-symbols-outlined icon-md" aria-hidden="true">explore</span>
+        Explorar
+      </a>
+
+      <a href="#" class="nav-item">
+        <span class="material-symbols-outlined icon-md" aria-hidden="true">bookmark</span>
+        Salvos
+      </a>
+
+      <a href="#" class="nav-item">
+        <span class="material-symbols-outlined icon-md" aria-hidden="true">person</span>
+        Perfil
+      </a>
+
+      <a href="#" class="nav-item">
+        <span class="material-symbols-outlined icon-md" aria-hidden="true">settings</span>
+        Configurações
+      </a>
+
+    </nav>
+
+    <!-- Parte inferior da sidebar -->
+    <div class="sidebar-bottom">
+      <button class="btn-new-material" type="button">
+        <span class="material-symbols-outlined icon-sm" aria-hidden="true">add_circle</span>
+        Novo material
+      </button>
+    </div>
+
+  </aside>
+
+  <!-- =====================================================
+       CONTEÚDO PRINCIPAL
+       ===================================================== -->
+  <div class="main-content">
+
+    <!-- Topbar -->
+    <header class="topbar" role="banner">
+
+      <a href="#" class="topbar-logo" aria-label="StudyShare - Início">
+        <img
+          src="https://raw.githubusercontent.com/ICEI-PUC-Minas-PMV-SI/pmv-si-2026-1-pe1-t5-proj-studyshare/main/docs/img/logostudyshare.png"
+          alt="Logo StudyShare"
+        />
+      </a>
+
+      <div class="topbar-search">
+        <input type="search" placeholder="Descubra novos conteúdos" aria-label="Buscar materiais" />
+        <span class="material-symbols-outlined" aria-hidden="true">search</span>
+      </div>
+
+      <div class="topbar-actions">
+        <button class="topbar-icon-btn" type="button" aria-label="Upload">
+          <span class="material-symbols-outlined icon-md" aria-hidden="true">upload</span>
+        </button>
+        <button class="topbar-icon-btn" type="button" aria-label="Perfil">
+          <span class="material-symbols-outlined icon-md" aria-hidden="true">person</span>
+        </button>
+        <button class="topbar-icon-btn" type="button" aria-label="Menu">
+          <span class="material-symbols-outlined icon-md" aria-hidden="true">menu</span>
+        </button>
+      </div>
+
+    </header>
+
+    <!-- Conteúdo da página -->
+    <main class="page-content" id="main-content">
+
+      <!-- Cabeçalho da página -->
+      <div class="page-header">
+        <h1>Detalhes do material</h1>
+        <p>Visualize, baixe e interaja com o material compartilhado pela comunidade.</p>
+      </div>
+
+      <!-- Layout: coluna principal + sidebar -->
+      <div class="detail-layout">
+
+        <!-- ===============================================
+             COLUNA PRINCIPAL
+             =============================================== -->
+        <div>
+
+          <!-- Card principal do arquivo -->
+          <div class="card">
+
+            <!-- Cabeçalho -->
+            <div class="file-header-row">
+              <div>
+                <span class="file-badge file-badge-books">TI</span>
+                <h2 class="file-title">Programação Orientada a Objetos</h2>
+                <div class="file-meta-row">
+                  <div class="file-meta-avatar" aria-hidden="true">A</div>
+                  <span>Ana Machado</span>
+                  <span>·</span>
+                  <time datetime="2026-03-15">Enviado em 15 de Março de 2026</time>
+                </div>
+              </div>
+              <button class="btn-icon-outline" type="button" aria-label="Adicionar aos favoritos">
+                <span class="material-symbols-outlined" aria-hidden="true">Favoritar</span>
+              </button>
+            </div>
+
+            <div class="divider" role="separator"></div>
+
+            <!-- Descrição -->
+            <p class="card-section-title">Descrição</p>
+            <p class="description-text">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore enim voluptatem atque repudiandae, 
+              odio dolores suscipit reprehenderit cupiditate? Inventore, aliquam esse blanditiis praesentium et 
+              delectus molestiae unde dolores ratione commodi.
+            </p>
+
+            <!-- Tags -->
+            <div class="tags-row" aria-label="Tags do material">
+              <span class="tag">#Tecnologia da Informação</span>
+              <span class="tag">#Programação</span>
+              <span class="tag">#Orientação a Objetos</span>
+              <span class="tag">#Python</span>
+            </div>
+
+            <!-- Preview -->
+            <div class="file-preview-area" role="img" aria-label="Pré-visualização do arquivo PDF">
+              <span class="material-symbols-outlined" aria-hidden="true">Descrição</span>
+              <span class="file-preview-label">Visualização do PDF</span>
+            </div>
+
+            <!-- Ações -->
+            <div class="file-actions-row">
+              <button class="btn-primary" type="button">
+                <span class="material-symbols-outlined" aria-hidden="true">Download</span>
+                Baixar Arquivo
+              </button>
+              <button class="btn-secondary-icon" type="button" aria-label="Compartilhar arquivo">
+                <span class="material-symbols-outlined" aria-hidden="true">ios_share</span>
+              </button>
+            </div>
+
+          </div>
+          <!-- /card principal -->
+
+          <!-- =============================================
+               COMENTÁRIOS
+               ============================================= -->
+          <section class="comments-section" aria-labelledby="comments-heading">
+            <h3 class="comments-title" id="comments-heading">Comentários (3)</h3>
+
+            <!-- Campo de novo comentário -->
+            <div class="comment-input-card">
+              <textarea
+                class="comment-textarea"
+                placeholder="Adicione um comentário..."
+                rows="2"
+                aria-label="Campo de comentário"
+              ></textarea>
+              <div class="comment-post-row">
+                <button class="btn-post" type="button">
+                  <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
+                  Postar Comentário
+                </button>
+              </div>
+            </div>
+
+            <!-- Comentário 1 -->
+            <article class="comment-card">
+              <div class="comment-header">
+                <div class="comment-avatar" style="background: #e17055;" aria-hidden="true">AS</div>
+                <span class="comment-name">Ana Silva</span>
+                <time class="comment-time" datetime="2026-05-04">2 Dias Atrás</time>
+              </div>
+              <p class="comment-body">
+                É exatamente o que eu estava procurando! Material muito bom!
+              </p>
+              <div class="comment-actions-row">
+                <button class="comment-action-btn" type="button" aria-label="Curtir comentário de Ana Silva (12 curtidas)">
+                  <span class="material-symbols-outlined" aria-hidden="true">Curtir</span>
+                  <span>12</span>
+                </button>
+                <button class="comment-action-btn" type="button">Responder</button>
+              </div>
+            </article>
+
+            <!-- Comentário 2 -->
+            <article class="comment-card">
+              <div class="comment-header">
+                <div class="comment-avatar" style="background: #0984e3;" aria-hidden="true">CT</div>
+                <span class="comment-name">Carlos Tech</span>
+                <time class="comment-time" datetime="2026-04-29">1 Semana Atrás</time>
+              </div>
+              <p class="comment-body">
+                Ótimo conteúdo! Pode compartilhar as referências que usou para criar esse material?
+              </p>
+              <div class="comment-actions-row">
+                <button class="comment-action-btn" type="button" aria-label="Curtir comentário de Carlos Tech (5 curtidas)">
+                  <span class="material-symbols-outlined" aria-hidden="true">Curtir</span>
+                  <span>5</span>
+                </button>
+                <button class="comment-action-btn" type="button">Responder</button>
+              </div>
+            </article>
+
+            <!-- Comentário 3 -->
+            <article class="comment-card">
+              <div class="comment-header">
+                <div class="comment-avatar" style="background: #00b894;" aria-hidden="true">MS</div>
+                <span class="comment-name">Maria Santos</span>
+                <time class="comment-time" datetime="2026-04-22">2 Semanas Atrás</time>
+              </div>
+              <p class="comment-body">
+                Material bem explicado. Me ajudou a entender melhor os conceitos de orientação a objetos.
+              </p>
+              <div class="comment-actions-row">
+                <button class="comment-action-btn" type="button" aria-label="Curtir comentário de Maria Santos (8 curtidas)">
+                  <span class="material-symbols-outlined" aria-hidden="true">Curtir</span>
+                  <span>8</span>
+                </button>
+                <button class="comment-action-btn" type="button">Responder</button>
+              </div>
+            </article>
+
+          </section>
+          <!-- /comentários -->
+
+        </div>
+        <!-- /coluna principal -->
+
+        <!-- ===============================================
+             SIDEBAR DA DETAIL PAGE
+             =============================================== -->
+        <aside class="detail-sidebar" aria-label="Informações do arquivo">
+
+          <!-- Estatísticas -->
+          <div class="card" style="margin-bottom:0;">
+            <p class="card-section-title">Estatísticas</p>
+
+            <div class="stat-row">
+              <span class="stat-label">
+                <span class="material-symbols-outlined" aria-hidden="true">download</span>
+                Downloads
+              </span>
+              <span class="stat-value">234</span>
+            </div>
+
+            <div class="stat-row">
+              <span class="stat-label">
+                <span class="material-symbols-outlined" aria-hidden="true">visibility</span>
+                Visualizações
+              </span>
+              <span class="stat-value">1,205</span>
+            </div>
+
+            <div class="stat-row">
+              <span class="stat-label">
+                <span class="material-symbols-outlined" aria-hidden="true">favorite</span>
+                Favoritos
+              </span>
+              <span class="stat-value">45</span>
+            </div>
+          </div>
+
+          <!-- Detalhes do arquivo -->
+          <div class="card" style="margin-bottom:0;">
+            <p class="card-section-title">File Details</p>
+
+            <div class="detail-row">
+              <span class="detail-key">Format</span>
+              <span class="detail-val">PDF</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-key">Size</span>
+              <span class="detail-val">2.4 MB</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-key">Pages</span>
+              <span class="detail-val">18</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-key">Idioma</span>
+              <span class="detail-val">Português</span>
+            </div>
+          </div>
+
+          <!-- CTA Perfil -->
+          <div class="profile-cta-card">
+            <p class="card-section-title">Gostou desse conteúdo?</p>
+            <p class="profile-cta-sub">Visualize mais conteúdos do autor</p>
+            <button class="btn-cta-outline" type="button">Visualizar Perfil</button>
+          </div>
+
+        </aside>
+        <!-- /sidebar detail -->
+
+      </div>
+      <!-- /detail-layout -->
+
+    </main>
+    <!-- /main-content -->
+
+  </div>
+  <!-- /main-content wrapper -->
+
+</div>
+<!-- /app-layout -->
+
+</body>
+</html>
