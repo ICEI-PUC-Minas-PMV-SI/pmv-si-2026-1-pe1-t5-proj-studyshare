@@ -8,17 +8,23 @@ message: >-
   Web da PUC Minas.
 type: software
 authors:
-  - given-names: Aluno 1
-    family-names: Nome Completo
-    email: aluno@pucminas.br
+  - given-names: Livia 
+    family-names: Gonçalves Moreira
+    email: 1405902@sga.pucminas.br
     affiliation: PUC Minas
-  - given-names: Hugo
-    name-particle: 'B '
-    family-names: de Paula
+- given-names: João Victor 
+    family-names: de Paula Bebiano
+    email: jbebiano@sga.pucminas.br
+    affiliation: PUC Minas
+- given-names: Yago
+    family-names: da Mata Silva
+    email: 1523777@sga.pucminas.br
+    affiliation: PUC Minas
+- given-names: Roberto Felipe
+    family-names: Dias Ferreira da Rocha
     name-suffix: Prof.
-    email: hugo@pucminas.br
+    email: rocha@pucminas.br
     affiliation: PUC Minas
-    orcid: 'https://orcid.org/0000-0002-6193-3205'
 repository-code: >-
   https://github.com/ICEI-PUC-Minas-PMV-SI/WebApplicationProject-Template
 abstract: >-
