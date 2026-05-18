@@ -3,9 +3,9 @@
    StudyShare — Tela de Upload de Materiais
    Arquivo: uploadMaterial.php
    Autor: Yago Mata
-   Data: 13/05/2026
+   Data: 18/05/2026
 
-   13/05/2026. Yago: LEIA ANTES DE QUALQUER COISA — CONTEXTO DO PROJETO
+   18/05/2026. Yago: LEIA ANTES DE QUALQUER COISA — CONTEXTO DO PROJETO
    -----------------------------------------------------------------------
    Esse arquivo é parte do projeto acadêmico StudyShare, desenvolvido
    para a disciplina de Desenvolvimento Web na PUC Minas.
@@ -81,25 +81,25 @@
 /* ============================================================
    SECTION 1 — CONFIGURAÇÃO GERAL
    -----------------------------------------------------------------------
-   13/05/2026. Yago: Centralizei todas as configurações aqui no topo.
+   18/05/2026. Yago: Centralizei todas as configurações aqui no topo.
    Quem for adaptar o projeto para outro contexto só precisa mexer
    nessa seção — limites de tamanho, tipos aceitos, caminhos etc.
 ============================================================ */
 
-// 13/05/2026. Yago: Pasta onde os arquivos serão fisicamente salvos.
+// 18/05/2026. Yago: Pasta onde os arquivos serão fisicamente salvos.
 // O __DIR__ retorna o caminho do diretório do arquivo atual, então
 // funciona em qualquer ambiente sem precisar hardcodar o caminho absoluto.
 define('PASTA_UPLOADS', __DIR__ . '/uploads');
 
-// 13/05/2026. Yago: Arquivo JSON que guarda os metadados de cada upload
+// 18/05/2026. Yago: Arquivo JSON que guarda os metadados de cada upload
 // (título, autor, disciplina, etc). Em produção isso seria uma tabela no banco.
 define('ARQUIVO_METADADOS', PASTA_UPLOADS . '/metadados.json');
 
-// 13/05/2026. Yago: Tamanho máximo permitido por arquivo (20 megabytes).
+// 18/05/2026. Yago: Tamanho máximo permitido por arquivo (20 megabytes).
 // Em bytes porque é a unidade que o $_FILES['size'] retorna.
 define('TAMANHO_MAX_BYTES', 20 * 1024 * 1024);
 
-// 13/05/2026. Yago: Mapeamento de MIME types permitidos para extensão.
+// 18/05/2026. Yago: Mapeamento de MIME types permitidos para extensão.
 // Validamos o MIME (que é confiável) e usamos a extensão só para
 // dar um nome amigável ao arquivo no servidor.
 // RF-01 pede: PDF, resumos (texto), slides
@@ -117,7 +117,7 @@ const TIPOS_PERMITIDOS = [
     'application/vnd.openxmlformats-officedocument.presentationml.presentation' => 'pptx',
 ];
 
-// 13/05/2026. Yago: Lista de disciplinas que aparecem no select da tela.
+// 18/05/2026. Yago: Lista de disciplinas que aparecem no select da tela.
 // Em produção isso viria do banco de dados (tabela de disciplinas).
 // Aqui mantive estático para o projeto rodar sem dependências.
 const DISCIPLINAS_DISPONIVEIS = [
@@ -137,7 +137,7 @@ const DISCIPLINAS_DISPONIVEIS = [
 /* ============================================================
    SECTION 2 — RATE LIMITING (controle de uploads)
    -----------------------------------------------------------------------
-   13/05/2026. Yago: Limita uploads para evitar abuso — sem isso, alguém
+   18/05/2026. Yago: Limita uploads para evitar abuso — sem isso, alguém
    poderia ficar enviando arquivos infinitamente e lotar o disco do servidor.
    10 uploads por sessão em 10 minutos é razoável para uso normal de estudante.
 ============================================================ */
@@ -148,13 +148,13 @@ function checar_rate_limit(): bool {
     $janela = 10 * 60; // 10 minutos
     $max    = 10;      // 10 uploads máximos na janela
 
-    // 13/05/2026. Yago: Inicializa o contador na primeira tentativa
+    // 18/05/2026. Yago: Inicializa o contador na primeira tentativa
     if (!isset($_SESSION['upload_count'], $_SESSION['upload_inicio'])) {
         $_SESSION['upload_count']  = 0;
         $_SESSION['upload_inicio'] = $agora;
     }
 
-    // 13/05/2026. Yago: Reseta a janela quando o tempo passa
+    // 18/05/2026. Yago: Reseta a janela quando o tempo passa
     if ($agora - $_SESSION['upload_inicio'] > $janela) {
         $_SESSION['upload_count']  = 0;
         $_SESSION['upload_inicio'] = $agora;
@@ -168,13 +168,13 @@ function checar_rate_limit(): bool {
 /* ============================================================
    SECTION 3 — VALIDADORES
    -----------------------------------------------------------------------
-   13/05/2026. Yago: Toda validação roda no servidor.
+   18/05/2026. Yago: Toda validação roda no servidor.
    O HTML5 e o JavaScript ajudam na experiência do usuário (mostrando
    feedback rápido), mas a validação que importa de verdade é essa aqui,
    porque o JS pode ser desabilitado ou contornado.
 ============================================================ */
 
-// 13/05/2026. Yago: Detecta o MIME type real do arquivo lendo seus
+// 18/05/2026. Yago: Detecta o MIME type real do arquivo lendo seus
 // primeiros bytes (magic numbers). Mais confiável que checar pela extensão.
 function detectar_mime(string $caminho_arquivo): string {
     $finfo = finfo_open(FILEINFO_MIME_TYPE);
@@ -183,12 +183,12 @@ function detectar_mime(string $caminho_arquivo): string {
     return $mime ?: '';
 }
 
-// 13/05/2026. Yago: Verifica se o MIME do arquivo está na lista de permitidos
+// 18/05/2026. Yago: Verifica se o MIME do arquivo está na lista de permitidos
 function tipo_permitido(string $mime): bool {
     return isset(TIPOS_PERMITIDOS[$mime]);
 }
 
-// 13/05/2026. Yago: Validações de metadados — título e disciplina obrigatórios
+// 18/05/2026. Yago: Validações de metadados — título e disciplina obrigatórios
 function validar_titulo(string $titulo): bool {
     $titulo = trim($titulo);
     return strlen($titulo) >= 3 && strlen($titulo) <= 120;
@@ -202,7 +202,7 @@ function validar_disciplina(string $disciplina): bool {
 /* ============================================================
    SECTION 4 — SANITIZAÇÃO DE NOMES DE ARQUIVO
    -----------------------------------------------------------------------
-   13/05/2026. Yago: Nunca confiar no nome do arquivo enviado pelo usuário.
+   18/05/2026. Yago: Nunca confiar no nome do arquivo enviado pelo usuário.
    Esse nome vai aparecer na interface, em links, possivelmente no banco —
    se contiver caracteres maliciosos ou de path traversal (../), pode
    abrir brecha de segurança.
@@ -211,7 +211,7 @@ function validar_disciplina(string $disciplina): bool {
    (com hash) e guardar o nome original "limpo" nos metadados.
 ============================================================ */
 
-// 13/05/2026. Yago: Gera um nome único para o arquivo no servidor.
+// 18/05/2026. Yago: Gera um nome único para o arquivo no servidor.
 // Formato: timestamp_hash.extensao
 // Exemplo: 1715630000_a3f7c2b8.pdf
 // Isso garante que dois uploads simultâneos nunca colidam.
@@ -221,16 +221,16 @@ function gerar_nome_arquivo(string $extensao): string {
     return "{$timestamp}_{$hash}.{$extensao}";
 }
 
-// 13/05/2026. Yago: Limpa o nome original do arquivo para guardar nos metadados.
+// 18/05/2026. Yago: Limpa o nome original do arquivo para guardar nos metadados.
 // Remove caracteres perigosos mantendo legibilidade.
 function limpar_nome_original(string $nome): string {
-    // 13/05/2026. Yago: basename() remove qualquer tentativa de path traversal
+    // 18/05/2026. Yago: basename() remove qualquer tentativa de path traversal
     $nome = basename($nome);
 
-    // 13/05/2026. Yago: Substitui caracteres que não são letra/número/ponto/hífen/underline
+    // 18/05/2026. Yago: Substitui caracteres que não são letra/número/ponto/hífen/underline
     $nome = preg_replace('/[^a-zA-Z0-9._\- ]/u', '', $nome);
 
-    // 13/05/2026. Yago: Limita o tamanho para não estourar a interface
+    // 18/05/2026. Yago: Limita o tamanho para não estourar a interface
     return mb_substr($nome, 0, 100);
 }
 
@@ -238,14 +238,14 @@ function limpar_nome_original(string $nome): string {
 /* ============================================================
    SECTION 5 — PROCESSAMENTO DO UPLOAD
    -----------------------------------------------------------------------
-   13/05/2026. Yago: Função principal que recebe o arquivo, valida,
+   18/05/2026. Yago: Função principal que recebe o arquivo, valida,
    move para a pasta correta e retorna o nome gerado no servidor.
    Em caso de erro retorna null e deixa a mensagem no $_SESSION para
    o chamador ler.
 ============================================================ */
 function processar_upload(array $arquivo): ?string {
 
-    // 13/05/2026. Yago: Verifica se o upload chegou sem erro do PHP.
+    // 18/05/2026. Yago: Verifica se o upload chegou sem erro do PHP.
     // UPLOAD_ERR_OK = 0 = tudo certo. Outros valores indicam erros como
     // arquivo maior que o limite do php.ini, upload parcial etc.
     if ($arquivo['error'] !== UPLOAD_ERR_OK) {
@@ -260,7 +260,7 @@ function processar_upload(array $arquivo): ?string {
         return null;
     }
 
-    // 13/05/2026. Yago: Valida o tamanho. Pode parecer redundante com a checagem
+    // 18/05/2026. Yago: Valida o tamanho. Pode parecer redundante com a checagem
     // do php.ini, mas se o arquivo de configuração tiver um limite maior que
     // nossa regra de negócio, essa checagem é a última barreira.
     if ($arquivo['size'] > TAMANHO_MAX_BYTES) {
@@ -268,26 +268,26 @@ function processar_upload(array $arquivo): ?string {
         return null;
     }
 
-    // 13/05/2026. Yago: Detecta o MIME real do arquivo e valida
+    // 18/05/2026. Yago: Detecta o MIME real do arquivo e valida
     $mime = detectar_mime($arquivo['tmp_name']);
     if (!tipo_permitido($mime)) {
         $_SESSION['ultimo_erro_upload'] = 'Tipo de arquivo não permitido. Use PDF, TXT, DOC, DOCX, PPT ou PPTX.';
         return null;
     }
 
-    // 13/05/2026. Yago: Garante que a pasta de uploads existe
+    // 18/05/2026. Yago: Garante que a pasta de uploads existe
     if (!is_dir(PASTA_UPLOADS)) {
-        // 13/05/2026. Yago: 0755 = dono pode ler/escrever/executar, outros só ler/executar.
+        // 18/05/2026. Yago: 0755 = dono pode ler/escrever/executar, outros só ler/executar.
         // O `true` no terceiro parâmetro cria pastas pai recursivamente se necessário.
         mkdir(PASTA_UPLOADS, 0755, true);
     }
 
-    // 13/05/2026. Yago: Gera o nome final do arquivo no servidor
+    // 18/05/2026. Yago: Gera o nome final do arquivo no servidor
     $extensao    = TIPOS_PERMITIDOS[$mime];
     $nome_final  = gerar_nome_arquivo($extensao);
     $caminho_final = PASTA_UPLOADS . '/' . $nome_final;
 
-    // 13/05/2026. Yago: Move o arquivo da pasta temporária para a definitiva.
+    // 18/05/2026. Yago: Move o arquivo da pasta temporária para a definitiva.
     // move_uploaded_file() é específica para isso e tem validações de segurança
     // que rename() ou copy() não têm.
     if (!move_uploaded_file($arquivo['tmp_name'], $caminho_final)) {
@@ -302,7 +302,7 @@ function processar_upload(array $arquivo): ?string {
 /* ============================================================
    SECTION 6 — PERSISTÊNCIA DE METADADOS
    -----------------------------------------------------------------------
-   13/05/2026. Yago: Salva os metadados do upload num arquivo JSON.
+   18/05/2026. Yago: Salva os metadados do upload num arquivo JSON.
    Em produção isso seria um INSERT no banco de dados — aqui simplificamos
    para não precisar de MySQL/Postgres rodando.
 
@@ -321,17 +321,17 @@ function processar_upload(array $arquivo): ?string {
 ============================================================ */
 
 function salvar_metadados(array $dados): bool {
-    // 13/05/2026. Yago: Lê o JSON existente ou começa um array vazio
+    // 18/05/2026. Yago: Lê o JSON existente ou começa um array vazio
     $existentes = [];
     if (file_exists(ARQUIVO_METADADOS)) {
         $conteudo = file_get_contents(ARQUIVO_METADADOS);
         $existentes = json_decode($conteudo, true) ?: [];
     }
 
-    // 13/05/2026. Yago: Adiciona o novo registro no final da lista
+    // 18/05/2026. Yago: Adiciona o novo registro no final da lista
     $existentes[] = $dados;
 
-    // 13/05/2026. Yago: Salva com formatação legível (JSON_PRETTY_PRINT)
+    // 18/05/2026. Yago: Salva com formatação legível (JSON_PRETTY_PRINT)
     // e suporte a acentos (JSON_UNESCAPED_UNICODE).
     // file_put_contents com LOCK_EX evita corrupção se dois uploads
     // tentarem gravar ao mesmo tempo.
@@ -343,7 +343,7 @@ function salvar_metadados(array $dados): bool {
 /* ============================================================
    SECTION 7 — ROTEADOR DA API
    -----------------------------------------------------------------------
-   13/05/2026. Yago: Mesma estratégia da tela de recuperação de senha —
+   18/05/2026. Yago: Mesma estratégia da tela de recuperação de senha —
    o mesmo arquivo PHP serve dois propósitos:
 
    → GET: navegador abrindo a página → entrega o HTML (Section 8)
@@ -361,29 +361,29 @@ $is_api       = $method === 'POST' && str_contains($content_type, 'multipart/for
 
 if ($is_api) {
 
-    // 13/05/2026. Yago: Toda resposta da API é JSON
+    // 18/05/2026. Yago: Toda resposta da API é JSON
     header('Content-Type: application/json; charset=utf-8');
 
-    // 13/05/2026. Yago: Bloqueia spam de uploads
+    // 18/05/2026. Yago: Bloqueia spam de uploads
     if (!checar_rate_limit()) {
         http_response_code(429);
         echo json_encode(['error' => 'Muitas tentativas de upload. Aguarde 10 minutos.']);
         exit;
     }
 
-    // 13/05/2026. Yago: Verifica se veio arquivo na requisição
+    // 18/05/2026. Yago: Verifica se veio arquivo na requisição
     if (!isset($_FILES['arquivo'])) {
         http_response_code(400);
         echo json_encode(['error' => 'Nenhum arquivo foi recebido.']);
         exit;
     }
 
-    // 13/05/2026. Yago: Coleta os metadados enviados junto com o arquivo
+    // 18/05/2026. Yago: Coleta os metadados enviados junto com o arquivo
     $titulo     = trim($_POST['titulo']     ?? '');
     $descricao  = trim($_POST['descricao']  ?? '');
     $disciplina = trim($_POST['disciplina'] ?? '');
 
-    // 13/05/2026. Yago: Validação dos campos de texto
+    // 18/05/2026. Yago: Validação dos campos de texto
     if (!validar_titulo($titulo)) {
         http_response_code(400);
         echo json_encode(['error' => 'Informe um título entre 3 e 120 caracteres.']);
@@ -396,11 +396,11 @@ if ($is_api) {
         exit;
     }
 
-    // 13/05/2026. Yago: Processa o upload do arquivo físico
+    // 18/05/2026. Yago: Processa o upload do arquivo físico
     $nome_servidor = processar_upload($_FILES['arquivo']);
 
     if (!$nome_servidor) {
-        // 13/05/2026. Yago: Recupera a mensagem específica do erro
+        // 18/05/2026. Yago: Recupera a mensagem específica do erro
         $erro = $_SESSION['ultimo_erro_upload'] ?? 'Falha no upload.';
         unset($_SESSION['ultimo_erro_upload']);
         http_response_code(400);
@@ -408,7 +408,7 @@ if ($is_api) {
         exit;
     }
 
-    // 13/05/2026. Yago: Monta o registro de metadados para persistir
+    // 18/05/2026. Yago: Monta o registro de metadados para persistir
     $mime          = detectar_mime(PASTA_UPLOADS . '/' . $nome_servidor);
     $nome_original = limpar_nome_original($_FILES['arquivo']['name']);
 
@@ -444,7 +444,7 @@ if ($is_api) {
 /* ============================================================
    SECTION 8 — FRONTEND HTML
    -----------------------------------------------------------------------
-   13/05/2026. Yago: A partir daqui é o HTML que o usuário vê.
+   18/05/2026. Yago: A partir daqui é o HTML que o usuário vê.
    Só chega aqui em requisições GET.
 
    Segue o design system do projeto (template.md):
@@ -460,20 +460,20 @@ if ($is_api) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Upload de Material — StudyShare</title>
 
-  <!-- 13/05/2026. Yago: Fonte Inter — definida no design system -->
+  <!-- 18/05/2026. Yago: Fonte Inter — definida no design system -->
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
 
-  <!-- 13/05/2026. Yago: Ícones Material Symbols -->
+  <!-- 18/05/2026. Yago: Ícones Material Symbols -->
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
 
   <style>
-    /* 13/05/2026. Yago: Reset básico do navegador */
+    /* 18/05/2026. Yago: Reset básico do navegador */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     /* ============================================================
-       13/05/2026. Yago: CLASSE BASE DOS ÍCONES MATERIAL SYMBOLS
+       18/05/2026. Yago: CLASSE BASE DOS ÍCONES MATERIAL SYMBOLS
        Declarada explicitamente para garantir renderização mesmo se
        o Google Fonts demorar pra carregar — sem isso os ícones
        aparecem como texto puro ("home", "upload" etc).
@@ -499,7 +499,7 @@ if ($is_api) {
     }
 
     /* ============================================================
-       13/05/2026. Yago: TOKENS DE DESIGN
+       18/05/2026. Yago: TOKENS DE DESIGN
        Variáveis CSS centralizando todas as cores do design system.
     ============================================================ */
     :root {
@@ -527,7 +527,7 @@ if ($is_api) {
       --tr         : .18s cubic-bezier(.4,0,.2,1);
     }
 
-    /* 13/05/2026. Yago: Centraliza o card vertical e horizontalmente */
+    /* 18/05/2026. Yago: Centraliza o card vertical e horizontalmente */
     body {
       font-family: var(--font);
       background: var(--off-white);
@@ -540,7 +540,7 @@ if ($is_api) {
     }
 
     /* ============================================================
-       13/05/2026. Yago: CARD PRINCIPAL
+       18/05/2026. Yago: CARD PRINCIPAL
        Componente isolado seguindo padrão da tela de recuperação.
        Max-width maior (520px) porque essa tela tem mais campos.
     ============================================================ */
@@ -559,7 +559,7 @@ if ($is_api) {
       to   { opacity:1; transform:translateY(0); }
     }
 
-    /* 13/05/2026. Yago: Header navy idêntico ao da recuperação de senha */
+    /* 18/05/2026. Yago: Header navy idêntico ao da recuperação de senha */
     .card-header {
       background: var(--sidebar-bg);
       padding: 22px 28px;
@@ -583,7 +583,7 @@ if ($is_api) {
 
     .card-body { padding: 28px 28px 26px; }
 
-    /* 13/05/2026. Yago: Link de voltar */
+    /* 18/05/2026. Yago: Link de voltar */
     .back-link {
       display: inline-flex; align-items: center; gap: 6px;
       font-size: 13px; font-weight: 500; color: var(--gray-500);
@@ -593,7 +593,7 @@ if ($is_api) {
     .back-link:hover { color: var(--blue); }
     .back-link .material-symbols-outlined { font-size: 16px; color: currentColor; }
 
-    /* 13/05/2026. Yago: Banner de feedback (erro) */
+    /* 18/05/2026. Yago: Banner de feedback (erro) */
     .alert {
       display: none;
       align-items: flex-start; gap: 10px;
@@ -610,7 +610,7 @@ if ($is_api) {
     }
 
     /* ============================================================
-       13/05/2026. Yago: DROPZONE — área de drag & drop do arquivo
+       18/05/2026. Yago: DROPZONE — área de drag & drop do arquivo
        É o destaque visual da tela. Borda tracejada para indicar
        que aceita drop, ícone grande de upload, e cor azul claro
        quando o usuário arrasta um arquivo por cima.
@@ -627,14 +627,14 @@ if ($is_api) {
       margin-bottom: 16px;
     }
 
-    /* 13/05/2026. Yago: Estado hover/drag — borda e fundo azuis */
+    /* 18/05/2026. Yago: Estado hover/drag — borda e fundo azuis */
     .dropzone:hover,
     .dropzone.is-dragging {
       border-color: var(--blue);
       background: var(--blue-light);
     }
 
-    /* 13/05/2026. Yago: Estado quando o arquivo já foi selecionado —
+    /* 18/05/2026. Yago: Estado quando o arquivo já foi selecionado —
        muda para verde para indicar sucesso na seleção */
     .dropzone.has-file {
       border-style: solid;
@@ -642,7 +642,7 @@ if ($is_api) {
       background: var(--success-bg);
     }
 
-    /* 13/05/2026. Yago: Input file real fica escondido — o usuário
+    /* 18/05/2026. Yago: Input file real fica escondido — o usuário
        interage com o dropzone visual que dispara o click() do input */
     .dropzone input[type="file"] {
       position: absolute;
@@ -674,7 +674,7 @@ if ($is_api) {
     .dropzone-formats { font-size: 11px; color: var(--gray-400); margin-top: 8px; }
 
     /* ============================================================
-       13/05/2026. Yago: PREVIEW DO ARQUIVO SELECIONADO
+       18/05/2026. Yago: PREVIEW DO ARQUIVO SELECIONADO
        Exibido dentro do dropzone quando o usuário escolhe um arquivo.
        Mostra o nome, tamanho formatado e botão de remover.
     ============================================================ */
@@ -715,7 +715,7 @@ if ($is_api) {
       cursor: pointer;
       flex-shrink: 0;
       transition: background var(--tr);
-      /* 13/05/2026. Yago: Sobe o z-index para ficar acima do input invisível */
+      /* 18/05/2026. Yago: Sobe o z-index para ficar acima do input invisível */
       position: relative; z-index: 2;
     }
     .file-remove:hover { background: #FEE2E2; }
@@ -725,7 +725,7 @@ if ($is_api) {
     }
     .file-remove:hover .material-symbols-outlined { color: var(--error); }
 
-    /* 13/05/2026. Yago: Estilos compartilhados de campos de formulário */
+    /* 18/05/2026. Yago: Estilos compartilhados de campos de formulário */
     .form { display: flex; flex-direction: column; gap: 14px; }
     .field { display: flex; flex-direction: column; gap: 6px; }
     .field > label {
@@ -767,7 +767,7 @@ if ($is_api) {
     }
     .input-row:focus-within .input-ico { color: var(--blue); }
 
-    /* 13/05/2026. Yago: Select estilizado — remove a aparência padrão do browser */
+    /* 18/05/2026. Yago: Select estilizado — remove a aparência padrão do browser */
     .input-row select {
       appearance: none;
       -webkit-appearance: none;
@@ -777,7 +777,7 @@ if ($is_api) {
       padding-right: 36px; /* espaço para a seta */
     }
 
-    /* 13/05/2026. Yago: Textarea para descrição — sem padding-left dos inputs */
+    /* 18/05/2026. Yago: Textarea para descrição — sem padding-left dos inputs */
     .field textarea {
       padding: 11px 14px;
       resize: vertical;
@@ -796,7 +796,7 @@ if ($is_api) {
     .hint { font-size: 12px; color: var(--gray-400); line-height: 1.5; }
 
     /* ============================================================
-       13/05/2026. Yago: BARRA DE PROGRESSO DO UPLOAD
+       18/05/2026. Yago: BARRA DE PROGRESSO DO UPLOAD
        Exibida durante o envio do arquivo — preenche de 0 a 100%
        conforme o XMLHttpRequest dispara o evento 'progress'.
     ============================================================ */
@@ -830,7 +830,7 @@ if ($is_api) {
       transition: width .2s ease;
     }
 
-    /* 13/05/2026. Yago: Botão de envio — mesmo padrão da recuperação */
+    /* 18/05/2026. Yago: Botão de envio — mesmo padrão da recuperação */
     .btn-submit {
       display: flex; align-items: center; justify-content: center; gap: 8px;
       width: 100%; padding: 13px 16px;
@@ -862,7 +862,7 @@ if ($is_api) {
     @keyframes fadeUp { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
 
     /* ============================================================
-       13/05/2026. Yago: ESTADO DE SUCESSO
+       18/05/2026. Yago: ESTADO DE SUCESSO
        Substitui o formulário após o upload concluído com sucesso.
     ============================================================ */
     .success-state {
@@ -915,11 +915,11 @@ if ($is_api) {
 </head>
 <body>
 
-  <!-- 13/05/2026. Yago: Card isolado seguindo o padrão da tela de recuperação.
+  <!-- 18/05/2026. Yago: Card isolado seguindo o padrão da tela de recuperação.
        Será integrado ao shell completo (sidebar + topbar) nas outras telas. -->
   <div class="card">
 
-    <!-- 13/05/2026. Yago: Header azul navy com ícone de upload -->
+    <!-- 18/05/2026. Yago: Header azul navy com ícone de upload -->
     <div class="card-header">
       <div class="header-icon">
         <span class="material-symbols-outlined">upload_file</span>
@@ -942,7 +942,7 @@ if ($is_api) {
           Voltar para o feed
         </a>
 
-        <!-- 13/05/2026. Yago: Banner de erro — exibido via JS quando algo falha -->
+        <!-- 18/05/2026. Yago: Banner de erro — exibido via JS quando algo falha -->
         <div class="alert" id="alert-box" role="alert">
           <span class="material-symbols-outlined">error</span>
           <span id="alert-msg"></span>
@@ -951,7 +951,7 @@ if ($is_api) {
         <form class="form" id="upload-form" novalidate>
 
           <!-- ============================================================
-               13/05/2026. Yago: DROPZONE — área de drag & drop
+               18/05/2026. Yago: DROPZONE — área de drag & drop
                Aceita arrastar arquivo ou clicar para selecionar.
                O input file fica invisível por cima da área toda.
           ============================================================ -->
@@ -964,7 +964,7 @@ if ($is_api) {
               accept=".pdf,.txt,.doc,.docx,.ppt,.pptx,application/pdf,text/plain,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation"
             />
 
-            <!-- 13/05/2026. Yago: Estado vazio — mostra antes de selecionar arquivo -->
+            <!-- 18/05/2026. Yago: Estado vazio — mostra antes de selecionar arquivo -->
             <div class="dropzone-empty">
               <div class="dropzone-icon">
                 <span class="material-symbols-outlined">cloud_upload</span>
@@ -974,7 +974,7 @@ if ($is_api) {
               <div class="dropzone-formats">Formatos aceitos: PDF, TXT, DOC, DOCX, PPT, PPTX</div>
             </div>
 
-            <!-- 13/05/2026. Yago: Preview do arquivo — aparece após seleção -->
+            <!-- 18/05/2026. Yago: Preview do arquivo — aparece após seleção -->
             <div class="file-preview">
               <div class="file-icon-box">
                 <span class="material-symbols-outlined" id="file-icon">description</span>
@@ -990,7 +990,7 @@ if ($is_api) {
 
           </div>
 
-          <!-- 13/05/2026. Yago: Campo de título do material — obrigatório -->
+          <!-- 18/05/2026. Yago: Campo de título do material — obrigatório -->
           <div class="field">
             <label for="input-titulo">
               Título do material
@@ -1008,7 +1008,7 @@ if ($is_api) {
             <span class="hint">Entre 3 e 120 caracteres. Seja descritivo para outros estudantes encontrarem.</span>
           </div>
 
-          <!-- 13/05/2026. Yago: Disciplina — select com lista pré-definida -->
+          <!-- 18/05/2026. Yago: Disciplina — select com lista pré-definida -->
           <div class="field">
             <label for="input-disciplina">Disciplina</label>
             <div class="input-row">
@@ -1016,7 +1016,7 @@ if ($is_api) {
               <select id="input-disciplina">
                 <option value="">Selecione a disciplina...</option>
                 <?php
-                // 13/05/2026. Yago: Renderiza dinamicamente as disciplinas
+                // 18/05/2026. Yago: Renderiza dinamicamente as disciplinas
                 // definidas em DISCIPLINAS_DISPONIVEIS (Section 1).
                 // htmlspecialchars() evita injeção de HTML/JS via valores.
                 foreach (DISCIPLINAS_DISPONIVEIS as $disciplina) {
@@ -1028,7 +1028,7 @@ if ($is_api) {
             </div>
           </div>
 
-          <!-- 13/05/2026. Yago: Descrição opcional — textarea com contador -->
+          <!-- 18/05/2026. Yago: Descrição opcional — textarea com contador -->
           <div class="field">
             <label for="input-descricao">
               Descrição
@@ -1043,7 +1043,7 @@ if ($is_api) {
             <span class="hint">Opcional — ajuda outros estudantes a entenderem o conteúdo.</span>
           </div>
 
-          <!-- 13/05/2026. Yago: Barra de progresso — fica oculta até o upload começar -->
+          <!-- 18/05/2026. Yago: Barra de progresso — fica oculta até o upload começar -->
           <div class="progress-wrap" id="progress-wrap">
             <div class="progress-info">
               <span>Enviando arquivo...</span>
@@ -1054,7 +1054,7 @@ if ($is_api) {
             </div>
           </div>
 
-          <!-- 13/05/2026. Yago: Botão de envio — desabilitado durante o upload -->
+          <!-- 18/05/2026. Yago: Botão de envio — desabilitado durante o upload -->
           <button type="submit" class="btn-submit" id="btn-submit">
             <div class="spinner" id="spinner"></div>
             <span class="material-symbols-outlined" id="btn-icon">upload</span>
@@ -1095,7 +1095,7 @@ if ($is_api) {
     'use strict';
 
     /* ============================================================
-       13/05/2026. Yago: REFERÊNCIAS DOS ELEMENTOS DA TELA
+       18/05/2026. Yago: REFERÊNCIAS DOS ELEMENTOS DA TELA
        Pego todas as referências de uma vez para evitar
        getElementById() espalhado pelo código.
     ============================================================ */
@@ -1124,7 +1124,7 @@ if ($is_api) {
     const successTitulo   = document.getElementById('success-titulo');
 
     /* ============================================================
-       13/05/2026. Yago: MAPA DE ÍCONES POR TIPO DE ARQUIVO
+       18/05/2026. Yago: MAPA DE ÍCONES POR TIPO DE ARQUIVO
        Cada extensão tem um ícone do Material Symbols que combina
        com o tipo — PDF tem ícone vermelho de PDF, slides tem ícone
        de apresentação, etc. Melhora a usabilidade do preview.
@@ -1139,7 +1139,7 @@ if ($is_api) {
     };
 
     /* ============================================================
-       13/05/2026. Yago: FORMATA O TAMANHO DO ARQUIVO
+       18/05/2026. Yago: FORMATA O TAMANHO DO ARQUIVO
        Converte bytes para uma string legível: 1234567 → "1.18 MB"
     ============================================================ */
     function formatarTamanho(bytes) {
@@ -1149,7 +1149,7 @@ if ($is_api) {
     }
 
     /* ============================================================
-       13/05/2026. Yago: PEGA A EXTENSÃO DE UM NOME DE ARQUIVO
+       18/05/2026. Yago: PEGA A EXTENSÃO DE UM NOME DE ARQUIVO
        "trabalho.final.pdf" → "pdf"
        Usado para escolher o ícone correto no preview.
     ============================================================ */
@@ -1159,14 +1159,14 @@ if ($is_api) {
     }
 
     /* ============================================================
-       13/05/2026. Yago: TRATA A SELEÇÃO/MUDANÇA DE ARQUIVO
+       18/05/2026. Yago: TRATA A SELEÇÃO/MUDANÇA DE ARQUIVO
        Chamada tanto pelo clique no input file quanto pelo drag & drop.
        Atualiza o preview com nome, tamanho e ícone correto.
     ============================================================ */
     function tratarArquivoSelecionado(arquivo) {
       if (!arquivo) return;
 
-      // 13/05/2026. Yago: Validação rápida de tamanho no client antes de enviar.
+      // 18/05/2026. Yago: Validação rápida de tamanho no client antes de enviar.
       // O servidor valida de novo — essa aqui é só para feedback imediato ao usuário.
       const limite = 20 * 1024 * 1024; // 20MB
       if (arquivo.size > limite) {
@@ -1174,25 +1174,25 @@ if ($is_api) {
         return;
       }
 
-      // 13/05/2026. Yago: Atualiza o preview visual
+      // 18/05/2026. Yago: Atualiza o preview visual
       const extensao = pegarExtensao(arquivo.name);
       fileName.textContent = arquivo.name;
       fileMeta.textContent = `${extensao.toUpperCase()} · ${formatarTamanho(arquivo.size)}`;
       fileIcon.textContent = ICONES_POR_TIPO[extensao] || 'description';
 
-      // 13/05/2026. Yago: Adiciona classe que muda o visual do dropzone
+      // 18/05/2026. Yago: Adiciona classe que muda o visual do dropzone
       // para o estado verde "arquivo selecionado"
       dropzone.classList.add('has-file');
 
       clearAlert();
     }
 
-    // 13/05/2026. Yago: Escuta a seleção via clique no input file
+    // 18/05/2026. Yago: Escuta a seleção via clique no input file
     fileInput.addEventListener('change', function () {
       tratarArquivoSelecionado(this.files[0]);
     });
 
-    // 13/05/2026. Yago: Remove o arquivo selecionado quando clica no X
+    // 18/05/2026. Yago: Remove o arquivo selecionado quando clica no X
     // stopPropagation() impede que o clique no botão abra o seletor de arquivo
     fileRemove.addEventListener('click', function (e) {
       e.stopPropagation();
@@ -1201,7 +1201,7 @@ if ($is_api) {
     });
 
     /* ============================================================
-       13/05/2026. Yago: DRAG & DROP NATIVO
+       18/05/2026. Yago: DRAG & DROP NATIVO
        O HTML5 expõe eventos dragover, dragleave e drop direto no DOM.
        Precisamos prevenir o comportamento padrão do browser (que seria
        abrir o arquivo numa nova aba) para que o drop funcione.
@@ -1225,7 +1225,7 @@ if ($is_api) {
     dropzone.addEventListener('drop', function (e) {
       const arquivos = e.dataTransfer.files;
       if (arquivos.length > 0) {
-        // 13/05/2026. Yago: Atribui o arquivo dropado ao input file via DataTransfer
+        // 18/05/2026. Yago: Atribui o arquivo dropado ao input file via DataTransfer
         // — assim o FormData consegue capturar normalmente no submit
         fileInput.files = arquivos;
         tratarArquivoSelecionado(arquivos[0]);
@@ -1233,7 +1233,7 @@ if ($is_api) {
     });
 
     /* ============================================================
-       13/05/2026. Yago: CONTADORES DE CARACTERES NOS CAMPOS DE TEXTO
+       18/05/2026. Yago: CONTADORES DE CARACTERES NOS CAMPOS DE TEXTO
        Atualiza em tempo real conforme o usuário digita.
     ============================================================ */
     inputTitulo.addEventListener('input', function () {
@@ -1245,7 +1245,7 @@ if ($is_api) {
     });
 
     /* ============================================================
-       13/05/2026. Yago: FUNÇÕES UTILITÁRIAS DE FEEDBACK
+       18/05/2026. Yago: FUNÇÕES UTILITÁRIAS DE FEEDBACK
        Mesmo padrão usado na tela de recuperação de senha.
     ============================================================ */
     function showAlert(msg) {
@@ -1271,18 +1271,18 @@ if ($is_api) {
     }
 
     /* ============================================================
-       13/05/2026. Yago: VALIDAÇÃO ANTES DO SUBMIT
+       18/05/2026. Yago: VALIDAÇÃO ANTES DO SUBMIT
        Verifica todos os campos obrigatórios antes de iniciar o upload.
        Retorna true se tudo válido, false se algo falhou (com flash).
     ============================================================ */
     function validarFormulario() {
-      // 13/05/2026. Yago: Arquivo é obrigatório — sem ele não tem upload
+      // 18/05/2026. Yago: Arquivo é obrigatório — sem ele não tem upload
       if (!fileInput.files || fileInput.files.length === 0) {
         showAlert('Selecione um arquivo para enviar.');
         return false;
       }
 
-      // 13/05/2026. Yago: Título precisa ter entre 3 e 120 caracteres
+      // 18/05/2026. Yago: Título precisa ter entre 3 e 120 caracteres
       const titulo = inputTitulo.value.trim();
       if (titulo.length < 3 || titulo.length > 120) {
         showAlert('Informe um título entre 3 e 120 caracteres.');
@@ -1290,7 +1290,7 @@ if ($is_api) {
         return false;
       }
 
-      // 13/05/2026. Yago: Disciplina precisa estar selecionada (valor não vazio)
+      // 18/05/2026. Yago: Disciplina precisa estar selecionada (valor não vazio)
       if (!inputDisciplina.value) {
         showAlert('Selecione uma disciplina.');
         flashError(inputDisciplina);
@@ -1301,7 +1301,7 @@ if ($is_api) {
     }
 
     /* ============================================================
-       13/05/2026. Yago: TRANSIÇÃO PARA O ESTADO DE SUCESSO
+       18/05/2026. Yago: TRANSIÇÃO PARA O ESTADO DE SUCESSO
        Oculta o formulário e mostra a tela de confirmação.
     ============================================================ */
     function showSuccess(titulo) {
@@ -1311,15 +1311,15 @@ if ($is_api) {
     }
 
     /* ============================================================
-       13/05/2026. Yago: RESETA O FORMULÁRIO PARA NOVO UPLOAD
+       18/05/2026. Yago: RESETA O FORMULÁRIO PARA NOVO UPLOAD
        Chamado pelo botão "Enviar outro" no estado de sucesso.
     ============================================================ */
     function resetForm() {
-      // 13/05/2026. Yago: Volta para o estado do formulário
+      // 18/05/2026. Yago: Volta para o estado do formulário
       successState.style.display = 'none';
       formState.style.display    = 'block';
 
-      // 13/05/2026. Yago: Limpa todos os campos
+      // 18/05/2026. Yago: Limpa todos os campos
       fileInput.value         = '';
       inputTitulo.value       = '';
       inputDisciplina.value   = '';
@@ -1328,7 +1328,7 @@ if ($is_api) {
       tituloCounter.textContent    = '0/120';
       descricaoCounter.textContent = '0/500';
 
-      // 13/05/2026. Yago: Reseta barra de progresso
+      // 18/05/2026. Yago: Reseta barra de progresso
       progressWrap.classList.remove('is-visible');
       progressFill.style.width   = '0%';
       progressPercent.textContent = '0%';
@@ -1338,7 +1338,7 @@ if ($is_api) {
     }
 
     /* ============================================================
-       13/05/2026. Yago: SUBMIT DO FORMULÁRIO — FLUXO PRINCIPAL
+       18/05/2026. Yago: SUBMIT DO FORMULÁRIO — FLUXO PRINCIPAL
        Usa XMLHttpRequest em vez de fetch() porque XHR oferece evento
        de progresso (xhr.upload.onprogress) que o fetch não tem nativo.
        Isso permite mostrar a barra de progresso em tempo real.
@@ -1349,7 +1349,7 @@ if ($is_api) {
 
       if (!validarFormulario()) return;
 
-      // 13/05/2026. Yago: FormData é a forma padrão de enviar arquivos via HTTP.
+      // 18/05/2026. Yago: FormData é a forma padrão de enviar arquivos via HTTP.
       // O browser monta o multipart/form-data automaticamente.
       const formData = new FormData();
       formData.append('arquivo',    fileInput.files[0]);
@@ -1357,15 +1357,15 @@ if ($is_api) {
       formData.append('disciplina', inputDisciplina.value);
       formData.append('descricao',  inputDescricao.value.trim());
 
-      // 13/05/2026. Yago: Cria o XHR e configura os eventos
+      // 18/05/2026. Yago: Cria o XHR e configura os eventos
       const xhr = new XMLHttpRequest();
       xhr.open('POST', window.location.pathname);
 
-      // 13/05/2026. Yago: Mostra UI de loading e barra de progresso
+      // 18/05/2026. Yago: Mostra UI de loading e barra de progresso
       setLoading(true);
       progressWrap.classList.add('is-visible');
 
-      // 13/05/2026. Yago: Evento de progresso — atualiza a barra conforme
+      // 18/05/2026. Yago: Evento de progresso — atualiza a barra conforme
       // os bytes são enviados. Só funciona se o servidor suportar
       // upload progressivo, mas funciona na grande maioria dos casos.
       xhr.upload.onprogress = function (event) {
@@ -1376,7 +1376,7 @@ if ($is_api) {
         }
       };
 
-      // 13/05/2026. Yago: Resposta recebida do servidor
+      // 18/05/2026. Yago: Resposta recebida do servidor
       xhr.onload = function () {
         setLoading(false);
         progressWrap.classList.remove('is-visible');
@@ -1395,14 +1395,14 @@ if ($is_api) {
         }
       };
 
-      // 13/05/2026. Yago: Erro de rede (servidor offline, sem internet etc.)
+      // 18/05/2026. Yago: Erro de rede (servidor offline, sem internet etc.)
       xhr.onerror = function () {
         setLoading(false);
         progressWrap.classList.remove('is-visible');
         showAlert('Erro de conexão. Verifique sua internet e tente novamente.');
       };
 
-      // 13/05/2026. Yago: Dispara a requisição com o FormData montado
+      // 18/05/2026. Yago: Dispara a requisição com o FormData montado
       xhr.send(formData);
     });
   </script>
