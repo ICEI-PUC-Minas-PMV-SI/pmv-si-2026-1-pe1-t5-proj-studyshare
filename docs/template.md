@@ -213,6 +213,23 @@ Os ícones permitem customização via CSS:
 | <img src="./icons/warning.svg" width="20"/> | `warning` | Alerta |
 | <img src="./icons/close.svg" width="20"/> | `close` | Fechar |
 | <img src="./icons/arrow_forward.svg" width="20"/> | `arrow_forward` | Navegação |
+| <img src="./icons/arrow_back.svg" width="20"/> | `arrow_back` | Voltar |
+| <img src="./icons/lock_reset.svg" width="20"/> | `lock_reset` | Recuperação de senha |
+| <img src="./icons/email.svg" width="20"/> | `email` | E-mail |
+| <img src="./icons/phone_android.svg" width="20"/> | `phone_android` | Telefone / SMS |
+| <img src="./icons/send.svg" width="20"/> | `send` | Enviar |
+| <img src="./icons/check_circle.svg" width="20"/> | `check_circle` | Confirmação / Sucesso |
+| <img src="./icons/error.svg" width="20"/> | `error` | Erro |
+| <img src="./icons/upload_file.svg" width="20"/> | `upload_file` | Upload de arquivo |
+| <img src="./icons/cloud_upload.svg" width="20"/> | `cloud_upload` | Área de drag & drop |
+| <img src="./icons/description.svg" width="20"/> | `description` | Arquivo de texto (TXT, DOC, DOCX) |
+| <img src="./icons/picture_as_pdf.svg" width="20"/> | `picture_as_pdf` | Arquivo PDF |
+| <img src="./icons/co_present.svg" width="20"/> | `co_present` | Slides (PPT, PPTX) |
+| <img src="./icons/title.svg" width="20"/> | `title` | Campo de título |
+| <img src="./icons/school.svg" width="20"/> | `school` | Disciplina |
+| <img src="./icons/add.svg" width="20"/> | `add` | Adicionar |
+
+> **Observação:** os ícones a partir de `arrow_back` foram adicionados durante o desenvolvimento das telas de **Recuperação de Senha** e **Upload de Material**, mantendo a mesma família **Material Symbols Outlined** e o mesmo estilo visual dos demais. Estão disponíveis na pasta `docs/icons/` para uso pelos outros membros do grupo nas próximas telas.
 
 ---
 
