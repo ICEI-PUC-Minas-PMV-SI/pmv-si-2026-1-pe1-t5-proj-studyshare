@@ -1,26 +1,221 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro de Usuário</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Criar conta – StudyShare</title>
+
+  <!-- Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- Material Symbols Outlined -->
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=arrow_forward,person_add,visibility,visibility_off" rel="stylesheet" />
+
+  <!-- CSS da página de cadastro -->
+  <link rel="stylesheet" href="css/estilo-cadastro-usuario.css" />
 </head>
 <body>
-    <h1>Cadastro de Usuário</h1>
-    <form action="#" method="post">
-        <label for="nome">Nome:</label>
-        <input type="text" id="nome" name="nome" required>
-        <br><br>
 
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required>
-        <br><br>
+  <!-- =====================================================
+       HEADER
+       ===================================================== -->
+  <header class="topbar" role="banner">
+    <a href="#" class="topbar-logo" aria-label="StudyShare - Início">
+      <img src="..\..\docs\img\logostudyshare_reduzida.png" alt="Logo StudyShare - Início" height="60" />
+    </a>
+  </header>
 
-        <label for="senha">Senha:</label>
-        <input type="password" id="senha" name="senha" required>
-        <br><br>
+  <!-- =====================================================
+       CONTEÚDO PRINCIPAL
+       ===================================================== -->
+  <main class="page-wrapper" id="main-content">
+    <div class="signup-container">
 
-        <input type="submit" value="Cadastrar">
-    </form>
+      <p class="signup-heading">Formulário de Cadastro</p>
+
+      <div class="signup-card">
+        <form action="#" method="post" novalidate>
+
+          <!-- GRID DE CAMPOS -->
+          <div class="fields-grid">
+
+            <!-- Nome -->
+            <div class="field-group">
+              <label class="field-label" for="nome">Nome</label>
+              <input
+                class="field-input"
+                type="text"
+                id="nome"
+                name="nome"
+                placeholder="Campo para o Nome"
+                autocomplete="given-name"
+                required
+              />
+              <span class="field-error-msg" role="alert">Por favor, informe seu nome.</span>
+            </div>
+
+            <!-- Sobrenome -->
+            <div class="field-group">
+              <label class="field-label" for="sobrenome">Sobrenome</label>
+              <input
+                class="field-input"
+                type="text"
+                id="sobrenome"
+                name="sobrenome"
+                placeholder="Campo para o Sobrenome"
+                autocomplete="family-name"
+                required
+              />
+              <span class="field-error-msg" role="alert">Por favor, informe seu sobrenome.</span>
+            </div>
+
+            <!-- E-mail -->
+            <div class="field-group field-full">
+              <label class="field-label" for="email">E-mail</label>
+              <input
+                class="field-input"
+                type="email"
+                id="email"
+                name="email"
+                placeholder="Campo para o E-mail"
+                autocomplete="email"
+                required
+              />
+              <span class="field-error-msg" role="alert">Informe um e-mail válido.</span>
+            </div>
+
+            <!-- Username -->
+            <div class="field-group">
+              <label class="field-label" for="username">Username</label>
+              <input
+                class="field-input"
+                type="text"
+                id="username"
+                name="username"
+                placeholder="Campo para o Username"
+                autocomplete="username"
+                required
+              />
+              <span class="field-error-msg" role="alert">Escolha um nome de usuário.</span>
+            </div>
+
+            <!-- Instituição de Ensino -->
+            <div class="field-group">
+              <label class="field-label" for="instituicao">Instituição de Ensino</label>
+              <input
+                class="field-input"
+                type="text"
+                id="instituicao"
+                name="instituicao"
+                placeholder="Campo para a Instituição de Ensino"
+                autocomplete="organization"
+              />
+            </div>
+
+            <!-- Senha -->
+            <div class="field-group">
+              <label class="field-label" for="senha">Senha</label>
+              <div class="field-input-wrap">
+                <input
+                  class="field-input"
+                  type="password"
+                  id="senha"
+                  name="senha"
+                  placeholder="Campo para a criação da Senha"
+                  autocomplete="new-password"
+                  required
+                />
+                <button
+                  class="toggle-password"
+                  type="button"
+                  aria-label="Mostrar senha"
+                  aria-controls="senha"
+                >
+                  <span class="material-symbols-outlined">visibility</span>
+                </button>
+              </div>
+              <span class="field-error-msg" role="alert">A senha deve ter pelo menos 8 caracteres.</span>
+            </div>
+
+            <!-- Confirmação de Senha – largura total -->
+            <div class="field-group">
+              <label class="field-label" for="confirma-senha">Confirmação de Senha</label>
+              <div class="field-input-wrap">
+                <input
+                  class="field-input"
+                  type="password"
+                  id="confirma-senha"
+                  name="confirma-senha"
+                  placeholder="Campo para a confirmação da Senha"
+                  autocomplete="new-password"
+                  required
+                />
+                <button
+                  class="toggle-password"
+                  type="button"
+                  aria-label="Mostrar confirmação de senha"
+                  aria-controls="confirma-senha"
+                >
+                  <span class="material-symbols-outlined">visibility</span>
+                </button>
+              </div>
+              <span class="field-error-msg" role="alert">As senhas não coincidem.</span>
+            </div>
+
+          </div>
+          <!-- /fields-grid -->
+
+          <!-- TERMOS DE USO -->
+          <div class="terms-section">
+            <p class="terms-label">Termos de Uso:</p>
+
+            <div class="terms-box" tabindex="0" role="region" aria-label="Termos de uso – leia antes de aceitar">
+              <ul>
+                <li>Compartilhe conteúdo educacional de maneira responsável e que respeite os direitos de propriedade intelectual;</li>
+                <li>Mantenha um ambiente de comunidade respeitoso e de apoio;</li>
+                <li>Não envie conteúdos prejudiciais, ofensivos ou inadequados;</li>
+                <li>Utilize a plataforma apenas para fins educacionais;</li>
+                <li>Respeite a privacidade e os dados de outros usuários;</li>
+                <li>Cumpra todas as leis e regulamentações aplicáveis.</li>
+              </ul>
+              <p><strong>Reservamo-nos o direito de remover conteúdo ou suspender contas que violem estes termos.</strong></p>
+            </div>
+
+            <label class="terms-accept">
+              <input
+                type="checkbox"
+                id="aceite-termos"
+                name="aceite-termos"
+                required
+                aria-required="true"
+              />
+              <span class="terms-accept-text">
+                Eu li e aceito os <a href="#">Termos de Uso</a>.
+              </span>
+            </label>
+          </div>
+          <!-- /terms-section -->
+
+          <!-- RODAPÉ DO FORMULÁRIO -->
+          <div class="form-footer">
+            <p class="form-login-link">
+              Já tem uma conta? <a href="#">Entrar</a>
+            </p>
+
+            <button class="btn-submit" type="submit">
+              <span class="material-symbols-outlined" aria-hidden="true">person_add</span>
+              Criar Conta
+            </button>
+          </div>
+
+        </form>
+      </div>
+      <!-- /signup-card -->
+
+    </div>
+  </main>
+
 </body>
 </html>

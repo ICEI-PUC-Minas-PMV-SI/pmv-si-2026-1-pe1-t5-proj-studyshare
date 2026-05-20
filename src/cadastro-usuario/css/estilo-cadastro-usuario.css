@@ -1,0 +1,386 @@
+/* ============================================================
+   StudyShare – Página de Cadastro
+   
+   ============================================================ */
+
+/* --- Reset & Base ------------------------------------------ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --color-primary:       #004AAD;
+  --color-primary-hover: #003a8a;
+  --color-primary-light: #e6eef8;
+  --color-white:         #FFFFFF;
+  --color-off-white:     #F5F7FA;
+  --color-black:         #000000;
+  --color-border:        #e2e8f0;
+  --color-text-main:     #000000;
+  --color-text-secondary:#4a5568;
+  --color-text-muted:    #718096;
+  --color-error:         #dc2626;
+  --color-error-light:   #fef2f2;
+
+  --font-family: 'Inter', sans-serif;
+
+  --text-page-title: 600 28px/1.3 var(--font-family);
+  --text-section:    500 22px/1.3 var(--font-family);
+  --text-label:      500 14px/1   var(--font-family);
+  --text-body:       400 14px/1.5 var(--font-family);
+  --text-meta:       400 12px/1   var(--font-family);
+
+  --header-height: 80px;
+  --radius-sm:     6px;
+  --radius-md:     10px;
+  --radius-lg:     14px;
+
+  --shadow-card: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+}
+
+html, body {
+  font: var(--text-body);
+  color: var(--color-text-main);
+  background: var(--color-off-white);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+a    { color: var(--color-primary); text-decoration: none; }
+a:hover { text-decoration: underline; }
+button { cursor: pointer; font-family: var(--font-family); }
+img    { display: block; max-width: 100%; }
+
+/* --- Material Symbols -------------------------------------- */
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined';
+  font-weight: 400;
+  font-style: normal;
+  font-size: 20px;
+  display: inline-block;
+  line-height: 1;
+  vertical-align: middle;
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+.topbar {
+  height: var(--header-height);
+  background: var(--color-primary);
+  display: flex;
+  align-items: center;
+  padding: 4px 0 0 20px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+
+.topbar-logo img {
+  height: 60px;
+  width: auto;
+}
+
+/* ============================================================
+   LAYOUT DA PÁGINA
+   ============================================================ */
+.page-wrapper {
+  min-height: calc(100vh - var(--header-height));
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 48px 24px 64px;
+}
+
+.signup-container {
+  width: 100%;
+  max-width: 720px;
+}
+
+/* Título da seção */
+.signup-heading {
+  font: var(--text-label);
+  color: var(--color-text-secondary);
+  margin-bottom: 16px;
+  letter-spacing: 0.1px;
+}
+
+/* Card principal */
+.signup-card {
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  padding: 36px 40px 40px;
+}
+
+/* ============================================================
+   GRID DE CAMPOS
+   ============================================================ */
+.fields-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px 24px;
+  margin-bottom: 20px;
+}
+
+/* Campo que ocupa toda a largura */
+.field-full {
+  grid-column: 1 / -1;
+}
+
+/* ============================================================
+   CAMPO DE FORMULÁRIO
+   ============================================================ */
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.field-label {
+  font: var(--text-label);
+  color: var(--color-text-main);
+}
+
+.field-input {
+  width: 100%;
+  height: 44px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 0 14px;
+  font: var(--text-body);
+  color: var(--color-text-main);
+  background: var(--color-off-white);
+  outline: none;
+  transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+}
+
+.field-input::placeholder {
+  color: var(--color-text-muted);
+}
+
+.field-input:focus {
+  border-color: var(--color-primary);
+  background: var(--color-white);
+  box-shadow: 0 0 0 3px var(--color-primary-light);
+}
+
+/* Estado de erro */
+.field-input.error {
+  border-color: var(--color-error);
+  background: var(--color-error-light);
+}
+
+.field-error-msg {
+  font: var(--text-meta);
+  color: var(--color-error);
+  display: none;
+}
+
+.field-group.has-error .field-error-msg {
+  display: block;
+}
+
+/* Campo senha – wrapper para ícone de toggle */
+.field-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.field-input-wrap .field-input {
+  padding-right: 42px;
+}
+
+.field-input-wrap .toggle-password {
+  position: absolute;
+  right: 12px;
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--color-text-muted);
+  display: flex;
+  align-items: center;
+  transition: color 0.15s;
+}
+
+.field-input-wrap .toggle-password:hover {
+  color: var(--color-primary);
+}
+
+/* ============================================================
+   TERMOS DE USO
+   ============================================================ */
+.terms-section {
+  margin-bottom: 28px;
+}
+
+.terms-label {
+  font: var(--text-label);
+  color: var(--color-text-main);
+  margin-bottom: 10px;
+}
+
+.terms-box {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-off-white);
+  padding: 18px 20px;
+  max-height: 190px;
+  overflow-y: auto;
+  font: var(--text-body);
+  color: var(--color-text-secondary);
+  line-height: 1.7;
+  scroll-behavior: smooth;
+}
+
+/* Scrollbar personalizada */
+.terms-box::-webkit-scrollbar {
+  width: 4px;
+}
+.terms-box::-webkit-scrollbar-track {
+  background: var(--color-border);
+  border-radius: 4px;
+}
+.terms-box::-webkit-scrollbar-thumb {
+  background: #b0bfd4;
+  border-radius: 4px;
+}
+
+.terms-box p {
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+.terms-box ul {
+  list-style: disc;
+  padding-left: 20px;
+  margin-bottom: 14px;
+}
+
+.terms-box ul li {
+  margin-bottom: 4px;
+}
+
+.terms-box strong {
+  font-weight: 600;
+  color: var(--color-text-main);
+}
+
+/* Checkbox de aceite */
+.terms-accept {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 14px;
+  cursor: pointer;
+  width: fit-content;
+}
+
+.terms-accept input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--color-primary);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.terms-accept-text {
+  font: var(--text-body);
+  color: var(--color-text-secondary);
+}
+
+.terms-accept-text a {
+  color: var(--color-primary);
+  font-weight: 500;
+}
+
+/* ============================================================
+   RODAPÉ DO FORMULÁRIO
+   ============================================================ */
+.form-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.form-login-link {
+  font: var(--text-body);
+  color: var(--color-text-secondary);
+}
+
+.form-login-link a {
+  font-weight: 500;
+}
+
+/* Botão principal */
+.btn-submit {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--color-primary);
+  color: var(--color-white);
+  border: none;
+  border-radius: var(--radius-md);
+  padding: 12px 28px;
+  font: 600 14px/1 var(--font-family);
+  transition: background 0.2s, transform 0.1s;
+  white-space: nowrap;
+}
+
+.btn-submit:hover  { background: var(--color-primary-hover); }
+.btn-submit:active { transform: scale(0.98); }
+
+.btn-submit:disabled {
+  background: #b0c4de;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-submit .material-symbols-outlined {
+  font-size: 18px;
+}
+
+/* ============================================================
+   RESPONSIVIDADE
+   ============================================================ */
+@media (max-width: 640px) {
+  .signup-card {
+    padding: 24px 20px 28px;
+  }
+
+  .fields-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .field-full {
+    grid-column: 1;
+  }
+
+  .form-footer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .btn-submit {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 400px) {
+  .page-wrapper {
+    padding: 24px 12px 40px;
+  }
+
+  .topbar {
+    padding: 0 16px;
+  }
+}
