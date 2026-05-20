@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudyShare - Perfil do Usuário</title>
+
+    <!-- Tipografia: Inter (Template Padrão) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Iconografia: Material Symbols (Google) -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+
+    <!-- Folha de estilo padrão -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- ============================================================
+         CABEÇALHO (Logo + Filtro de busca + Upload + Foto usuário)
+         ============================================================ -->
+    <header>
+        <div class="logo-topo">
+            <a href="feed.html">
+                <img src="img/logostudyshare.png" alt="Logo StudyShare - Início">
+            </a>
+        </div>
+
+        <div class="busca">
+            <input type="text" placeholder="Busca com palavras-chave">
+            <span class="material-symbols-outlined">search</span>
+        </div>
+
+        <div class="acoes-topo">
+            <button class="botao-primario">
+                <span class="material-symbols-outlined">upload</span>
+                Upload
+            </button>
+            <span class="material-symbols-outlined">account_circle</span>
+        </div>
+    </header>
+
+    <!-- ============================================================
+         CONTEÚDO PRINCIPAL (Perfil centralizado)
+         ============================================================ -->
+    <main class="conteudo-perfil">
+
+        <!-- ---- Cabeçalho do perfil ---- -->
+        <section class="perfil-centro">
+
+            <div class="avatar-grande">HC</div>
+
+            <h1>Helena Campos</h1>
+            <p class="usuario">@helee_campos</p>
+            <p class="curso">Sistemas de Informação • PUC Minas</p>
+            <p class="bio">Compartilhando resumos, materiais e anotações acadêmicas.</p>
+
+            <!-- RF-07: Editar perfil / RF-08: Seguir -->
+            <div class="botoes-perfil">
+                <button class="botao-secundario" id="btnEditar" onclick="ativarEdicao()">
+                    <span class="material-symbols-outlined">edit</span>
+                    Editar Perfil
+                </button>
+                <button class="botao-primario" id="btnSeguir" onclick="seguir()">
+                    <span class="material-symbols-outlined">group_add</span>
+                    Seguir
+                </button>
+                <button class="botao-secundario" id="btnDeixarSeguir" onclick="deixarDeSeguir()">
+                    <span class="material-symbols-outlined">how_to_reg</span>
+                    Seguindo
+                </button>
+            </div>
+
+            <!-- RF-08: Estatísticas de conexões -->
+            <div class="estatisticas">
+                <div><strong>12</strong> Materiais</div>
+                <div><strong>128</strong> Seguidores</div>
+                <div><strong>54</strong> Seguindo</div>
+            </div>
+
+        </section>
+
+        <!-- ---- Formulário de edição (RF-07) - aparece ao clicar em Editar ---- -->
+        <section class="cartao-secao" id="formEdicao">
+            <h2>Editar informações</h2>
+
+            <div class="campo">
+                <label for="nome">Nome completo</label>
+                <input type="text" id="nome" value="Helena Campos">
+            </div>
+
+            <div class="campo">
+                <label for="usuarioInput">Nome de usuário</label>
+                <input type="text" id="usuarioInput" value="@helee_campos">
+            </div>
+
+            <div class="campo">
+                <label for="cursoInput">Curso</label>
+                <input type="text" id="cursoInput" value="Sistemas de Informação • PUC Minas">
+            </div>
+
+            <div class="campo">
+                <label for="bioInput">Biografia</label>
+                <textarea id="bioInput">Compartilhando resumos, materiais e anotações acadêmicas.</textarea>
+            </div>
+
+            <div class="acoes-formulario">
+                <button class="botao-primario" onclick="salvarEdicao()">Salvar alterações</button>
+                <button class="botao-secundario" onclick="cancelarEdicao()">Cancelar</button>
+            </div>
+        </section>
+
+        <!-- ---- Materiais publicados (RF-07: histórico) ---- -->
+        <h2 class="titulo-secao">Materiais publicados</h2>
+
+        <div class="lista-materiais">
+
+            <article class="card-material">
+                <div class="card-info">
+                    <span class="tag">PDF</span>
+                    <h3>Resumo de Banco de Dados</h3>
+                    <p>Resumo completo dos principais conceitos de modelagem e SQL.</p>
+                    <div class="card-metadados">
+                        <span><span class="material-symbols-outlined">visibility</span>153</span>
+                        <span><span class="material-symbols-outlined">favorite</span>142</span>
+                        <span><span class="material-symbols-outlined">chat_bubble</span>98</span>
+                    </div>
+                </div>
+                <button class="botao-primario">Ver</button>
+            </article>
+
+            <article class="card-material">
+                <div class="card-info">
+                    <span class="tag">SLIDES</span>
+                    <h3>Slides de Engenharia de Software</h3>
+                    <p>Apresentação sobre metodologias ágeis e ciclo de vida.</p>
+                    <div class="card-metadados">
+                        <span><span class="material-symbols-outlined">visibility</span>99</span>
+                        <span><span class="material-symbols-outlined">favorite</span>87</span>
+                        <span><span class="material-symbols-outlined">chat_bubble</span>63</span>
+                    </div>
+                </div>
+                <button class="botao-primario">Ver</button>
+            </article>
+
+            <article class="card-material">
+                <div class="card-info">
+                    <span class="tag">ANOTAÇÕES</span>
+                    <h3>Anotações de Algoritmos</h3>
+                    <p>Anotações e exercícios resolvidos de estruturas de dados.</p>
+                    <div class="card-metadados">
+                        <span><span class="material-symbols-outlined">visibility</span>84</span>
+                        <span><span class="material-symbols-outlined">favorite</span>71</span>
+                        <span><span class="material-symbols-outlined">chat_bubble</span>49</span>
+                    </div>
+                </div>
+                <button class="botao-primario">Ver</button>
+            </article>
+
+        </div>
+
+    </main>
+
+    <!-- ============================================================
+         JavaScript simples (apenas para demonstrar os requisitos)
+         ============================================================ -->
+    <script>
+        // ---- RF-07: mostrar/esconder formulário de edição ----
+        function ativarEdicao() {
+            document.getElementById("formEdicao").style.display = "block";
+            document.getElementById("formEdicao").scrollIntoView({ behavior: "smooth" });
+        }
+
+        function salvarEdicao() {
+            // Atualiza os textos do perfil com o que foi digitado
+            document.querySelector(".perfil-centro h1").innerText =
+                document.getElementById("nome").value;
+            document.querySelector(".perfil-centro .usuario").innerText =
+                document.getElementById("usuarioInput").value;
+            document.querySelector(".perfil-centro .curso").innerText =
+                document.getElementById("cursoInput").value;
+            document.querySelector(".perfil-centro .bio").innerText =
+                document.getElementById("bioInput").value;
+
+            document.getElementById("formEdicao").style.display = "none";
+            alert("Perfil atualizado com sucesso!");
+        }
+
+        function cancelarEdicao() {
+            document.getElementById("formEdicao").style.display = "none";
+        }
+
+        // ---- RF-08: seguir / deixar de seguir ----
+        function seguir() {
+            document.getElementById("btnSeguir").style.display = "none";
+            document.getElementById("btnDeixarSeguir").style.display = "inline-flex";
+        }
+
+        function deixarDeSeguir() {
+            document.getElementById("btnDeixarSeguir").style.display = "none";
+            document.getElementById("btnSeguir").style.display = "inline-flex";
+        }
+    </script>
+
+</body>
+</html>
