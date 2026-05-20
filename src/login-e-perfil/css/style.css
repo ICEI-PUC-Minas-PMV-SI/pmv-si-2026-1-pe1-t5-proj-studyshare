@@ -1,0 +1,765 @@
+/* ========================================================================
+   StudyShare - Folha de estilo padrão
+   Segue o Template Padrão do site (identidade visual, cores, tipografia)
+   ======================================================================== */
+
+/* ---- Variáveis de cor (Paleta StudyShare - Figura 3) ---- */
+:root {
+    --royal-blue: #004AAD;   /* Cor primária */
+    --white: #FFFFFF;        /* Cards e seções secundárias */
+    --off-white: #F5F7FA;    /* Fundo principal */
+    --deep-black: #000000;   /* Textos principais */
+    --cinza-borda: #E2E8F0;  /* Bordas suaves */
+    --cinza-texto: #64748B;  /* Texto secundário */
+}
+
+/* ---- Reset básico ---- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ---- Tipografia: Inter (Template Padrão) ---- */
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--off-white);
+    color: var(--deep-black);
+    line-height: 1.5;
+}
+
+/* Ícones do Google (Material Symbols) */
+.material-symbols-outlined {
+    font-family: 'Material Symbols Outlined';
+    font-weight: 400;
+    font-style: normal;
+    font-size: 24px;
+    display: inline-block;
+    line-height: 1;
+    vertical-align: middle;
+}
+
+/* ========================================================================
+   ESTRUTURA GERAL DA PÁGINA (Cabeçalho + Menu Lateral + Conteúdo)
+   ======================================================================== */
+
+/* ---- Cabeçalho ---- */
+header {
+    background-color: var(--royal-blue);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 24px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 70px;
+    z-index: 10;
+}
+
+.logo-topo {
+    display: flex;
+    align-items: center;
+}
+
+.logo-topo img {
+    height: 48px;
+}
+
+.busca {
+    display: flex;
+    align-items: center;
+    background-color: var(--white);
+    border-radius: 20px;
+    padding: 8px 16px;
+    width: 380px;
+}
+
+.busca input {
+    border: none;
+    outline: none;
+    flex: 1;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    color: var(--deep-black);
+}
+
+.busca .material-symbols-outlined {
+    color: var(--royal-blue);
+}
+
+.acoes-topo {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.acoes-topo .material-symbols-outlined {
+    color: var(--white);
+    cursor: pointer;
+}
+
+/* ---- Menu Lateral (Figura 4) ---- */
+.menu-lateral {
+    background-color: var(--white);
+    width: 230px;
+    position: fixed;
+    top: 70px;
+    bottom: 0;
+    left: 0;
+    padding: 24px 16px;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid var(--cinza-borda);
+}
+
+.menu-lateral nav {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.menu-lateral nav a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 16px;
+    border-radius: 20px;
+    text-decoration: none;
+    color: var(--royal-blue);
+    font-size: 14px;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+
+.menu-lateral nav a:hover {
+    background-color: var(--off-white);
+}
+
+.menu-lateral nav a.ativo {
+    background-color: #D6E4F5;
+}
+
+.divisor {
+    border: none;
+    border-top: 1px solid var(--cinza-borda);
+    margin: 16px 0;
+}
+
+.botao-novo {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background-color: #D6E4F5;
+    color: var(--royal-blue);
+    border: none;
+    border-radius: 20px;
+    padding: 12px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.botao-novo:hover {
+    background-color: #C2D6F0;
+}
+
+/* ---- Área de Conteúdo Principal ---- */
+.conteudo {
+    margin-left: 230px;
+    margin-top: 70px;
+    padding: 32px;
+}
+
+/* ========================================================================
+   PÁGINA DE PERFIL DO USUÁRIO (RF-07 e RF-08)
+   ======================================================================== */
+
+/* ---- Cartão de cabeçalho do perfil ---- */
+.cartao-perfil {
+    background-color: var(--white);
+    border: 1px solid var(--cinza-borda);
+    border-radius: 12px;
+    padding: 28px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    margin-bottom: 24px;
+}
+
+.avatar {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    background-color: var(--royal-blue);
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    font-weight: 600;
+    flex-shrink: 0;
+}
+
+.info-perfil {
+    flex: 1;
+}
+
+.info-perfil h1 {
+    font-size: 28px;
+    font-weight: 600;
+}
+
+.info-perfil .usuario {
+    color: var(--cinza-texto);
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+.info-perfil .bio {
+    font-size: 14px;
+    margin-bottom: 12px;
+}
+
+.estatisticas {
+    display: flex;
+    gap: 28px;
+}
+
+.estatisticas div {
+    font-size: 14px;
+}
+
+.estatisticas strong {
+    display: block;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--royal-blue);
+}
+
+/* ---- Botões (RF-08: Seguir) ---- */
+.botao-primario {
+    background-color: var(--royal-blue);
+    color: var(--white);
+    border: none;
+    border-radius: 8px;
+    padding: 10px 22px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.botao-primario:hover {
+    background-color: #003B8A;
+}
+
+.botao-secundario {
+    background-color: var(--white);
+    color: var(--royal-blue);
+    border: 1px solid var(--royal-blue);
+    border-radius: 8px;
+    padding: 10px 22px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.botao-secundario:hover {
+    background-color: var(--off-white);
+}
+
+/* O botão "Deixar de seguir" começa escondido */
+#btnDeixarSeguir {
+    display: none;
+}
+
+/* ---- Formulário de edição (RF-07) ---- */
+.cartao-secao {
+    background-color: var(--white);
+    border: 1px solid var(--cinza-borda);
+    border-radius: 12px;
+    padding: 28px;
+    margin-bottom: 24px;
+}
+
+.cartao-secao h2 {
+    font-size: 22px;
+    font-weight: 500;
+    margin-bottom: 20px;
+}
+
+.campo {
+    margin-bottom: 16px;
+}
+
+.campo label {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 6px;
+}
+
+.campo input,
+.campo textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--cinza-borda);
+    border-radius: 8px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    background-color: var(--off-white);
+    color: var(--deep-black);
+}
+
+.campo input:disabled,
+.campo textarea:disabled {
+    color: var(--cinza-texto);
+    cursor: not-allowed;
+}
+
+.campo input:focus,
+.campo textarea:focus {
+    outline: 2px solid var(--royal-blue);
+    background-color: var(--white);
+}
+
+.campo textarea {
+    resize: vertical;
+    min-height: 70px;
+}
+
+.acoes-formulario {
+    display: flex;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+/* O bloco de salvar/cancelar começa escondido */
+#acoesEdicao {
+    display: none;
+}
+
+/* ---- Histórico de atividades (RF-07) ---- */
+.abas {
+    display: flex;
+    gap: 24px;
+    border-bottom: 1px solid var(--cinza-borda);
+    margin-bottom: 20px;
+}
+
+.abas span {
+    padding-bottom: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--cinza-texto);
+    cursor: pointer;
+}
+
+.abas span.ativo {
+    color: var(--royal-blue);
+    border-bottom: 2px solid var(--royal-blue);
+}
+
+/* Grade de cards de materiais (mesmo padrão da Área de Conteúdo) */
+.grade-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.card {
+    background-color: var(--white);
+    border: 1px solid var(--cinza-borda);
+    border-radius: 12px;
+    padding: 16px;
+}
+
+.card-topo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.card-autor {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--cinza-texto);
+}
+
+.mini-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: var(--royal-blue);
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.tag {
+    background-color: #D6E4F5;
+    color: var(--royal-blue);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 12px;
+}
+
+.card h3 {
+    font-size: 16px;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 14px;
+}
+
+.card-previa {
+    background-color: var(--off-white);
+    border-radius: 8px;
+    padding: 14px;
+    margin-bottom: 14px;
+}
+
+.linha-previa {
+    height: 10px;
+    background-color: #B8CEEC;
+    border-radius: 4px;
+    margin-bottom: 8px;
+}
+
+.linha-previa.destaque {
+    background-color: var(--royal-blue);
+}
+
+.linha-previa.curta {
+    width: 70%;
+}
+
+.card-metadados {
+    display: flex;
+    gap: 18px;
+    color: var(--royal-blue);
+    font-size: 12px;
+}
+
+.card-metadados span {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.card-metadados .material-symbols-outlined {
+    font-size: 18px;
+}
+
+/* Lista de atividades recentes */
+.lista-atividades {
+    list-style: none;
+}
+
+.lista-atividades li {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--cinza-borda);
+    font-size: 14px;
+}
+
+.lista-atividades li:last-child {
+    border-bottom: none;
+}
+
+.lista-atividades .material-symbols-outlined {
+    color: var(--royal-blue);
+}
+
+.lista-atividades .tempo {
+    margin-left: auto;
+    color: var(--cinza-texto);
+    font-size: 12px;
+}
+
+/* ========================================================================
+   RESPONSIVIDADE (Template Padrão: adaptar a mobile e desktop)
+   ======================================================================== */
+@media (max-width: 768px) {
+    .menu-lateral {
+        display: none;
+    }
+
+    .conteudo {
+        margin-left: 0;
+        padding: 16px;
+    }
+
+    .busca {
+        width: 160px;
+    }
+
+    .grade-cards {
+        grid-template-columns: 1fr;
+    }
+
+    .cartao-perfil {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .estatisticas {
+        justify-content: center;
+    }
+}
+
+/* ========================================================================
+   TELA DE LOGIN (login.html)
+   ======================================================================== */
+.pagina-login {
+    background-color: var(--off-white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 24px;
+}
+
+.container-login {
+    width: 100%;
+    max-width: 420px;
+    text-align: center;
+}
+
+.login-logo {
+    background-color: var(--royal-blue);
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 16px;
+}
+
+.login-logo img {
+    height: 70px;
+}
+
+.login-mensagem {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--deep-black);
+    margin-bottom: 28px;
+}
+
+.cartao-login {
+    background-color: var(--white);
+    border: 1px solid var(--cinza-borda);
+    border-radius: 16px;
+    padding: 32px;
+    text-align: left;
+}
+
+.botao-largo {
+    width: 100%;
+    justify-content: center;
+    padding: 12px;
+    font-size: 15px;
+    margin-top: 8px;
+}
+
+.link-esqueceu {
+    text-align: right;
+    margin-bottom: 20px;
+}
+
+.link-esqueceu a,
+.link-cadastro a {
+    color: var(--royal-blue);
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.link-esqueceu a:hover,
+.link-cadastro a:hover {
+    text-decoration: underline;
+}
+
+.link-cadastro {
+    text-align: center;
+    font-size: 14px;
+    color: var(--cinza-texto);
+    margin-top: 20px;
+}
+
+/* ========================================================================
+   PÁGINA DE PERFIL - LAYOUT CENTRALIZADO (perfil-usuario.html)
+   ======================================================================== */
+.conteudo-perfil {
+    margin-top: 70px;
+    padding: 40px 24px;
+    max-width: 720px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.perfil-centro {
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+.avatar-grande {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    background-color: var(--royal-blue);
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 38px;
+    font-weight: 600;
+    margin: 0 auto 16px auto;
+}
+
+.perfil-centro h1 {
+    font-size: 28px;
+    font-weight: 600;
+}
+
+.perfil-centro .usuario {
+    color: var(--cinza-texto);
+    font-size: 14px;
+    margin: 4px 0 12px 0;
+}
+
+.perfil-centro .curso {
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 6px;
+}
+
+.perfil-centro .bio {
+    font-size: 14px;
+    color: var(--cinza-texto);
+    margin-bottom: 20px;
+}
+
+.botoes-perfil {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+/* O botão "Seguindo" começa escondido */
+#btnDeixarSeguir {
+    display: none;
+}
+
+.conteudo-perfil .estatisticas {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+}
+
+.conteudo-perfil .estatisticas div {
+    font-size: 14px;
+    color: var(--cinza-texto);
+}
+
+.conteudo-perfil .estatisticas strong {
+    display: block;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--deep-black);
+}
+
+/* Formulário de edição começa escondido (aparece ao clicar em Editar) */
+#formEdicao {
+    display: none;
+}
+
+.titulo-secao {
+    font-size: 22px;
+    font-weight: 600;
+    text-align: center;
+    margin: 32px 0 20px 0;
+}
+
+.lista-materiais {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.card-material {
+    background-color: var(--white);
+    border: 1px solid var(--cinza-borda);
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.card-material .card-info {
+    flex: 1;
+}
+
+.card-material .tag {
+    background-color: #D6E4F5;
+    color: var(--royal-blue);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 12px;
+}
+
+.card-material h3 {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 10px 0 6px 0;
+}
+
+.card-material p {
+    font-size: 13px;
+    color: var(--cinza-texto);
+    margin-bottom: 12px;
+}
+
+.card-material .botao-primario {
+    flex-shrink: 0;
+    padding: 10px 28px;
+}
+
+/* Responsividade da página de perfil */
+@media (max-width: 768px) {
+    .card-material {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: left;
+    }
+
+    .botoes-perfil {
+        flex-direction: column;
+    }
+
+    .conteudo-perfil .estatisticas {
+        gap: 24px;
+    }
+}
