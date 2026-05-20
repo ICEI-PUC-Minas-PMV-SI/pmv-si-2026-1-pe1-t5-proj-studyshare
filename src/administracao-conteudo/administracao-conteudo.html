@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudyShare - Administração</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    
+    <link rel="stylesheet" href="administracao-conteudo.css">
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="logo-area">
+            <img src="../../docs/img/logostudyshare.png" alt="StudyShare Logo" class="logo-img">
+        </div>
+        
+        <div class="search-bar-container">
+            <input type="text" placeholder="Descubra novos conteúdos" class="search-input">
+            <span class="material-symbols-outlined icon-custom search-icon-right">search</span>
+        </div>
+        
+        <div class="header-actions">
+            <span class="material-symbols-outlined icon-custom">upload</span>
+            <span class="material-symbols-outlined icon-custom">person</span>
+        </div>
+    </header>
+
+    <div class="main-layout-container">
+        
+        <aside class="sidebar">
+            <div class="sidebar-top-content">
+                <nav class="nav-menu">
+                    <a href="#" class="nav-item active">
+                        <span class="material-symbols-outlined icon-custom">home</span> 
+                        <span class="nav-text">Feed</span>
+                    </a>
+                    <a href="#" class="nav-item">
+                        <span class="material-symbols-outlined icon-custom">book</span> 
+                        <span class="nav-text">Meus materiais</span>
+                    </a>
+                    <a href="#" class="nav-item">
+                        <span class="material-symbols-outlined icon-custom">search</span> 
+                        <span class="nav-text">Explorar</span>
+                    </a>
+                    <a href="#" class="nav-item">
+                        <span class="material-symbols-outlined icon-custom">bookmark</span> 
+                        <span class="nav-text">Salvos</span>
+                    </a>
+                    
+                    <div class="nav-divider"></div>
+
+                    <a href="#" class="nav-item">
+                        <span class="material-symbols-outlined icon-custom">person</span> 
+                        <span class="nav-text">Perfil</span>
+                    </a>
+                    <a href="#" class="nav-item">
+                        <span class="material-symbols-outlined icon-custom">settings</span> 
+                        <span class="nav-text">Configurações</span>
+                    </a>
+                </nav>
+            </div>
+            
+            <div class="sidebar-footer">
+                <button class="btn-new-material">
+                    <span class="material-symbols-outlined icon-custom">upload</span> Novo material
+                </button>
+            </div>
+        </aside>
+
+        <main class="admin-main">
+            
+            <section class="admin-tabs-section">
+                <div class="filter-tags">
+                    <button class="filter-btn active">Visão Geral</button>
+                    <button class="filter-btn">Moderação de Conteúdo</button>
+                    <button class="filter-btn">Gerenciamento de Usuários</button>
+                </div>
+            </section>
+
+            <section class="metrics-grid">
+                
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <span class="material-symbols-outlined metric-icon-box">person</span>
+                        <span class="metric-value">1.256</span>
+                    </div>
+                    <span class="metric-label">Total de Usuários</span>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <span class="material-symbols-outlined metric-icon-box">search</span>
+                        <span class="metric-value">8.154</span>
+                    </div>
+                    <span class="metric-label">Total de Uploads</span>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <span class="material-symbols-outlined metric-icon-box">settings</span>
+                        <span class="metric-value">15</span>
+                    </div>
+                    <span class="metric-label">Revisões Pendentes</span>
+                </div>
+
+                <div class="metric-card accent-card">
+                    <div class="metric-header">
+                        <span class="material-symbols-outlined metric-icon-box">person</span>
+                        <span class="metric-value">+35%</span>
+                    </div>
+                    <span class="metric-label">Crescimento este mês</span>
+                </div>
+
+            </section>
+
+            <section class="activity-section">
+                <h2 class="section-title">Atividade Recente</h2>
+                
+                <div class="activity-list-container">
+                    
+                    <div class="activity-row">
+                        <div class="activity-details">
+                            <span class="user-avatar-mini">U1</span>
+                            <p class="activity-message"><strong>User1</strong> postou um novo material</p>
+                        </div>
+                        <span class="activity-time">Agora</span>
+                    </div>
+
+                    <div class="activity-row">
+                        <div class="activity-details">
+                            <span class="user-avatar-mini">U2</span>
+                            <p class="activity-message"><strong>User2</strong> postou um novo material</p>
+                        </div>
+                        <span class="activity-time">1 minuto atrás</span>
+                    </div>
+
+                    <div class="activity-row">
+                        <div class="activity-details">
+                            <span class="user-avatar-mini">U2</span>
+                            <p class="activity-message"><strong>User2</strong> postou um novo material</p>
+                        </div>
+                        <span class="activity-time">2 minutos atrás</span>
+                    </div>
+
+                    <div class="activity-row">
+                        <div class="activity-details">
+                            <span class="user-avatar-mini">U3</span>
+                            <p class="activity-message"><strong>User3</strong> postou um novo material</p>
+                        </div>
+                        <span class="activity-time">2 minutos atrás</span>
+                    </div>
+
+                    <div class="activity-row">
+                        <div class="activity-details">
+                            <span class="user-avatar-mini">U4</span>
+                            <p class="activity-message"><strong>User4</strong> postou um novo material</p>
+                        </div>
+                        <span class="activity-time">3 minutos atrás</span>
+                    </div>
+
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+</body>
+</html>

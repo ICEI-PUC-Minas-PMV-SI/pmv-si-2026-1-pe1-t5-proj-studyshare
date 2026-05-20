@@ -1,0 +1,381 @@
+/* ==========================================================================
+   StudyShare — Tela de Administrador
+   Arquivo: administracao-conteudo.css
+   Autor: Livia Moreira
+   Data: 19/05/2026
+   ========================================================================== */
+
+/* ==========================================================================
+   VARIÁVEIS OFICIAIS
+   ========================================================================== */
+:root {
+    --royal-blue: #004AAD;         /* Cor primária (identidade e destaques) */
+    --white: #FFFFFF;              /* Fundo de blocos e áreas de leitura clara */
+    --off-white: #F5F7FA;          /* Fundo principal da página */
+    --deep-black: #000000;         /* Títulos e textos de alta hierarquia */
+    --gray-text: #666666;          /* Textos secundários e legendas */
+    --light-blue-bg: #E6EEF8;      /* Fundo de itens ativos e destaques suaves */
+    --border-radius-sm: 8px;       /* Bordas arredondadas leves */
+    --border-radius-md: 16px;      /* Bordas arredondadas médias */
+    --border-radius-lg: 24px;      /* Bordas arredondadas amplas (estilo pílula) */
+}
+
+/* Reset Geral e Fontes */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; 
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    background-color: var(--off-white);
+    color: var(--deep-black);
+}
+
+/* ==========================================================================
+   CLASSE BASE (MATERIAL SYMBOLS OUTLINED)
+   ========================================================================== */
+.material-symbols-outlined {
+    font-family: 'Material Symbols Outlined' !important; /* Força o uso da fonte de ícones */
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;
+    display: inline-block;
+    line-height: 1;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+    white-space: nowrap;
+    direction: ltr;
+    -webkit-font-smoothing: antialiased; /* Suavização visual no Chrome/Safari */
+    vertical-align: middle;
+}
+
+/* Configuração dos eixos de variação do Google Fonts */
+.icon-custom {
+    font-variation-settings:
+        'FILL' 0,   /* 0 = Contorno (Outline) | 1 = Preenchido */
+        'wght' 400, /* Espessura do traço */
+        'GRAD' 0,   /* Ajuste fino de contraste */
+        'opsz' 24;  /* Tamanho óptico do ícone */
+}
+
+/* ==========================================================================
+   BARRA SUPERIOR (HEADER)
+   ========================================================================== */
+.navbar {
+    background-color: var(--royal-blue);
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Distribui os blocos nos cantos e centro */
+    padding: 0 24px;
+    position: fixed;                /* Fixa a barra no topo da tela durante a rolagem */
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;                  /* Mantém a barra à frente de todos os elementos */
+}
+
+.logo-area {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.logo-img {
+    height: 70px;
+    width: auto;
+    object-fit: contain;            /* Redimensiona a imagem sem distorcê-la */
+    display: block;
+}
+
+/* Container da Barra de Pesquisa */
+.search-bar-container {
+    background-color: var(--white);
+    width: 45%;
+    max-width: 550px;
+    height: 44px;
+    border-radius: var(--border-radius-lg);
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Empurra o input para a esquerda e a lupa para a direita */
+    padding: 0 20px;
+}
+
+.search-input {
+    border: none;
+    outline: none;                 /* Remove a borda padrão de clique do navegador */
+    width: 90%;
+    font-size: 15px;
+    color: var(--deep-black);
+}
+
+.search-input::placeholder {
+    color: #757575;                /* Cor cinza suave do texto de exemplo */
+}
+
+.search-icon {
+    color: var(--gray-text);
+    margin-right: 8px;
+}
+
+.search-icon-right {
+    color: var(--deep-black);
+    cursor: pointer;
+}
+
+.header-actions {
+    display: flex;
+    gap: 20px;
+}
+
+/* ==========================================================================
+   ESTRUTURA DE LAYOUT LADO A LADO E SIDEBAR
+   ========================================================================== */
+.main-layout-container {
+    display: flex;                  /* Permite alinhar a sidebar e o conteúdo principal lado a lado */
+    margin-top: 70px;               /* Compensa a altura do header fixo */
+}
+
+.sidebar {
+    width: 260px;
+    background-color: var(--white);
+    border-right: 1px solid #E4E7EC;
+    padding: 24px 16px;
+    position: fixed;                /* Prende o menu na tela */
+    height: calc(100vh - 70px);     /* Ocupa toda a altura disponível descontando o header */
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Mantém o menu no topo e o botão de criar abaixo */
+}
+
+.nav-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 12px 20px;
+    text-decoration: none;          /* Remove o sublinhado padrão de links */
+    color: var(--royal-blue);
+    font-weight: 600;
+    font-size: 15px;
+    border-radius: var(--border-radius-lg);
+    transition: all 0.2s ease;     /* Transição suave ao passar o mouse */
+}
+
+/* Item de Menu Ativo/Selecionado */
+.nav-item.active {
+    background-color: var(--light-blue-bg);
+    color: var(--royal-blue);
+    box-shadow: 0px 4px 10px rgba(0, 74, 173, 0.12); /* Sombra leve azulada */
+}
+
+.nav-text {
+    display: inline-block;
+    margin-top: -2px;               /* Alinhamento com a altura do ícone */
+}
+
+.nav-divider {
+    height: 1px;
+    background-color: #E4E7EC;
+    margin: 20px 0;
+}
+
+.sidebar-footer {
+    width: 100%;
+    padding-bottom: 16px;
+}
+
+/* Botão "Novo Material" */
+.btn-new-material {
+    width: 100%;
+    background-color: var(--light-blue-bg);
+    color: var(--royal-blue);
+    border: none;
+    padding: 14px;
+    border-radius: var(--border-radius-lg);
+    font-weight: 700;
+    font-size: 15px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 74, 173, 0.1);
+}
+
+/* Área de Conteúdo Principal à Direita */
+.admin-main {
+    margin-left: 260px;             /* Abre espaço para não ficar por baixo da sidebar fixa */
+    flex: 1;                        /* Ocupa todo o restante do espaço da largura horizontal */
+    padding: 40px;
+}
+
+/* ==========================================================================
+   COMPONENTES DO PAINEL ADMIN
+   ========================================================================== */
+.admin-tabs-section {
+    margin-bottom: 32px;
+}
+
+.filter-tags {
+    display: flex;
+    gap: 12px;
+}
+
+/* Abas Superiores */
+.filter-btn {
+    background-color: var(--white);
+    border: 1px solid #D0D5DD;
+    padding: 10px 24px;
+    border-radius: var(--border-radius-md);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--gray-text);
+    cursor: pointer;
+}
+
+.filter-btn.active {
+    background-color: var(--royal-blue);
+    color: var(--white);
+    border-color: var(--royal-blue);
+    font-weight: 600;
+}
+
+/* Grid Organizador dos Cards */
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* Responsivo automático */
+    gap: 24px;
+    margin-bottom: 40px;
+}
+
+/* Componente: Card de Métrica */
+.metric-card {
+    background-color: var(--white);
+    border-radius: var(--border-radius-md);
+    padding: 24px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.03);
+    border: 1px solid #E4E7EC;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 120px;
+}
+
+/* Card Especial Destaque (Crescimento) */
+.metric-card.accent-card {
+    border-left: 4px solid var(--royal-blue);
+}
+
+.metric-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.metric-icon-box {
+    color: var(--royal-blue);
+    background-color: var(--light-blue-bg);
+    padding: 8px;
+    border-radius: 50%;
+    font-family: 'Material Symbols Outlined' !important;
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+.metric-value {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--deep-black);
+}
+
+.metric-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--gray-text);
+}
+
+/* Seção de Atividade Recente */
+.section-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    color: var(--deep-black);
+}
+
+.activity-list-container {
+    background-color: var(--white);
+    border-radius: var(--border-radius-md);
+    padding: 16px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.03);
+    border: 1px solid #E4E7EC;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.activity-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 16px;
+    border-radius: var(--border-radius-sm);
+    background-color: var(--off-white);
+}
+
+.activity-details {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.user-avatar-mini {
+    width: 32px;
+    height: 32px;
+    background-color: var(--royal-blue);
+    color: var(--white);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.activity-message {
+    font-size: 14px;
+    color: var(--deep-black);
+}
+
+.activity-message strong {
+    color: var(--royal-blue);
+}
+
+.activity-time {
+    font-size: 12px;
+    color: var(--gray-text);
+    font-weight: 500;
+}
+
+/* ==========================================================================
+   CORREÇÃO DA COR DOS ÍCONES DO CABEÇALHO
+   ========================================================================== */
+.header-actions .material-symbols-outlined {
+    color: var(--white) !important; /* Sobrepõe cores pretas de heranças genéricas */
+    font-size: 26px;                
+    cursor: pointer;                
+    transition: opacity 0.2s ease;  
+}
+
+.header-actions .material-symbols-outlined:hover {
+    opacity: 0.8;                   /* Efeito de feedback visual opaco ao passar o mouse */
+}
