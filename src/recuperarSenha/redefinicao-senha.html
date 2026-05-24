@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<!-- ============================================================
+     StudyShare — Tela de Recuperação de Senha (FRONT-ONLY)
+     Arquivo: redefinicao-senha.html
+
+     Versão somente frontend: HTML + CSS + JS, sem backend (PHP).
+     - Não há envio real de e-mail/SMS nem validação server-side.
+     - O submit apenas simula o carregamento e mostra a tela de sucesso.
+     - Mantém 100% do design system do projeto (cores, fontes, ícones).
+
+     Onde entraria o backend depois: dentro do handler de submit,
+     no lugar do setTimeout que simula o envio, faria-se o fetch()
+     para a API real (ex.: recuperarSenha.php) enviando o canal +
+     e-mail/telefone como JSON.
+============================================================ -->
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Recuperar Senha — StudyShare</title>
+
+  <!-- Fonte Inter — tipografia padrão do projeto -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+
+  <!-- Ícones Material Symbols — iconografia do projeto.
+       Carregamos a família completa com variações de FILL, peso e tamanho óptico. -->
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+
+  <style>
+    /* Reset para zerar margens e padding padrão do browser */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ============================================================
+       CLASSE BASE DOS ÍCONES MATERIAL SYMBOLS
+       Declaramos explicitamente aqui em vez de depender só do CSS
+       que o Google Fonts injeta, porque se a fonte demorar pra carregar
+       (rede lenta, bloqueador etc.), os ícones aparecem como texto puro
+       — "home", "email", "lock_reset". Com essa declaração no próprio CSS,
+       o navegador já sabe como renderizar assim que a fonte chegar.
+    ============================================================ */
+    .material-symbols-outlined {
+      font-family: 'Material Symbols Outlined', sans-serif;
+      font-weight: normal;
+      font-style: normal;
+      font-size: 20px;
+      line-height: 1;
+      letter-spacing: normal;
+      text-transform: none;       /* evita que o texto seja maiúsculo */
+      display: inline-block;
+      white-space: nowrap;        /* impede quebra de linha no nome do ícone */
+      word-wrap: normal;
+      direction: ltr;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      font-feature-settings: 'liga'; /* ativa ligaduras — necessário para os ícones renderizarem */
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      user-select: none;    /* usuário não seleciona ícone como texto */
+      pointer-events: none; /* clique passa através do ícone para o elemento pai */
+      flex-shrink: 0;       /* ícone não encolhe em layouts flex */
+    }
+
+    /* ============================================================
+       TOKENS DE DESIGN
+       Variáveis CSS com todas as cores, fontes e valores do design
+       system do projeto. Centralizar aqui facilita manutenção:
+       muda uma variável, muda em todos os lugares que a usam.
+    ============================================================ */
+    :root {
+      --blue       : #004AAD; /* Royal Blue — cor primária, botões e destaques */
+      --blue-hover : #0057CC; /* Tom mais escuro para estado hover do botão   */
+      --blue-light : #E8F0FF; /* Azul bem claro — fundo do botão de método ativo */
+      --blue-glow  : rgba(0,74,173,.16); /* Sombra do foco nos inputs          */
+      --sidebar-bg : #002F87; /* Navy — cor da sidebar e header do card        */
+      --white      : #FFFFFF;
+      --off-white  : #F5F7FA; /* Fundo da página e dos inputs                  */
+      --black      : #0F172A; /* Texto principal — não preto puro, mais suave  */
+      --gray-200   : #E2E8F0; /* Bordas de inputs e divisores                  */
+      --gray-400   : #94A3B8; /* Placeholder e textos de dica (hint)           */
+      --gray-500   : #64748B; /* Textos secundários                            */
+      --gray-600   : #475569; /* Labels dos campos                             */
+      --success    : #16A34A; /* Verde — estado de sucesso                     */
+      --error      : #DC2626; /* Vermelho — estado de erro                     */
+      --font       : 'Inter', system-ui, sans-serif;
+      --radius-sm  : 8px;     /* Arredondamento de inputs e botões             */
+      --radius-lg  : 16px;    /* Arredondamento do card principal              */
+      --shadow     : 0 4px 24px rgba(0,0,0,.09), 0 1px 4px rgba(0,0,0,.05);
+      --shadow-btn : 0 4px 14px rgba(0,74,173,.35); /* Sombra azulada do botão */
+      --tr         : .18s cubic-bezier(.4,0,.2,1);  /* Transição padrão suave  */
+    }
+
+    /* Centraliza o card tanto vertical quanto horizontalmente */
+    body {
+      font-family: var(--font);
+      background: var(--off-white);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 16px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ============================================================
+       CARD PRINCIPAL
+       Componente isolado — sem sidebar/topbar porque a tela de
+       recuperação é acessada sem estar logado.
+    ============================================================ */
+    .card {
+      width: 100%;
+      max-width: 460px;
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+      overflow: hidden; /* garante que o header arredondado não vaze */
+      animation: cardIn .35s cubic-bezier(.22,1,.36,1) both;
+    }
+
+    /* Animação de entrada — card sobe suavemente ao carregar */
+    @keyframes cardIn {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Header do card com fundo navy (#002F87) — mesma cor da sidebar */
+    .card-header {
+      background: var(--sidebar-bg);
+      padding: 22px 28px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    /* Quadrado semi-transparente para o ícone — destaque sem cor sólida forte */
+    .header-icon {
+      width: 42px; height: 42px; min-width: 42px;
+      background: rgba(255,255,255,.13);
+      border-radius: var(--radius-sm);
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    .header-icon .material-symbols-outlined {
+      font-size: 22px;
+      color: var(--white);
+      font-variation-settings: 'FILL' 0, 'wght' 300; /* outline mais fino */
+    }
+
+    .header-text h1 { font-size:17px; font-weight:700; color:var(--white); letter-spacing:-.2px; }
+    .header-text p  { font-size:13px; color:rgba(255,255,255,.6); margin-top:3px; }
+
+    .card-body { padding: 28px 28px 26px; }
+
+    /* Link de voltar — discreto por padrão, azul no hover */
+    .back-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 13px; font-weight: 500; color: var(--gray-500);
+      text-decoration: none; margin-bottom: 22px;
+      transition: color var(--tr); line-height: 1;
+    }
+    .back-link:hover { color: var(--blue); }
+    .back-link .material-symbols-outlined { font-size: 16px; color: currentColor; }
+
+    /* ============================================================
+       BANNER DE FEEDBACK (ERRO)
+       Escondido por padrão (display:none) e exibido via JS.
+       Aqui só é usado para feedback visual de UI — não há validação real.
+    ============================================================ */
+    .alert {
+      display: none;
+      align-items: flex-start; gap: 10px;
+      padding: 12px 14px; border-radius: var(--radius-sm);
+      margin-bottom: 16px; font-size: 13px; line-height: 1.5;
+      animation: fadeUp .2s ease both;
+    }
+    .alert.is-error {
+      display: flex;
+      background: #FEE2E2; color: #991B1B; border: 1px solid #FECACA;
+    }
+    .alert .material-symbols-outlined {
+      font-size: 18px; color: currentColor;
+      margin-top: 1px; font-variation-settings: 'FILL' 1; /* ícone preenchido */
+    }
+
+    /* Label de seção em uppercase com espaçamento */
+    .section-label {
+      font-size: 11px; font-weight: 600; letter-spacing: .7px;
+      text-transform: uppercase; color: var(--gray-400);
+      display: block; margin-bottom: 10px;
+    }
+
+    /* ============================================================
+       SELETOR E-MAIL / SMS
+       Grid de dois botões — o ativo fica com borda e fundo azul.
+       O ícone vira preenchido (FILL 1) no estado ativo.
+    ============================================================ */
+    .method-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 22px; }
+
+    .method-btn {
+      display: flex; align-items: center; justify-content: center; gap: 7px;
+      padding: 11px 12px; border-radius: var(--radius-sm);
+      border: 1.5px solid var(--gray-200); background: var(--white);
+      font-family: var(--font); font-size: 14px; font-weight: 500;
+      color: var(--gray-500); cursor: pointer; line-height: 1;
+      transition: border-color var(--tr), background var(--tr), color var(--tr);
+    }
+    .method-btn .material-symbols-outlined {
+      font-size: 18px; color: currentColor; font-variation-settings: 'FILL' 0;
+      transition: font-variation-settings var(--tr);
+    }
+    /* Estado ativo — borda azul + fundo azul claro */
+    .method-btn.active { border-color: var(--blue); background: var(--blue-light); color: var(--blue); }
+    .method-btn.active .material-symbols-outlined { font-variation-settings: 'FILL' 1; }
+    .method-btn:not(.active):hover { border-color: var(--gray-400); color: var(--gray-600); }
+
+    /* Estrutura do formulário — campos empilhados com espaço uniforme */
+    .form { display: flex; flex-direction: column; gap: 14px; }
+    .field { display: flex; flex-direction: column; gap: 6px; }
+    .field > label { font-size: 13px; font-weight: 500; color: var(--gray-600); }
+
+    /* ============================================================
+       INPUT COM ÍCONE À ESQUERDA
+       Ícone posicionado absolutamente dentro do .input-row.
+       padding-left de 42px abre o espaço para o ícone não sobrepor o texto.
+    ============================================================ */
+    .input-row { position: relative; display: flex; align-items: center; }
+
+    .input-ico {
+      position: absolute; left: 12px;
+      font-size: 18px; width: 18px; text-align: center;
+      color: var(--gray-400); font-variation-settings: 'FILL' 0;
+      transition: color var(--tr); line-height: 1;
+    }
+
+    .input-row input {
+      width: 100%;
+      padding: 11px 14px 11px 42px; /* 42px à esquerda = espaço do ícone */
+      border: 1.5px solid var(--gray-200); border-radius: var(--radius-sm);
+      font-family: var(--font); font-size: 14px; color: var(--black);
+      background: var(--off-white); outline: none;
+      transition: border-color var(--tr), box-shadow var(--tr), background var(--tr);
+    }
+    .input-row input::placeholder { color: var(--gray-400); }
+
+    /* Foco — borda azul + glow suave + fundo branco */
+    .input-row input:focus {
+      border-color: var(--blue);
+      background: var(--white);
+      box-shadow: 0 0 0 3px var(--blue-glow);
+    }
+
+    /* :focus-within propaga o foco do input para o ícone (fica azul) */
+    .input-row:focus-within .input-ico { color: var(--blue); }
+
+    /* Classe de erro (apenas feedback visual de UI) */
+    .input-row input.has-error {
+      border-color: var(--error);
+      box-shadow: 0 0 0 3px rgba(220,38,38,.12);
+    }
+
+    .hint { font-size: 12px; color: var(--gray-400); line-height: 1.5; }
+
+    /* ============================================================
+       BOTÃO DE ENVIO
+       Azul primário com sombra colorida. O hover levanta 1px e
+       intensifica a sombra para dar sensação de profundidade.
+    ============================================================ */
+    .btn-submit {
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      width: 100%; padding: 13px 16px;
+      background: var(--blue); color: var(--white);
+      border: none; border-radius: var(--radius-sm);
+      font-family: var(--font); font-size: 14px; font-weight: 600;
+      cursor: pointer; box-shadow: var(--shadow-btn);
+      margin-top: 4px; line-height: 1;
+      transition: background var(--tr), transform var(--tr), box-shadow var(--tr);
+    }
+    .btn-submit .material-symbols-outlined { font-size: 18px; color: var(--white); }
+    .btn-submit:hover {
+      background: var(--blue-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 18px rgba(0,74,173,.42);
+    }
+    .btn-submit:active  { transform: translateY(0); } /* volta ao lugar ao clicar */
+    .btn-submit:disabled { opacity: .6; cursor: not-allowed; transform: none; }
+
+    /* Spinner de carregamento — aparece no lugar do ícone durante o "envio" */
+    .spinner {
+      width: 16px; height: 16px; flex-shrink: 0;
+      border: 2px solid rgba(255,255,255,.35);
+      border-top-color: #fff; /* só a parte de cima é branca — cria o efeito giratório */
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+      display: none; /* começa escondido — o JS mostra quando necessário */
+    }
+
+    @keyframes spin   { to { transform: rotate(360deg); } }
+    @keyframes fadeUp { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
+
+    /* Divisor "ou" entre o botão e o link de login */
+    .divider { display: flex; align-items: center; gap: 12px; margin: 20px 0 16px; }
+    .div-line { flex: 1; height: 1px; background: var(--gray-200); }
+    .div-text { font-size: 12px; color: var(--gray-400); }
+
+    .card-footer { text-align: center; font-size: 13px; color: var(--gray-500); }
+    .card-footer a { color: var(--blue); font-weight: 600; text-decoration: none; }
+    .card-footer a:hover { text-decoration: underline; }
+
+    /* ============================================================
+       ESTADO DE SUCESSO
+       Substitui o formulário após o "envio". O JS oculta o
+       #form-state e exibe este bloco com flex.
+    ============================================================ */
+    .success-state {
+      display: none; /* começa oculto — JS mostra quando necessário */
+      flex-direction: column; align-items: center;
+      text-align: center; padding: 8px 0 4px;
+      animation: fadeUp .3s ease both;
+    }
+
+    /* Círculo verde com ícone de check — confirmação visual clara */
+    .success-circle {
+      width: 60px; height: 60px; background: #DCFCE7; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center; margin-bottom: 16px;
+    }
+    .success-circle .material-symbols-outlined {
+      font-size: 30px; color: var(--success);
+      font-variation-settings: 'FILL' 1; /* ícone preenchido no sucesso */
+    }
+
+    .success-title { font-size:20px; font-weight:700; color:var(--black); letter-spacing:-.3px; margin-bottom:8px; }
+    .success-msg   { font-size:14px; color:var(--gray-500); line-height:1.65; max-width:300px; margin-bottom:22px; }
+    .success-msg strong { color: var(--black); }
+
+    /* Botão de contorno para o link de voltar ao login — menos destaque que o principal */
+    .btn-outline {
+      display: inline-flex; align-items: center; gap: 7px; padding: 11px 22px;
+      border: 1.5px solid var(--gray-200); border-radius: var(--radius-sm);
+      font-family: var(--font); font-size: 14px; font-weight: 500;
+      color: var(--gray-600); background: var(--white); text-decoration: none;
+      cursor: pointer; line-height: 1;
+      transition: border-color var(--tr), color var(--tr);
+    }
+    .btn-outline:hover { border-color: var(--blue); color: var(--blue); }
+    .btn-outline .material-symbols-outlined { font-size: 16px; color: currentColor; }
+
+    .resend-note { font-size: 12px; color: var(--gray-400); margin-top: 14px; }
+    .resend-note a { color: var(--blue); font-weight: 500; cursor: pointer; }
+    .resend-note a:hover { text-decoration: underline; }
+
+    /* Campo de telefone começa oculto — o JS exibe quando o usuário clica em SMS */
+    #phone-field { display: none; }
+  </style>
+</head>
+<body>
+
+  <!-- Card isolado — sem sidebar ou topbar porque a tela é acessada antes do login -->
+  <div class="card">
+
+    <!-- Header azul com ícone de cadeado e título -->
+    <div class="card-header">
+      <div class="header-icon">
+        <span class="material-symbols-outlined">lock_reset</span>
+      </div>
+      <div class="header-text">
+        <h1>Recuperar senha</h1>
+        <p>Enviaremos uma senha provisória para você</p>
+      </div>
+    </div>
+
+    <div class="card-body">
+
+      <!-- ══════════════════════════════════════════
+           FORM STATE — estado padrão (formulário)
+           Exibido quando a página carrega. O JS oculta este bloco
+           e mostra o success-state após o "envio".
+      ══════════════════════════════════════════ -->
+      <div id="form-state">
+
+        <!-- Link para voltar à tela de login -->
+        <a href="login.html" class="back-link">
+          <span class="material-symbols-outlined">arrow_back</span>
+          Voltar para o login
+        </a>
+
+        <!-- Banner de erro — oculto por padrão (usado só para feedback de UI) -->
+        <div class="alert" id="alert-box" role="alert">
+          <span class="material-symbols-outlined">error</span>
+          <span id="alert-msg"></span>
+        </div>
+
+        <!-- Seletor de canal — opção de envio por e-mail OU SMS -->
+        <span class="section-label">Enviar via</span>
+        <div class="method-row" role="group" aria-label="Método de recuperação">
+          <button class="method-btn active" id="btn-email" onclick="setMethod('email')" type="button">
+            <span class="material-symbols-outlined">email</span>
+            E-mail
+          </button>
+          <button class="method-btn" id="btn-sms" onclick="setMethod('sms')" type="button">
+            <span class="material-symbols-outlined">phone_android</span>
+            SMS
+          </button>
+        </div>
+
+        <form class="form" id="recovery-form" novalidate>
+          <!-- novalidate desativa a validação nativa do browser -->
+
+          <!-- Campo de e-mail — visível por padrão, oculto quando seleciona SMS -->
+          <div class="field" id="email-field">
+            <label for="input-email">Endereço de e-mail</label>
+            <div class="input-row">
+              <span class="material-symbols-outlined input-ico">email</span>
+              <input
+                type="email"
+                id="input-email"
+                placeholder="seu@email.com"
+                autocomplete="email"
+                inputmode="email"
+              />
+            </div>
+            <span class="hint">Use o e-mail cadastrado na sua conta StudyShare.</span>
+          </div>
+
+          <!-- Campo de telefone — oculto por padrão, exibido pelo JS quando seleciona SMS -->
+          <div class="field" id="phone-field">
+            <label for="input-phone">Número de celular</label>
+            <div class="input-row">
+              <span class="material-symbols-outlined input-ico">phone_android</span>
+              <input
+                type="tel"
+                id="input-phone"
+                placeholder="(00) 00000-0000"
+                autocomplete="tel"
+                inputmode="tel"
+              />
+            </div>
+            <span class="hint">Número com DDD cadastrado na sua conta.</span>
+          </div>
+
+          <!-- Botão de envio — o JS troca ícone+texto por spinner durante o "loading" -->
+          <button type="submit" class="btn-submit" id="btn-submit">
+            <div class="spinner" id="spinner"></div>
+            <span class="material-symbols-outlined" id="btn-icon">send</span>
+            <span id="btn-label">Enviar senha provisória</span>
+          </button>
+
+        </form>
+
+        <!-- Divisor visual com texto "ou" -->
+        <div class="divider">
+          <div class="div-line"></div>
+          <span class="div-text">ou</span>
+          <div class="div-line"></div>
+        </div>
+
+        <!-- Link alternativo para quem lembrou da senha -->
+        <div class="card-footer">
+          Lembrou sua senha? <a href="login.html">Entrar agora</a>
+        </div>
+
+      </div><!-- /form-state -->
+
+      <!-- ══════════════════════════════════════════
+           SUCCESS STATE — estado de confirmação
+           Exibido após o "envio". O JS preenche #success-target
+           com o e-mail ou telefone digitado antes de mostrar este bloco.
+      ══════════════════════════════════════════ -->
+      <div class="success-state" id="success-state">
+
+        <!-- Ícone de check em círculo verde — feedback visual positivo -->
+        <div class="success-circle">
+          <span class="material-symbols-outlined">check_circle</span>
+        </div>
+
+        <h2 class="success-title">Senha enviada!</h2>
+
+        <!-- Mensagem dinâmica — o JS altera dependendo do canal e insere o destino -->
+        <p class="success-msg" id="success-msg">
+          Uma senha provisória foi enviada para <strong id="success-target"></strong>.
+        </p>
+
+        <a href="login.html" class="btn-outline">
+          <span class="material-symbols-outlined">arrow_back</span>
+          Voltar para o login
+        </a>
+
+        <!-- Opção de reenvio — chama resetForm() que limpa os campos e volta ao formulário -->
+        <p class="resend-note">
+          Não recebeu? <a onclick="resetForm()">Reenviar agora</a>
+        </p>
+
+      </div><!-- /success-state -->
+
+    </div><!-- /card-body -->
+  </div><!-- /card -->
+
+  <script>
+    'use strict';
+
+    // Controla qual método está ativo no momento — email ou sms.
+    let currentMethod = 'email';
+
+    /* ============================================================
+       ALTERNA O MÉTODO DE ENVIO (E-MAIL / SMS)
+       Atualiza os botões, mostra/oculta o campo correto e foca o input.
+    ============================================================ */
+    function setMethod(m) {
+      currentMethod = m;
+
+      // toggle adiciona/remove 'active' conforme o botão clicado
+      document.getElementById('btn-email').classList.toggle('active', m === 'email');
+      document.getElementById('btn-sms').classList.toggle('active',   m === 'sms');
+
+      // Mostra o campo do método ativo e oculta o outro
+      document.getElementById('email-field').style.display = m === 'email' ? 'flex' : 'none';
+      document.getElementById('phone-field').style.display = m === 'sms'   ? 'flex' : 'none';
+
+      clearAlert(); // limpa qualquer alerta anterior ao trocar de método
+
+      // Foca automaticamente o campo correto — melhora a UX
+      document.getElementById(m === 'email' ? 'input-email' : 'input-phone').focus();
+    }
+
+    /* ============================================================
+       MÁSCARA DE TELEFONE EM TEMPO REAL
+       Formata o número enquanto o usuário digita: (11) 99999-9999
+    ============================================================ */
+    document.getElementById('input-phone').addEventListener('input', function () {
+      let v = this.value.replace(/\D/g, '').substring(0, 11); // só dígitos, max 11
+
+      if      (v.length > 6) v = `(${v.slice(0,2)}) ${v.slice(2,7)}-${v.slice(7)}`;
+      else if (v.length > 2) v = `(${v.slice(0,2)}) ${v.slice(2)}`;
+      else if (v.length)     v = `(${v}`; // ainda digitando o DDD
+
+      this.value = v;
+    });
+
+    /* ============================================================
+       BANNER DE ALERTA (apenas feedback visual de UI)
+    ============================================================ */
+    function showAlert(msg) {
+      document.getElementById('alert-msg').textContent = msg;
+      document.getElementById('alert-box').className = 'alert is-error';
+    }
+    function clearAlert() {
+      document.getElementById('alert-box').className = 'alert';
+    }
+
+    /* ============================================================
+       CONTROLA O ESTADO VISUAL DO BOTÃO DE ENVIO
+       Durante o loading: desabilita o botão, troca ícone por spinner
+       e muda o texto. Depois: restaura tudo ao estado original.
+    ============================================================ */
+    function setLoading(on) {
+      document.getElementById('btn-submit').disabled    = on;
+      document.getElementById('spinner').style.display  = on ? 'block'     : 'none';
+      document.getElementById('btn-icon').style.display = on ? 'none'      : 'inline-block';
+      document.getElementById('btn-label').textContent  = on ? 'Enviando…' : 'Enviar senha provisória';
+    }
+
+    /* ============================================================
+       TRANSIÇÃO PARA O ESTADO DE SUCESSO
+       Oculta o formulário e exibe o bloco de confirmação,
+       preenchendo a mensagem conforme o canal (e-mail vs SMS).
+    ============================================================ */
+    function showSuccess(target) {
+      document.getElementById('form-state').style.display    = 'none';
+      document.getElementById('success-state').style.display = 'flex';
+      document.getElementById('success-target').textContent  = target || '';
+
+      if (currentMethod === 'sms')
+        document.getElementById('success-msg').innerHTML =
+          `Uma senha provisória foi enviada por SMS para <strong>${target || ''}</strong>.`;
+    }
+
+    /* ============================================================
+       RESETA O CARD PARA O ESTADO INICIAL
+       Chamado pelo link "Reenviar agora".
+    ============================================================ */
+    function resetForm() {
+      document.getElementById('success-state').style.display = 'none';
+      document.getElementById('form-state').style.display    = 'block';
+      document.getElementById('input-email').value = '';
+      document.getElementById('input-phone').value = '';
+      clearAlert();
+      setMethod(currentMethod);
+    }
+
+    /* ============================================================
+       SUBMIT DO FORMULÁRIO — FRONT-ONLY (sem backend, sem validação)
+       Apenas simula o carregamento e mostra o estado de sucesso.
+
+       Quando houver backend, basta substituir o setTimeout abaixo
+       por um fetch() real para a API, montando o body com o canal
+       e o e-mail/telefone digitado.
+    ============================================================ */
+    document.getElementById('recovery-form').addEventListener('submit', function (e) {
+      e.preventDefault(); // impede o reload da página
+      clearAlert();
+
+      // Pega o valor digitado só para exibir na tela de sucesso
+      const valor = currentMethod === 'email'
+        ? document.getElementById('input-email').value.trim()
+        : document.getElementById('input-phone').value.trim();
+
+      setLoading(true);
+
+      // Simula o tempo de envio (substituir por fetch() quando tiver backend)
+      setTimeout(function () {
+        setLoading(false);
+        showSuccess(valor);
+      }, 900);
+    });
+  </script>
+
+</body>
+</html>
