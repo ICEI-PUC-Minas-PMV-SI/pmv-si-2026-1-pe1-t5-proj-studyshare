@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<!-- ============================================================
+     StudyShare — Tela de Upload de Materiais (FRONT-ONLY)
+     Arquivo: upload-material.html
+
+     Versão somente frontend: HTML + CSS + JS, sem backend (PHP).
+     - Não há upload real, validação server-side nem persistência.
+     - As disciplinas do <select> agora são HTML estático (antes vinham
+       de um loop PHP sobre DISCIPLINAS_DISPONIVEIS).
+     - O submit apenas simula a barra de progresso e mostra a tela de sucesso.
+============================================================ -->
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Upload de Material — StudyShare</title>
+
+  <!-- Fonte Inter — definida no design system -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+
+  <!-- Ícones Material Symbols -->
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+
+  <style>
+    /* Reset básico do navegador */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ============================================================
+       CLASSE BASE DOS ÍCONES MATERIAL SYMBOLS
+       Declarada explicitamente para garantir renderização mesmo se
+       o Google Fonts demorar pra carregar — sem isso os ícones
+       aparecem como texto puro ("home", "upload" etc).
+    ============================================================ */
+    .material-symbols-outlined {
+      font-family: 'Material Symbols Outlined', sans-serif;
+      font-weight: normal;
+      font-style: normal;
+      font-size: 20px;
+      line-height: 1;
+      letter-spacing: normal;
+      text-transform: none;
+      display: inline-block;
+      white-space: nowrap;
+      word-wrap: normal;
+      direction: ltr;
+      -webkit-font-smoothing: antialiased;
+      font-feature-settings: 'liga';
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      user-select: none;
+      pointer-events: none;
+      flex-shrink: 0;
+    }
+
+    /* ============================================================
+       TOKENS DE DESIGN
+       Variáveis CSS centralizando todas as cores do design system.
+    ============================================================ */
+    :root {
+      --blue       : #004AAD; /* Cor primária — Royal Blue                   */
+      --blue-hover : #0057CC; /* Hover do botão                              */
+      --blue-light : #E8F0FF; /* Fundo do dropzone em hover                  */
+      --blue-glow  : rgba(0,74,173,.16); /* Sombra de foco nos inputs        */
+      --sidebar-bg : #002F87; /* Navy — header do card                       */
+      --white      : #FFFFFF;
+      --off-white  : #F5F7FA; /* Fundo da página e dos inputs                */
+      --black      : #0F172A; /* Texto principal                             */
+      --gray-200   : #E2E8F0; /* Bordas e divisores                          */
+      --gray-300   : #CBD5E1; /* Borda do dropzone em estado inicial         */
+      --gray-400   : #94A3B8; /* Placeholder e hints                         */
+      --gray-500   : #64748B; /* Textos secundários                          */
+      --gray-600   : #475569; /* Labels                                      */
+      --success    : #16A34A; /* Verde — sucesso                             */
+      --success-bg : #DCFCE7;
+      --error      : #DC2626; /* Vermelho — erro                             */
+      --font       : 'Inter', system-ui, sans-serif;
+      --radius-sm  : 8px;
+      --radius-lg  : 16px;
+      --shadow     : 0 4px 24px rgba(0,0,0,.09), 0 1px 4px rgba(0,0,0,.05);
+      --shadow-btn : 0 4px 14px rgba(0,74,173,.35);
+      --tr         : .18s cubic-bezier(.4,0,.2,1);
+    }
+
+    /* Centraliza o card vertical e horizontalmente */
+    body {
+      font-family: var(--font);
+      background: var(--off-white);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 16px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ============================================================
+       CARD PRINCIPAL
+       Componente isolado seguindo padrão da tela de recuperação.
+       Max-width maior (520px) porque essa tela tem mais campos.
+    ============================================================ */
+    .card {
+      width: 100%;
+      max-width: 520px;
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      animation: cardIn .35s cubic-bezier(.22,1,.36,1) both;
+    }
+
+    @keyframes cardIn {
+      from { opacity:0; transform:translateY(14px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+
+    /* Header navy idêntico ao da recuperação de senha */
+    .card-header {
+      background: var(--sidebar-bg);
+      padding: 22px 28px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .header-icon {
+      width: 42px; height: 42px; min-width: 42px;
+      background: rgba(255,255,255,.13);
+      border-radius: var(--radius-sm);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .header-icon .material-symbols-outlined {
+      font-size: 22px; color: var(--white);
+      font-variation-settings: 'FILL' 0, 'wght' 300;
+    }
+    .header-text h1 { font-size:17px; font-weight:700; color:var(--white); letter-spacing:-.2px; }
+    .header-text p  { font-size:13px; color:rgba(255,255,255,.6); margin-top:3px; }
+
+    .card-body { padding: 28px 28px 26px; }
+
+    /* Link de voltar */
+    .back-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 13px; font-weight: 500; color: var(--gray-500);
+      text-decoration: none; margin-bottom: 22px;
+      transition: color var(--tr); line-height: 1;
+    }
+    .back-link:hover { color: var(--blue); }
+    .back-link .material-symbols-outlined { font-size: 16px; color: currentColor; }
+
+    /* Banner de feedback (erro) — usado só para feedback visual de UI */
+    .alert {
+      display: none;
+      align-items: flex-start; gap: 10px;
+      padding: 12px 14px; border-radius: var(--radius-sm);
+      margin-bottom: 16px; font-size: 13px; line-height: 1.5;
+      animation: fadeUp .2s ease both;
+    }
+    .alert.is-error {
+      display: flex; background: #FEE2E2; color: #991B1B; border: 1px solid #FECACA;
+    }
+    .alert .material-symbols-outlined {
+      font-size: 18px; color: currentColor; margin-top: 1px;
+      font-variation-settings: 'FILL' 1;
+    }
+
+    /* ============================================================
+       DROPZONE — área de drag & drop do arquivo
+       É o destaque visual da tela. Borda tracejada para indicar
+       que aceita drop, ícone grande de upload, e cor azul claro
+       quando o usuário arrasta um arquivo por cima.
+    ============================================================ */
+    .dropzone {
+      position: relative;
+      border: 2px dashed var(--gray-300);
+      border-radius: var(--radius-sm);
+      padding: 32px 20px;
+      text-align: center;
+      cursor: pointer;
+      background: var(--off-white);
+      transition: border-color var(--tr), background var(--tr);
+      margin-bottom: 16px;
+    }
+
+    /* Estado hover/drag — borda e fundo azuis */
+    .dropzone:hover,
+    .dropzone.is-dragging {
+      border-color: var(--blue);
+      background: var(--blue-light);
+    }
+
+    /* Estado quando o arquivo já foi selecionado — muda para verde */
+    .dropzone.has-file {
+      border-style: solid;
+      border-color: var(--success);
+      background: var(--success-bg);
+    }
+
+    /* Input file real fica escondido — o usuário interage com o dropzone
+       visual que dispara o click() do input */
+    .dropzone input[type="file"] {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .dropzone-icon {
+      width: 56px; height: 56px;
+      background: var(--white);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,.06);
+    }
+    .dropzone-icon .material-symbols-outlined {
+      font-size: 28px; color: var(--blue);
+      font-variation-settings: 'FILL' 0, 'wght' 400;
+    }
+
+    .dropzone.has-file .dropzone-icon .material-symbols-outlined {
+      color: var(--success);
+      font-variation-settings: 'FILL' 1;
+    }
+
+    .dropzone-title { font-size: 14px; font-weight: 600; color: var(--black); margin-bottom: 4px; }
+    .dropzone-sub   { font-size: 12px; color: var(--gray-500); line-height: 1.5; }
+    .dropzone-formats { font-size: 11px; color: var(--gray-400); margin-top: 8px; }
+
+    /* ============================================================
+       PREVIEW DO ARQUIVO SELECIONADO
+       Exibido dentro do dropzone quando o usuário escolhe um arquivo.
+       Mostra o nome, tamanho formatado e botão de remover.
+    ============================================================ */
+    .file-preview {
+      display: none;
+      align-items: center;
+      gap: 12px;
+      text-align: left;
+    }
+    .dropzone.has-file .file-preview { display: flex; }
+    .dropzone.has-file .dropzone-empty { display: none; }
+
+    .file-icon-box {
+      width: 44px; height: 44px;
+      background: var(--white);
+      border-radius: var(--radius-sm);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .file-icon-box .material-symbols-outlined {
+      font-size: 22px; color: var(--blue);
+      font-variation-settings: 'FILL' 0;
+    }
+
+    .file-info { flex: 1; min-width: 0; }
+    .file-name {
+      font-size: 14px; font-weight: 600; color: var(--black);
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    }
+    .file-meta { font-size: 12px; color: var(--gray-500); margin-top: 2px; }
+
+    .file-remove {
+      background: var(--white);
+      border: none;
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: background var(--tr);
+      /* Sobe o z-index para ficar acima do input invisível */
+      position: relative; z-index: 2;
+    }
+    .file-remove:hover { background: #FEE2E2; }
+    .file-remove .material-symbols-outlined {
+      font-size: 18px; color: var(--gray-500);
+      pointer-events: none;
+    }
+    .file-remove:hover .material-symbols-outlined { color: var(--error); }
+
+    /* Estilos compartilhados de campos de formulário */
+    .form { display: flex; flex-direction: column; gap: 14px; }
+    .field { display: flex; flex-direction: column; gap: 6px; }
+    .field > label {
+      font-size: 13px; font-weight: 500; color: var(--gray-600);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .field-counter { font-size: 11px; color: var(--gray-400); font-weight: 400; }
+
+    .input-row { position: relative; display: flex; align-items: center; }
+    .input-ico {
+      position: absolute; left: 12px; font-size: 18px; width: 18px;
+      text-align: center; color: var(--gray-400);
+      font-variation-settings: 'FILL' 0;
+      transition: color var(--tr); line-height: 1;
+    }
+
+    .input-row input,
+    .input-row select,
+    .field textarea {
+      width: 100%;
+      padding: 11px 14px 11px 42px;
+      border: 1.5px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      font-family: var(--font); font-size: 14px;
+      color: var(--black); background: var(--off-white);
+      outline: none;
+      transition: border-color var(--tr), box-shadow var(--tr), background var(--tr);
+    }
+
+    .input-row input::placeholder,
+    .field textarea::placeholder { color: var(--gray-400); }
+
+    .input-row input:focus,
+    .input-row select:focus,
+    .field textarea:focus {
+      border-color: var(--blue);
+      background: var(--white);
+      box-shadow: 0 0 0 3px var(--blue-glow);
+    }
+    .input-row:focus-within .input-ico { color: var(--blue); }
+
+    /* Select estilizado — remove a aparência padrão do browser */
+    .input-row select {
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%2394A3B8' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      padding-right: 36px; /* espaço para a seta */
+    }
+
+    /* Textarea para descrição — sem padding-left dos inputs */
+    .field textarea {
+      padding: 11px 14px;
+      resize: vertical;
+      min-height: 80px;
+      font-family: var(--font);
+      line-height: 1.5;
+    }
+
+    .input-row input.has-error,
+    .input-row select.has-error,
+    .field textarea.has-error {
+      border-color: var(--error);
+      box-shadow: 0 0 0 3px rgba(220,38,38,.12);
+    }
+
+    .hint { font-size: 12px; color: var(--gray-400); line-height: 1.5; }
+
+    /* ============================================================
+       BARRA DE PROGRESSO DO UPLOAD
+       Exibida durante o "envio" — preenche de 0 a 100%.
+       Aqui é apenas uma simulação (sem backend).
+    ============================================================ */
+    .progress-wrap {
+      display: none;
+      margin-top: 4px;
+      padding: 12px 14px;
+      background: var(--blue-light);
+      border-radius: var(--radius-sm);
+      border: 1px solid rgba(0,74,173,.15);
+    }
+    .progress-wrap.is-visible { display: block; }
+
+    .progress-info {
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 12px; color: var(--gray-600); margin-bottom: 8px;
+    }
+    .progress-info strong { color: var(--blue); font-weight: 600; }
+
+    .progress-bar {
+      height: 6px;
+      background: var(--gray-200);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      background: var(--blue);
+      border-radius: 3px;
+      width: 0%;
+      transition: width .2s ease;
+    }
+
+    /* Botão de envio — mesmo padrão da recuperação */
+    .btn-submit {
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      width: 100%; padding: 13px 16px;
+      background: var(--blue); color: var(--white);
+      border: none; border-radius: var(--radius-sm);
+      font-family: var(--font); font-size: 14px; font-weight: 600;
+      cursor: pointer; box-shadow: var(--shadow-btn);
+      margin-top: 4px; line-height: 1;
+      transition: background var(--tr), transform var(--tr), box-shadow var(--tr);
+    }
+    .btn-submit .material-symbols-outlined { font-size: 18px; color: var(--white); }
+    .btn-submit:hover {
+      background: var(--blue-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 18px rgba(0,74,173,.42);
+    }
+    .btn-submit:active { transform: translateY(0); }
+    .btn-submit:disabled { opacity: .6; cursor: not-allowed; transform: none; }
+
+    .spinner {
+      width: 16px; height: 16px; flex-shrink: 0;
+      border: 2px solid rgba(255,255,255,.35);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+      display: none;
+    }
+    @keyframes spin   { to { transform: rotate(360deg); } }
+    @keyframes fadeUp { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
+
+    /* ============================================================
+       ESTADO DE SUCESSO
+       Substitui o formulário após o "upload" concluído.
+    ============================================================ */
+    .success-state {
+      display: none;
+      flex-direction: column; align-items: center;
+      text-align: center; padding: 8px 0 4px;
+      animation: fadeUp .3s ease both;
+    }
+    .success-circle {
+      width: 60px; height: 60px; background: var(--success-bg);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 16px;
+    }
+    .success-circle .material-symbols-outlined {
+      font-size: 30px; color: var(--success);
+      font-variation-settings: 'FILL' 1;
+    }
+    .success-title { font-size: 20px; font-weight: 700; color: var(--black); letter-spacing: -.3px; margin-bottom: 8px; }
+    .success-msg   { font-size: 14px; color: var(--gray-500); line-height: 1.65; max-width: 320px; margin-bottom: 22px; }
+    .success-msg strong { color: var(--black); }
+
+    .success-actions { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+
+    .btn-outline {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 11px 22px;
+      border: 1.5px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      font-family: var(--font); font-size: 14px; font-weight: 500;
+      color: var(--gray-600); background: var(--white);
+      text-decoration: none; cursor: pointer; line-height: 1;
+      transition: border-color var(--tr), color var(--tr);
+    }
+    .btn-outline:hover { border-color: var(--blue); color: var(--blue); }
+    .btn-outline .material-symbols-outlined { font-size: 16px; color: currentColor; }
+
+    .btn-filled {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 11px 22px;
+      background: var(--blue); color: var(--white);
+      border: none; border-radius: var(--radius-sm);
+      font-family: var(--font); font-size: 14px; font-weight: 500;
+      text-decoration: none; cursor: pointer; line-height: 1;
+      transition: background var(--tr);
+    }
+    .btn-filled:hover { background: var(--blue-hover); }
+    .btn-filled .material-symbols-outlined { font-size: 16px; color: var(--white); }
+  </style>
+</head>
+<body>
+
+  <!-- Card isolado seguindo o padrão da tela de recuperação. -->
+  <div class="card">
+
+    <!-- Header azul navy com ícone de upload -->
+    <div class="card-header">
+      <div class="header-icon">
+        <span class="material-symbols-outlined">upload_file</span>
+      </div>
+      <div class="header-text">
+        <h1>Novo material</h1>
+        <p>Compartilhe seus arquivos com a comunidade</p>
+      </div>
+    </div>
+
+    <div class="card-body">
+
+      <!-- ══════════════════════════════════════════
+           FORM STATE — estado padrão (formulário)
+      ══════════════════════════════════════════ -->
+      <div id="form-state">
+
+        <a href="feed.html" class="back-link">
+          <span class="material-symbols-outlined">arrow_back</span>
+          Voltar para o feed
+        </a>
+
+        <!-- Banner de erro — exibido via JS (só feedback visual de UI) -->
+        <div class="alert" id="alert-box" role="alert">
+          <span class="material-symbols-outlined">error</span>
+          <span id="alert-msg"></span>
+        </div>
+
+        <form class="form" id="upload-form" novalidate>
+
+          <!-- ============================================================
+               DROPZONE — área de drag & drop
+               Aceita arrastar arquivo ou clicar para selecionar.
+               O input file fica invisível por cima da área toda.
+          ============================================================ -->
+          <div class="dropzone" id="dropzone">
+
+            <!-- Input file real — invisível mas funcional -->
+            <input
+              type="file"
+              id="file-input"
+              accept=".pdf,.txt,.doc,.docx,.ppt,.pptx,application/pdf,text/plain,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation"
+            />
+
+            <!-- Estado vazio — mostra antes de selecionar arquivo -->
+            <div class="dropzone-empty">
+              <div class="dropzone-icon">
+                <span class="material-symbols-outlined">cloud_upload</span>
+              </div>
+              <div class="dropzone-title">Arraste o arquivo aqui ou clique para selecionar</div>
+              <div class="dropzone-sub">Tamanho máximo de 20MB por arquivo</div>
+              <div class="dropzone-formats">Formatos aceitos: PDF, TXT, DOC, DOCX, PPT, PPTX</div>
+            </div>
+
+            <!-- Preview do arquivo — aparece após seleção -->
+            <div class="file-preview">
+              <div class="file-icon-box">
+                <span class="material-symbols-outlined" id="file-icon">description</span>
+              </div>
+              <div class="file-info">
+                <div class="file-name" id="file-name"></div>
+                <div class="file-meta" id="file-meta"></div>
+              </div>
+              <button type="button" class="file-remove" id="file-remove" title="Remover arquivo">
+                <span class="material-symbols-outlined">close</span>
+              </button>
+            </div>
+
+          </div>
+
+          <!-- Campo de título do material -->
+          <div class="field">
+            <label for="input-titulo">
+              Título do material
+              <span class="field-counter" id="titulo-counter">0/120</span>
+            </label>
+            <div class="input-row">
+              <span class="material-symbols-outlined input-ico">title</span>
+              <input
+                type="text"
+                id="input-titulo"
+                placeholder="Ex: Resumo de Cálculo I — Limites"
+                maxlength="120"
+              />
+            </div>
+            <span class="hint">Entre 3 e 120 caracteres. Seja descritivo para outros estudantes encontrarem.</span>
+          </div>
+
+          <!-- Disciplina — select com lista pré-definida (antes vinha do PHP) -->
+          <div class="field">
+            <label for="input-disciplina">Disciplina</label>
+            <div class="input-row">
+              <span class="material-symbols-outlined input-ico">school</span>
+              <select id="input-disciplina">
+                <option value="">Selecione a disciplina...</option>
+                <option value="Algoritmos e Estruturas de Dados">Algoritmos e Estruturas de Dados</option>
+                <option value="Banco de Dados">Banco de Dados</option>
+                <option value="Cálculo I">Cálculo I</option>
+                <option value="Cálculo II">Cálculo II</option>
+                <option value="Engenharia de Software">Engenharia de Software</option>
+                <option value="Front-end">Front-end</option>
+                <option value="Inteligência Artificial">Inteligência Artificial</option>
+                <option value="Programação Web">Programação Web</option>
+                <option value="Redes de Computadores">Redes de Computadores</option>
+                <option value="Sistemas Operacionais">Sistemas Operacionais</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Descrição opcional — textarea com contador -->
+          <div class="field">
+            <label for="input-descricao">
+              Descrição
+              <span class="field-counter" id="descricao-counter">0/500</span>
+            </label>
+            <textarea
+              id="input-descricao"
+              placeholder="Conte um pouco sobre o conteúdo do material..."
+              maxlength="500"
+              rows="3"
+            ></textarea>
+            <span class="hint">Opcional — ajuda outros estudantes a entenderem o conteúdo.</span>
+          </div>
+
+          <!-- Barra de progresso — fica oculta até o "upload" começar -->
+          <div class="progress-wrap" id="progress-wrap">
+            <div class="progress-info">
+              <span>Enviando arquivo...</span>
+              <strong id="progress-percent">0%</strong>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-bar-fill" id="progress-fill"></div>
+            </div>
+          </div>
+
+          <!-- Botão de envio — desabilitado durante o "upload" -->
+          <button type="submit" class="btn-submit" id="btn-submit">
+            <div class="spinner" id="spinner"></div>
+            <span class="material-symbols-outlined" id="btn-icon">upload</span>
+            <span id="btn-label">Publicar material</span>
+          </button>
+
+        </form>
+
+      </div><!-- /form-state -->
+
+      <!-- ══════════════════════════════════════════
+           SUCCESS STATE — estado após "upload" concluído
+      ══════════════════════════════════════════ -->
+      <div class="success-state" id="success-state">
+        <div class="success-circle">
+          <span class="material-symbols-outlined">check_circle</span>
+        </div>
+        <h2 class="success-title">Material publicado!</h2>
+        <p class="success-msg" id="success-msg">
+          <strong id="success-titulo"></strong> foi enviado com sucesso e já está disponível no feed.
+        </p>
+        <div class="success-actions">
+          <a href="feed.html" class="btn-outline">
+            <span class="material-symbols-outlined">arrow_back</span>
+            Ver no feed
+          </a>
+          <button type="button" class="btn-filled" onclick="resetForm()">
+            <span class="material-symbols-outlined">add</span>
+            Enviar outro
+          </button>
+        </div>
+      </div>
+
+    </div><!-- /card-body -->
+  </div><!-- /card -->
+
+  <script>
+    'use strict';
+
+    /* ============================================================
+       REFERÊNCIAS DOS ELEMENTOS DA TELA
+       Pego todas de uma vez para evitar getElementById() espalhado.
+    ============================================================ */
+    const dropzone        = document.getElementById('dropzone');
+    const fileInput       = document.getElementById('file-input');
+    const fileRemove      = document.getElementById('file-remove');
+    const fileName        = document.getElementById('file-name');
+    const fileMeta        = document.getElementById('file-meta');
+    const fileIcon        = document.getElementById('file-icon');
+    const inputTitulo     = document.getElementById('input-titulo');
+    const inputDisciplina = document.getElementById('input-disciplina');
+    const inputDescricao  = document.getElementById('input-descricao');
+    const tituloCounter   = document.getElementById('titulo-counter');
+    const descricaoCounter = document.getElementById('descricao-counter');
+    const btnSubmit       = document.getElementById('btn-submit');
+    const spinner         = document.getElementById('spinner');
+    const btnIcon         = document.getElementById('btn-icon');
+    const btnLabel        = document.getElementById('btn-label');
+    const progressWrap    = document.getElementById('progress-wrap');
+    const progressFill    = document.getElementById('progress-fill');
+    const progressPercent = document.getElementById('progress-percent');
+    const alertBox        = document.getElementById('alert-box');
+    const alertMsg        = document.getElementById('alert-msg');
+    const formState       = document.getElementById('form-state');
+    const successState    = document.getElementById('success-state');
+    const successTitulo   = document.getElementById('success-titulo');
+
+    /* ============================================================
+       MAPA DE ÍCONES POR TIPO DE ARQUIVO
+       Cada extensão tem um ícone do Material Symbols que combina
+       com o tipo. Melhora a usabilidade do preview.
+    ============================================================ */
+    const ICONES_POR_TIPO = {
+      'pdf':  'picture_as_pdf',
+      'txt':  'description',
+      'doc':  'description',
+      'docx': 'description',
+      'ppt':  'co_present',
+      'pptx': 'co_present',
+    };
+
+    /* ============================================================
+       FORMATA O TAMANHO DO ARQUIVO
+       Converte bytes para string legível: 1234567 → "1.18 MB"
+    ============================================================ */
+    function formatarTamanho(bytes) {
+      if (bytes < 1024) return bytes + ' B';
+      if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+      return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+    }
+
+    /* ============================================================
+       PEGA A EXTENSÃO DE UM NOME DE ARQUIVO
+       "trabalho.final.pdf" → "pdf" — usado para escolher o ícone.
+    ============================================================ */
+    function pegarExtensao(nome) {
+      const partes = nome.split('.');
+      return partes.length > 1 ? partes.pop().toLowerCase() : '';
+    }
+
+    /* ============================================================
+       TRATA A SELEÇÃO/MUDANÇA DE ARQUIVO
+       Chamada pelo clique no input file e pelo drag & drop.
+       Atualiza o preview com nome, tamanho e ícone correto.
+    ============================================================ */
+    function tratarArquivoSelecionado(arquivo) {
+      if (!arquivo) return;
+
+      // Feedback rápido de tamanho no client (puro front, sem backend)
+      const limite = 20 * 1024 * 1024; // 20MB
+      if (arquivo.size > limite) {
+        showAlert('Arquivo maior que 20MB. Reduza o tamanho e tente novamente.');
+        return;
+      }
+
+      // Atualiza o preview visual
+      const extensao = pegarExtensao(arquivo.name);
+      fileName.textContent = arquivo.name;
+      fileMeta.textContent = `${extensao.toUpperCase()} · ${formatarTamanho(arquivo.size)}`;
+      fileIcon.textContent = ICONES_POR_TIPO[extensao] || 'description';
+
+      // Muda o visual do dropzone para o estado verde "arquivo selecionado"
+      dropzone.classList.add('has-file');
+
+      clearAlert();
+    }
+
+    // Seleção via clique no input file
+    fileInput.addEventListener('change', function () {
+      tratarArquivoSelecionado(this.files[0]);
+    });
+
+    // Remove o arquivo selecionado quando clica no X.
+    // stopPropagation() impede que o clique no botão reabra o seletor de arquivo.
+    fileRemove.addEventListener('click', function (e) {
+      e.stopPropagation();
+      fileInput.value = '';
+      dropzone.classList.remove('has-file');
+    });
+
+    /* ============================================================
+       DRAG & DROP NATIVO
+       O HTML5 expõe dragover/dragleave/drop direto no DOM.
+       Prevenimos o comportamento padrão (abrir o arquivo numa nova aba)
+       para que o drop funcione corretamente.
+    ============================================================ */
+    ['dragenter', 'dragover'].forEach(evento => {
+      dropzone.addEventListener(evento, function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        dropzone.classList.add('is-dragging');
+      });
+    });
+
+    ['dragleave', 'drop'].forEach(evento => {
+      dropzone.addEventListener(evento, function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        dropzone.classList.remove('is-dragging');
+      });
+    });
+
+    dropzone.addEventListener('drop', function (e) {
+      const arquivos = e.dataTransfer.files;
+      if (arquivos.length > 0) {
+        // Atribui o arquivo dropado ao input file via DataTransfer
+        fileInput.files = arquivos;
+        tratarArquivoSelecionado(arquivos[0]);
+      }
+    });
+
+    /* ============================================================
+       CONTADORES DE CARACTERES NOS CAMPOS DE TEXTO
+       Atualizam em tempo real conforme o usuário digita.
+    ============================================================ */
+    inputTitulo.addEventListener('input', function () {
+      tituloCounter.textContent = `${this.value.length}/120`;
+    });
+
+    inputDescricao.addEventListener('input', function () {
+      descricaoCounter.textContent = `${this.value.length}/500`;
+    });
+
+    /* ============================================================
+       FUNÇÕES UTILITÁRIAS DE FEEDBACK (UI)
+    ============================================================ */
+    function showAlert(msg) {
+      alertMsg.textContent = msg;
+      alertBox.className = 'alert is-error';
+    }
+    function clearAlert() {
+      alertBox.className = 'alert';
+    }
+    function setLoading(on) {
+      btnSubmit.disabled    = on;
+      spinner.style.display = on ? 'block'      : 'none';
+      btnIcon.style.display = on ? 'none'       : 'inline-block';
+      btnLabel.textContent  = on ? 'Enviando…'  : 'Publicar material';
+    }
+
+    /* ============================================================
+       TRANSIÇÃO PARA O ESTADO DE SUCESSO
+    ============================================================ */
+    function showSuccess(titulo) {
+      formState.style.display    = 'none';
+      successState.style.display = 'flex';
+      successTitulo.textContent  = titulo;
+    }
+
+    /* ============================================================
+       RESETA O FORMULÁRIO PARA NOVO UPLOAD
+       Chamado pelo botão "Enviar outro" no estado de sucesso.
+    ============================================================ */
+    function resetForm() {
+      successState.style.display = 'none';
+      formState.style.display    = 'block';
+
+      // Limpa todos os campos
+      fileInput.value         = '';
+      inputTitulo.value       = '';
+      inputDisciplina.value   = '';
+      inputDescricao.value    = '';
+      dropzone.classList.remove('has-file');
+      tituloCounter.textContent    = '0/120';
+      descricaoCounter.textContent = '0/500';
+
+      // Reseta a barra de progresso
+      progressWrap.classList.remove('is-visible');
+      progressFill.style.width    = '0%';
+      progressPercent.textContent = '0%';
+
+      clearAlert();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    /* ============================================================
+       SUBMIT DO FORMULÁRIO — FRONT-ONLY (sem backend, sem validação)
+       Apenas simula a barra de progresso de 0 a 100% e depois
+       mostra o estado de sucesso.
+
+       Quando houver backend, substituir a simulação abaixo por um
+       FormData + XMLHttpRequest (que tem xhr.upload.onprogress para
+       alimentar a barra de verdade) apontando para a API real.
+    ============================================================ */
+    document.getElementById('upload-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+      clearAlert();
+
+      // Texto exibido na tela de sucesso: título digitado, ou nome do
+      // arquivo, ou um fallback genérico.
+      const arquivo = fileInput.files && fileInput.files[0];
+      const titulo  = inputTitulo.value.trim() || (arquivo ? arquivo.name : 'Material');
+
+      setLoading(true);
+      progressWrap.classList.add('is-visible');
+
+      // Simulação de progresso — incrementos irregulares para parecer real
+      let p = 0;
+      const timer = setInterval(function () {
+        p += Math.random() * 18 + 6;
+        if (p >= 100) {
+          p = 100;
+          clearInterval(timer);
+        }
+        progressFill.style.width    = p + '%';
+        progressPercent.textContent = Math.round(p) + '%';
+
+        if (p === 100) {
+          // Pequena pausa para o usuário ver os 100% antes de trocar de tela
+          setTimeout(function () {
+            setLoading(false);
+            progressWrap.classList.remove('is-visible');
+            showSuccess(titulo);
+          }, 350);
+        }
+      }, 160);
+    });
+  </script>
+
+</body>
+</html>
