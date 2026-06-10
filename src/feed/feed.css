@@ -251,6 +251,10 @@ h3 {
   margin-bottom: 16px;
 }
 
+.material-card.is-hidden {
+  display: none;
+}
+
 .card-topline,
 .material-meta,
 .card-actions {
@@ -331,6 +335,11 @@ h3 {
   color: #B42318;
 }
 
+.card-actions button.is-liked {
+  background: #FEE2E2;
+  color: #991B1B;
+}
+
 .card-actions a {
   padding: 0 14px;
   background: var(--soft-blue);
@@ -338,8 +347,43 @@ h3 {
 }
 
 .rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
   color: var(--warning);
   font-weight: 700;
+}
+
+.star-button {
+  min-height: auto;
+  padding: 0 1px;
+  border: 0;
+  background: transparent;
+  color: #CBD5E1;
+  cursor: pointer;
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+.star-button.is-active,
+.star-button:hover,
+.star-button:focus {
+  color: var(--warning);
+}
+
+.empty-state {
+  display: none;
+  padding: 20px;
+  border: 1px dashed var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+  color: var(--muted);
+  font-weight: 700;
+  text-align: center;
+}
+
+.empty-state.is-visible {
+  display: block;
 }
 
 .question-card .tag {
