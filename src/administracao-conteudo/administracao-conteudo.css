@@ -379,3 +379,244 @@ body {
 .header-actions .material-symbols-outlined:hover {
     opacity: 0.8;                   /* Efeito de feedback visual opaco ao passar o mouse */
 }
+
+/* ==========================================================================
+   COMPORTAMENTO DAS ABAS (JavaScript)
+   ========================================================================== */
+.tab-content {
+    display: none; /* Esconde todas as abas */
+}
+
+.tab-content.active {
+    display: block; /* Mostra apenas a aba ativa */
+    animation: fadeIn 0.3s ease-in-out; 
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ==========================================================================
+   TELA DE MODERAÇÃO DE CONTEÚDO
+   ========================================================================== */
+
+/* Container cinza ao fundo (como no wireframe) */
+.moderation-list-container {
+    background-color: #F0F2F5; /* Cinza bem suave */
+    border-radius: var(--border-radius-md);
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px; /* Espaçamento entre as linhas */
+    border: 1px solid #E4E7EC;
+}
+
+/* Linha branca (Cartão do material) */
+.moderation-row {
+    background-color: var(--white);
+    border-radius: var(--border-radius-sm);
+    padding: 20px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.04);
+    border: 1px solid #E4E7EC;
+    transition: transform 0.2s ease;
+}
+
+.moderation-row:hover {
+    transform: translateY(-2px); /* Efeito sutil de levantar ao passar o mouse */
+}
+
+/* Textos da linha */
+.moderation-info {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.material-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--deep-black);
+}
+
+.material-meta {
+    font-size: 13px;
+    color: var(--gray-text);
+    font-weight: 500;
+}
+
+.material-meta .divider {
+    margin: 0 4px;
+    color: #D0D5DD;
+}
+
+/* Área dos Botões de Ação */
+.moderation-actions {
+    display: flex;
+    gap: 12px;
+}
+
+.action-btn {
+    background: none;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.action-btn .material-symbols-outlined {
+    font-size: 24px;
+}
+
+/* Cores específicas para cada botão */
+.view-btn {
+    color: var(--gray-text);
+    background-color: var(--off-white);
+}
+.view-btn:hover {
+    background-color: #E4E7EC;
+    color: var(--deep-black);
+}
+
+.approve-btn {
+    color: #10B981; /* Verde sucesso */
+    background-color: #ECFDF5;
+}
+.approve-btn:hover {
+    background-color: #D1FAE5;
+}
+
+.reject-btn {
+    color: #EF4444; /* Vermelho erro */
+    background-color: #FEF2F2;
+}
+.reject-btn:hover {
+    background-color: #FEE2E2;
+}
+
+/* ==========================================================================
+   TELA DE GERENCIAMENTO DE USUÁRIOS
+   ========================================================================== */
+
+.user-management-container {
+    background-color: #F0F2F5;
+    border-radius: var(--border-radius-md);
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px; /* Espaço entre as linhas */
+    border: 1px solid #E4E7EC;
+}
+
+/* Criação da grade invisível para alinhar os textos perfeitamente */
+.user-grid-header,
+.user-grid-row {
+    display: grid;
+    /* Divide em 6 colunas proporcionais, deixando a do e-mail maior */
+    grid-template-columns: 1fr 2fr 1fr 1fr 1fr 80px; 
+    align-items: center;
+    padding: 0 24px;
+}
+
+/* Textos do cabeçalho */
+.user-grid-header {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--gray-text);
+    margin-bottom: 8px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+
+/* O cartão branco de cada usuário */
+.user-grid-row {
+    background-color: var(--white);
+    border-radius: var(--border-radius-sm);
+    height: 64px;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.04);
+    border: 1px solid #E4E7EC;
+    transition: transform 0.2s ease;
+    font-size: 14px;
+    color: var(--deep-black);
+}
+
+.user-grid-row:hover {
+    transform: translateY(-2px);
+}
+
+/* Estilos específicos de cada coluna */
+.user-name {
+    font-weight: 600;
+}
+
+.user-email {
+    color: var(--gray-text);
+    text-decoration: underline; /* Linha embaixo do email igual ao wireframe */
+    cursor: pointer;
+}
+
+.user-uploads {
+    font-weight: 500;
+}
+
+/* Destaca o Perfil quando for Admin */
+.user-role.admin-role {
+    color: var(--royal-blue);
+    font-weight: 700;
+}
+
+/* Cores do Status */
+.active-status {
+    color: #10B981; /* Verde */
+    font-weight: 600;
+}
+
+.suspended-status {
+    color: #EF4444; /* Vermelho */
+    font-weight: 600;
+}
+
+/* Alinha o ícone de ação para o final da coluna */
+.user-action {
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* O botão de excluir baseia-se na classe .action-btn que fizemos antes */
+.delete-btn {
+    color: var(--gray-text);
+    background-color: var(--off-white);
+}
+
+.delete-btn:hover {
+    background-color: #FEE2E2;
+    color: #EF4444; /* Fica vermelho forte ao passar o mouse */
+}
+
+
+/* Prepara os elementos para terem uma animação suave em vez de um pulo brusco */
+.metric-card,
+.activity-row {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Quando o mouse passa por cima dos Cartões de Métrica */
+.metric-card:hover {
+    transform: translateY(-4px); /* Sobe 4 pixels (um pouco mais por ser um cartão maior) */
+    box-shadow: 0px 8px 16px rgba(0, 74, 173, 0.08); /* Aumenta a sombra levemente azulada */
+}
+
+/* Quando o mouse passa por cima das Linhas de Atividade */
+.activity-row:hover {
+    transform: translateY(-2px); /* Sobe 2 pixels igual às tabelas */
+    background-color: var(--white); /* Deixa o fundo totalmente branco para destacar */
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.04);
+}

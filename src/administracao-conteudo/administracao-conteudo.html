@@ -55,7 +55,7 @@
                     
                     <div class="nav-divider"></div>
 
-                    <a href="#" class="nav-item">
+                    <a href="../login-e-perfil/perfil-usuario.html" class="nav-item">
                         <span class="material-symbols-outlined icon-custom">person</span> 
                         <span class="nav-text">Perfil</span>
                     </a>
@@ -75,64 +75,59 @@
 
         <main class="admin-main">
             
-            <section class="admin-tabs-section">
-                <div class="filter-tags">
-                    <button class="filter-btn active">Visão Geral</button>
-                    <button class="filter-btn">Moderação de Conteúdo</button>
-                    <button class="filter-btn">Gerenciamento de Usuários</button>
+    <section class="admin-tabs-section">
+        <div class="filter-tags">
+            <button class="filter-btn active" data-target="visao-geral">Visão Geral</button>
+            <button class="filter-btn" data-target="moderacao">Moderação de Conteúdo</button>
+            <button class="filter-btn" data-target="gerenciamento">Gerenciamento de Usuários</button>
+        </div>
+    </section>
+
+    <div id="visao-geral" class="tab-content active">
+        
+        <section class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-header">
+                    <span class="material-symbols-outlined metric-icon-box">person</span>
+                    <span class="metric-value">1.256</span>
                 </div>
-            </section>
+                <span class="metric-label">Total de Usuários</span>
+            </div>
+            <div class="metric-card">
+                <div class="metric-header">
+                    <span class="material-symbols-outlined metric-icon-box">search</span>
+                    <span class="metric-value">8.154</span>
+                </div>
+                <span class="metric-label">Total de Uploads</span>
+            </div>
+            <div class="metric-card">
+                <div class="metric-header">
+                    <span class="material-symbols-outlined metric-icon-box">settings</span>
+                    <span class="metric-value">15</span>
+                </div>
+                <span class="metric-label">Revisões Pendentes</span>
+            </div>
+            <div class="metric-card accent-card">
+                <div class="metric-header">
+                    <span class="material-symbols-outlined metric-icon-box">person</span>
+                    <span class="metric-value">+35%</span>
+                </div>
+                <span class="metric-label">Crescimento este mês</span>
+            </div>
+        </section>
 
-            <section class="metrics-grid">
-                
-                <div class="metric-card">
-                    <div class="metric-header">
-                        <span class="material-symbols-outlined metric-icon-box">person</span>
-                        <span class="metric-value">1.256</span>
+        <section class="activity-section">
+            <h2 class="section-title">Atividade Recente</h2>
+            <div class="activity-list-container">
+                <div class="activity-row">
+                    <div class="activity-details">
+                        <span class="user-avatar-mini">U1</span>
+                        <p class="activity-message"><strong>User1</strong> postou um novo material</p>
                     </div>
-                    <span class="metric-label">Total de Usuários</span>
+                    <span class="activity-time">Agora</span>
                 </div>
 
-                <div class="metric-card">
-                    <div class="metric-header">
-                        <span class="material-symbols-outlined metric-icon-box">search</span>
-                        <span class="metric-value">8.154</span>
-                    </div>
-                    <span class="metric-label">Total de Uploads</span>
-                </div>
-
-                <div class="metric-card">
-                    <div class="metric-header">
-                        <span class="material-symbols-outlined metric-icon-box">settings</span>
-                        <span class="metric-value">15</span>
-                    </div>
-                    <span class="metric-label">Revisões Pendentes</span>
-                </div>
-
-                <div class="metric-card accent-card">
-                    <div class="metric-header">
-                        <span class="material-symbols-outlined metric-icon-box">person</span>
-                        <span class="metric-value">+35%</span>
-                    </div>
-                    <span class="metric-label">Crescimento este mês</span>
-                </div>
-
-            </section>
-
-            <section class="activity-section">
-                <h2 class="section-title">Atividade Recente</h2>
-                
-                <div class="activity-list-container">
-                    
-                    <div class="activity-row">
-                        <div class="activity-details">
-                            <span class="user-avatar-mini">U1</span>
-                            <p class="activity-message"><strong>User1</strong> postou um novo material</p>
-                        </div>
-                        <span class="activity-time">Agora</span>
-                    </div>
-
-                    <div class="activity-row">
+                <div class="activity-row">
                         <div class="activity-details">
                             <span class="user-avatar-mini">U2</span>
                             <p class="activity-message"><strong>User2</strong> postou um novo material</p>
@@ -163,12 +158,160 @@
                         </div>
                         <span class="activity-time">3 minutos atrás</span>
                     </div>
+            </div>
+        </section>
 
-                </div>
-            </section>
+    </div> 
+    <div id="moderacao" class="tab-content">
+    <h2 class="section-title">Revisões Pendentes</h2>
+    
+    <div class="moderation-list-container">
+        
+        <div class="moderation-row">
+            <div class="moderation-info">
+                <h3 class="material-title">Programação Orientada a Objetos</h3>
+                <p class="material-meta">Autor: Ana Machado <span class="divider">|</span> 15/05/2026</p>
+            </div>
+            <div class="moderation-actions">
+                <button class="action-btn view-btn" title="Visualizar material">
+                    <span class="material-symbols-outlined">visibility</span>
+                </button>
+                <button class="action-btn approve-btn" title="Aprovar material">
+                    <span class="material-symbols-outlined">check_circle</span>
+                </button>
+                <button class="action-btn reject-btn" title="Reprovar material">
+                    <span class="material-symbols-outlined">cancel</span>
+                </button>
+            </div>
+        </div>
 
-        </main>
+        <div class="moderation-row">
+            <div class="moderation-info">
+                <h3 class="material-title">Resumo - Padrões de Projeto (GoF)</h3>
+                <p class="material-meta">Autor: Ana Costa <span class="divider">|</span> 19/05/2026</p>
+            </div>
+            <div class="moderation-actions">
+                <button class="action-btn view-btn" title="Visualizar material">
+                    <span class="material-symbols-outlined">visibility</span>
+                </button>
+                <button class="action-btn approve-btn" title="Aprovar material">
+                    <span class="material-symbols-outlined">check_circle</span>
+                </button>
+                <button class="action-btn reject-btn" title="Reprovar material">
+                    <span class="material-symbols-outlined">cancel</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="moderation-row">
+            <div class="moderation-info">
+                <h3 class="material-title">Lista de Exercícios - Banco de Dados SQL</h3>
+                <p class="material-meta">Autor: Carlos Mendes <span class="divider">|</span> 18/05/2026</p>
+            </div>
+            <div class="moderation-actions">
+                <button class="action-btn view-btn" title="Visualizar material">
+                    <span class="material-symbols-outlined">visibility</span>
+                </button>
+                <button class="action-btn approve-btn" title="Aprovar material">
+                    <span class="material-symbols-outlined">check_circle</span>
+                </button>
+                <button class="action-btn reject-btn" title="Reprovar material">
+                    <span class="material-symbols-outlined">cancel</span>
+                </button>
+            </div>
+        </div>
+
+         <div class="moderation-row">
+            <div class="moderation-info">
+                <h3 class="material-title">PDF - Introdução ao Python</h3>
+                <p class="material-meta">Autor: Maria Oliveira <span class="divider">|</span> 11/05/2026</p>
+            </div>
+            <div class="moderation-actions">
+                <button class="action-btn view-btn" title="Visualizar material">
+                    <span class="material-symbols-outlined">visibility</span>
+                </button>
+                <button class="action-btn approve-btn" title="Aprovar material">
+                    <span class="material-symbols-outlined">check_circle</span>
+                </button>
+                <button class="action-btn reject-btn" title="Reprovar material">
+                    <span class="material-symbols-outlined">cancel</span>
+                </button>
+            </div>
+        </div>
     </div>
+</div>
 
+    <div id="gerenciamento" class="tab-content">
+    <h2 class="section-title">Configurações de Usuário</h2>
+    
+    <div class="user-management-container">
+        
+        <div class="user-grid-header">
+            <span>Usuário</span>
+            <span>E-mail</span>
+            <span>Uploads</span>
+            <span>Perfil</span>
+            <span>Status</span>
+            <span>Ação</span>
+        </div>
+
+        <div class="user-grid-row">
+            <span class="user-name">User1</span>
+            <span class="user-email">User1@gmail.com</span>
+            <span class="user-uploads">23</span>
+            <span class="user-role">Usuário</span>
+            <span class="user-status active-status">Ativo</span>
+            <div class="user-action">
+                <button class="action-btn delete-btn" title="Excluir usuário">
+                    <span class="material-symbols-outlined">delete</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="user-grid-row">
+            <span class="user-name">User2</span>
+            <span class="user-email">User2@gmail.com</span>
+            <span class="user-uploads">1</span>
+            <span class="user-role admin-role">Admin</span>
+            <span class="user-status active-status">Ativo</span>
+            <div class="user-action">
+                <button class="action-btn delete-btn" title="Excluir usuário">
+                    <span class="material-symbols-outlined">delete</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="user-grid-row">
+            <span class="user-name">User3</span>
+            <span class="user-email">User3@gmail.com</span>
+            <span class="user-uploads">2</span>
+            <span class="user-role">Usuário</span>
+            <span class="user-status suspended-status">Suspenso</span>
+            <div class="user-action">
+                <button class="action-btn delete-btn" title="Excluir usuário">
+                    <span class="material-symbols-outlined">delete</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="user-grid-row">
+            <span class="user-name">User4</span>
+            <span class="user-email">User4@gmail.com</span>
+            <span class="user-uploads">23</span>
+            <span class="user-role">Usuário</span>
+            <span class="user-status active-status">Ativo</span>
+            <div class="user-action">
+                <button class="action-btn delete-btn" title="Excluir usuário">
+                    <span class="material-symbols-outlined">delete</span>
+                </button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+</main>
+    </div>
+        <script src="administracao-conteudo.js"></script>
 </body>
 </html>
