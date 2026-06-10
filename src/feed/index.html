@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StudyShare - Feed</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&icon_names=home,search,settings,person,upload,bookmark,favorite,visibility,filter_list,download,star,description,menu_book,chat_bubble&display=block" rel="stylesheet">
+  <link rel="stylesheet" href="feed.css">
+</head>
+<body>
+  <aside class="sidebar">
+    <a class="brand" href="index.html" aria-label="Página inicial StudyShare">
+      <span class="brand-logo">SS</span>
+      <span>StudyShare</span>
+    </a>
+
+    <nav class="side-nav" aria-label="Navegação principal">
+      <a class="nav-item active" href="index.html">
+        <span class="material-symbols-outlined">home</span>
+        Feed
+      </a>
+      <a class="nav-item" href="../uploadArquivos/uploadArquivos.php">
+        <span class="material-symbols-outlined">upload</span>
+        Novo material
+      </a>
+      <a class="nav-item" href="../visualizacao-conteudo/visualizacao-conteudo.html">
+        <span class="material-symbols-outlined">visibility</span>
+        Visualizar conteúdo
+      </a>
+      <a class="nav-item" href="../login-e-perfil/perfil-usuario.html">
+        <span class="material-symbols-outlined">person</span>
+        Perfil
+      </a>
+      <a class="nav-item" href="#">
+        <span class="material-symbols-outlined">bookmark</span>
+        Salvos
+      </a>
+      <a class="nav-item" href="#">
+        <span class="material-symbols-outlined">settings</span>
+        Configurações
+      </a>
+    </nav>
+  </aside>
+
+  <main class="main-content">
+    <header class="page-header">
+      <div>
+        <p class="eyebrow">Materiais acadêmicos</p>
+        <h1>Feed de materiais</h1>
+        <p class="header-description">
+          Encontre resumos, PDFs, slides e perguntas recentes das disciplinas do seu interesse.
+        </p>
+      </div>
+
+      <a class="primary-action" href="../uploadArquivos/uploadArquivos.php">
+        <span class="material-symbols-outlined">upload</span>
+        Enviar material
+      </a>
+    </header>
+
+    <section class="search-panel" aria-labelledby="search-title">
+      <div class="section-title">
+        <span class="material-symbols-outlined">search</span>
+        <h2 id="search-title">Buscar materiais</h2>
+      </div>
+
+      <form class="filters">
+        <label class="field field-large">
+          <span>Palavra-chave</span>
+          <input type="search" name="busca" placeholder="Ex.: banco de dados, algoritmo, HTML">
+        </label>
+
+        <label class="field">
+          <span>Disciplina</span>
+          <select name="disciplina">
+            <option>Todas</option>
+            <option>Banco de Dados</option>
+            <option>Algoritmos</option>
+            <option>Engenharia de Software</option>
+            <option>Desenvolvimento Web</option>
+          </select>
+        </label>
+
+        <label class="field">
+          <span>Curso</span>
+          <select name="curso">
+            <option>Todos</option>
+            <option>Sistemas de Informação</option>
+            <option>Análise e Desenvolvimento de Sistemas</option>
+          </select>
+        </label>
+
+        <label class="field">
+          <span>Tipo</span>
+          <select name="tipo">
+            <option>Todos</option>
+            <option>PDF</option>
+            <option>Resumo</option>
+            <option>Slides</option>
+            <option>Pergunta</option>
+          </select>
+        </label>
+
+        <button class="filter-button" type="submit">
+          <span class="material-symbols-outlined">filter_list</span>
+          Filtrar
+        </button>
+      </form>
+    </section>
+
+    <section class="content-layout">
+      <div class="feed-column">
+        <div class="section-heading">
+          <h2>Publicações recentes</h2>
+          <span>4 materiais encontrados</span>
+        </div>
+
+        <article class="material-card">
+          <div class="card-topline">
+            <span class="tag">PDF</span>
+            <span class="discipline">Banco de Dados</span>
+          </div>
+          <h3>Resumo de Modelagem Relacional</h3>
+          <p>
+            Material com conceitos de entidade, relacionamento, chave primária, chave estrangeira e normalização.
+          </p>
+
+          <div class="material-meta">
+            <span>Autor: Helena Campos</span>
+            <span>Curso: Sistemas de Informação</span>
+            <span>Publicado em: 18/05/2026</span>
+          </div>
+
+          <div class="pdf-preview" aria-label="Prévia das primeiras páginas do PDF">
+            <div class="preview-page">Página 1</div>
+            <div class="preview-page">Página 2</div>
+            <div class="preview-page">Página 3</div>
+          </div>
+
+          <footer class="card-actions">
+            <button type="button">
+              <span class="material-symbols-outlined">favorite</span>
+              Curtir 24
+            </button>
+            <span class="rating" aria-label="Avaliação 4 de 5">★★★★☆</span>
+            <a href="../visualizacao-conteudo/visualizacao-conteudo.html">
+              Ver conteúdo
+            </a>
+          </footer>
+        </article>
+
+        <article class="material-card">
+          <div class="card-topline">
+            <span class="tag">Slides</span>
+            <span class="discipline">Engenharia de Software</span>
+          </div>
+          <h3>Introdução a Requisitos de Software</h3>
+          <p>
+            Slides sobre requisitos funcionais, requisitos não funcionais, regras de negócio e casos de uso.
+          </p>
+
+          <div class="material-meta">
+            <span>Autor: Yago Silva</span>
+            <span>Curso: Sistemas de Informação</span>
+            <span>Publicado em: 17/05/2026</span>
+          </div>
+
+          <footer class="card-actions">
+            <button type="button">
+              <span class="material-symbols-outlined">favorite</span>
+              Curtir 18
+            </button>
+            <span class="rating" aria-label="Avaliação 5 de 5">★★★★★</span>
+            <a href="../visualizacao-conteudo/visualizacao-conteudo.html">
+              Ver conteúdo
+            </a>
+          </footer>
+        </article>
+
+        <article class="material-card question-card">
+          <div class="card-topline">
+            <span class="tag">Pergunta</span>
+            <span class="discipline">Algoritmos</span>
+          </div>
+          <h3>Como diferenciar while e do while?</h3>
+          <p>
+            Dúvida publicada por estudante sobre estruturas de repetição e fluxo de execução em pseudocódigo.
+          </p>
+
+          <div class="material-meta">
+            <span>Autor: João Victor</span>
+            <span>Curso: Sistemas de Informação</span>
+            <span>Publicado em: 16/05/2026</span>
+          </div>
+
+          <footer class="card-actions">
+            <button type="button">
+              <span class="material-symbols-outlined">chat_bubble</span>
+              Responder
+            </button>
+            <span class="rating">12 respostas</span>
+            <a href="../visualizacao-conteudo/visualizacao-conteudo.html">
+              Abrir discussão
+            </a>
+          </footer>
+        </article>
+      </div>
+
+      <aside class="interest-panel" aria-labelledby="interests-title">
+        <div class="section-title">
+          <span class="material-symbols-outlined">menu_book</span>
+          <h2 id="interests-title">Seus interesses</h2>
+        </div>
+
+        <ul class="interest-list">
+          <li>Banco de Dados</li>
+          <li>Algoritmos</li>
+          <li>Desenvolvimento Web</li>
+        </ul>
+
+        <div class="summary-card">
+          <strong>RF-16</strong>
+          <p>
+            Esta área representa a exibição de materiais recentes conforme disciplinas selecionadas no perfil.
+          </p>
+        </div>
+      </aside>
+    </section>
+  </main>
+</body>
+</html>
