@@ -9,6 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&icon_names=home,search,settings,person,upload,bookmark,favorite,visibility,filter_list,download,star,description,menu_book,chat_bubble&display=block" rel="stylesheet">
   <link rel="stylesheet" href="feed.css">
+  <script src="feed.js" defer></script>
 </head>
 <body>
   <aside class="sidebar">
@@ -67,16 +68,16 @@
         <h2 id="search-title">Buscar materiais</h2>
       </div>
 
-      <form class="filters">
+      <form class="filters" id="feedFilters">
         <label class="field field-large">
           <span>Palavra-chave</span>
-          <input type="search" name="busca" placeholder="Ex.: banco de dados, algoritmo, HTML">
+          <input id="searchInput" type="search" name="busca" placeholder="Ex.: banco de dados, algoritmo, HTML">
         </label>
 
         <label class="field">
           <span>Disciplina</span>
-          <select name="disciplina">
-            <option>Todas</option>
+          <select id="disciplineFilter" name="disciplina">
+            <option value="">Todas</option>
             <option>Banco de Dados</option>
             <option>Algoritmos</option>
             <option>Engenharia de Software</option>
@@ -86,8 +87,8 @@
 
         <label class="field">
           <span>Curso</span>
-          <select name="curso">
-            <option>Todos</option>
+          <select id="courseFilter" name="curso">
+            <option value="">Todos</option>
             <option>Sistemas de Informação</option>
             <option>Análise e Desenvolvimento de Sistemas</option>
           </select>
@@ -95,8 +96,8 @@
 
         <label class="field">
           <span>Tipo</span>
-          <select name="tipo">
-            <option>Todos</option>
+          <select id="typeFilter" name="tipo">
+            <option value="">Todos</option>
             <option>PDF</option>
             <option>Resumo</option>
             <option>Slides</option>
@@ -115,10 +116,19 @@
       <div class="feed-column">
         <div class="section-heading">
           <h2>Publicações recentes</h2>
-          <span>4 materiais encontrados</span>
+          <span id="resultCount">3 materiais encontrados</span>
         </div>
 
-        <article class="material-card">
+        <article
+          class="material-card js-material-card"
+          data-id="material-1"
+          data-title="Resumo de Modelagem Relacional"
+          data-description="Material com conceitos de entidade, relacionamento, chave primária, chave estrangeira e normalização."
+          data-type="PDF"
+          data-discipline="Banco de Dados"
+          data-course="Sistemas de Informação"
+          data-author="Helena Campos"
+        >
           <div class="card-topline">
             <span class="tag">PDF</span>
             <span class="discipline">Banco de Dados</span>
@@ -141,18 +151,28 @@
           </div>
 
           <footer class="card-actions">
-            <button type="button">
+            <button class="like-button" type="button" data-base-likes="24" aria-pressed="false">
               <span class="material-symbols-outlined">favorite</span>
-              Curtir 24
+              <span class="like-label">Curtir</span>
+              <span class="like-count">24</span>
             </button>
-            <span class="rating" aria-label="Avaliação 4 de 5">★★★★☆</span>
+            <span class="rating js-rating" data-rating="4" aria-label="Avaliação 4 de 5"></span>
             <a href="../visualizacao-conteudo/visualizacao-conteudo.html">
               Ver conteúdo
             </a>
           </footer>
         </article>
 
-        <article class="material-card">
+        <article
+          class="material-card js-material-card"
+          data-id="material-2"
+          data-title="Introdução a Requisitos de Software"
+          data-description="Slides sobre requisitos funcionais, requisitos não funcionais, regras de negócio e casos de uso."
+          data-type="Slides"
+          data-discipline="Engenharia de Software"
+          data-course="Sistemas de Informação"
+          data-author="Yago Silva"
+        >
           <div class="card-topline">
             <span class="tag">Slides</span>
             <span class="discipline">Engenharia de Software</span>
@@ -169,18 +189,28 @@
           </div>
 
           <footer class="card-actions">
-            <button type="button">
+            <button class="like-button" type="button" data-base-likes="18" aria-pressed="false">
               <span class="material-symbols-outlined">favorite</span>
-              Curtir 18
+              <span class="like-label">Curtir</span>
+              <span class="like-count">18</span>
             </button>
-            <span class="rating" aria-label="Avaliação 5 de 5">★★★★★</span>
+            <span class="rating js-rating" data-rating="5" aria-label="Avaliação 5 de 5"></span>
             <a href="../visualizacao-conteudo/visualizacao-conteudo.html">
               Ver conteúdo
             </a>
           </footer>
         </article>
 
-        <article class="material-card question-card">
+        <article
+          class="material-card question-card js-material-card"
+          data-id="question-1"
+          data-title="Como diferenciar while e do while?"
+          data-description="Dúvida publicada por estudante sobre estruturas de repetição e fluxo de execução em pseudocódigo."
+          data-type="Pergunta"
+          data-discipline="Algoritmos"
+          data-course="Sistemas de Informação"
+          data-author="João Victor"
+        >
           <div class="card-topline">
             <span class="tag">Pergunta</span>
             <span class="discipline">Algoritmos</span>
@@ -207,6 +237,8 @@
             </a>
           </footer>
         </article>
+
+        <p class="empty-state" id="emptyState">Nenhum material encontrado com os filtros selecionados.</p>
       </div>
 
       <aside class="interest-panel" aria-labelledby="interests-title">
