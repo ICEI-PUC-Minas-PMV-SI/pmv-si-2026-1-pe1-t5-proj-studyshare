@@ -3,18 +3,17 @@
  * Página: Visualização de Conteúdo (visualizacao-conteudo.html)
  *
  * Funcionalidades:
- *  1.  Sidebar mobile (abrir/fechar)
- *  2.  Favoritar/desfavoritar – persiste no localStorage
- *  3.  Postar comentário – persiste no localStorage
- *  4.  Curtir comentário – persiste no localStorage
- *  5.  Responder comentário – persiste no localStorage
- *  6.  Compartilhar material (Web Share API / fallback clipboard)
- *  7.  Download simulado com feedback visual – persiste contador
- *  8.  Contadores de estatísticas (views, downloads, favoritos) – persistidos
- *  9.  Busca na topbar
- * 10.  Navegação ativa na sidebar
- * 11.  Botão "Novo Material"
- * 12.  Botão "Visualizar Perfil" (CTA)
+ *  1.  Favoritar/desfavoritar – persiste no localStorage
+ *  2.  Postar comentário – persiste no localStorage
+ *  3.  Curtir comentário – persiste no localStorage
+ *  4.  Responder comentário – persiste no localStorage
+ *  5.  Compartilhar material (Web Share API / fallback clipboard)
+ *  6.  Download simulado com feedback visual – persiste contador
+ *  7.  Contadores de estatísticas (views, downloads, favoritos) – persistidos
+ *  8.  Busca na topbar
+ *  9.  Navegação ativa na sidebar
+ * 10.  Botão "Novo Material"
+ * 11.  Botão "Visualizar Perfil" (CTA)
  */
 
 'use strict';
@@ -219,54 +218,80 @@ function escapeHtml(str) {
 }
 
 /* ============================================================
-   1. SIDEBAR MOBILE
+   0. CARREGAR MATERIAL SELECIONADO DO FEED
    ============================================================ */
 
-function initSidebar() {
-  const sidebar = document.querySelector('.sidebar');
-  const topbar  = document.querySelector('.topbar');
-  if (!sidebar || !topbar) return;
-
-  const menuBtn = document.createElement('button');
-  menuBtn.className = 'topbar-icon-btn sidebar-toggle-btn';
-  menuBtn.type      = 'button';
-  menuBtn.ariaLabel = 'Abrir menu de navegação';
-  menuBtn.innerHTML =
-    `<span class="material-symbols-outlined" aria-hidden="true" style="color:#fff;font-size:24px;">menu</span>`;
-  topbar.insertBefore(menuBtn, topbar.firstChild);
-
-  const overlay = document.createElement('div');
-  overlay.id = 'ss-sidebar-overlay';
-  Object.assign(overlay.style, {
-    display: 'none', position: 'fixed', inset: '0',
-    background: 'rgba(0,0,0,0.35)', zIndex: '998',
-  });
-  document.body.appendChild(overlay);
-
-  function openSidebar() {
-    sidebar.style.transform = 'translateX(0)';
-    overlay.style.display   = 'block';
-    menuBtn.ariaLabel        = 'Fechar menu de navegação';
-    menuBtn.ariaExpanded     = 'true';
+function loadMaterialFromFeed() {
+  let material;
+  try {
+    const raw = localStorage.getItem('ss_selected_material');
+    if (!raw) return;
+    material = JSON.parse(raw);
+  } catch {
+    return;
   }
 
-  function closeSidebar() {
-    sidebar.style.transform = 'translateX(-100%)';
-    overlay.style.display   = 'none';
-    menuBtn.ariaLabel        = 'Abrir menu de navegação';
-    menuBtn.ariaExpanded     = 'false';
+  // Título da página
+  if (material.title) {
+    document.title = `${material.title} – StudyShare`;
+    const titleEl = document.querySelector('.file-title');
+    if (titleEl) titleEl.textContent = material.title;
   }
 
-  menuBtn.addEventListener('click', () => {
-    sidebar.style.transform === 'translateX(0)' ? closeSidebar() : openSidebar();
-  });
+  // Badge (abreviação do tipo)
+  const badgeEl = document.querySelector('.file-badge');
+  if (badgeEl && material.type) {
+    badgeEl.textContent = material.type.slice(0, 3).toUpperCase();
+    badgeEl.className   = 'file-badge';
+  }
 
-  overlay.addEventListener('click', closeSidebar);
-  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeSidebar(); });
+  // Avatar e nome do autor
+  const metaRow = document.querySelector('.file-meta-row');
+  if (metaRow && material.author) {
+    const avatarEl = metaRow.querySelector('.file-meta-avatar');
+    if (avatarEl) {
+      const parts = material.author.trim().split(' ');
+      avatarEl.textContent = parts.length >= 2
+        ? (parts[0][0] + parts[parts.length - 1][0]).toUpperCase()
+        : parts[0][0].toUpperCase();
+    }
+    const nameSpan = metaRow.querySelectorAll('span')[1];
+    if (nameSpan) nameSpan.textContent = material.author;
+  }
+
+  // Data de publicação
+  const timeEl = document.querySelector('.file-meta-row time');
+  if (timeEl && material.date) {
+    timeEl.textContent = `Publicado em ${material.date}`;
+    const parts = material.date.split('/');
+    if (parts.length === 3) {
+      timeEl.setAttribute('datetime', `${parts[2]}-${parts[1]}-${parts[0]}`);
+    }
+  }
+
+  // Descrição
+  const descEl = document.querySelector('.description-text');
+  if (descEl && material.description) descEl.textContent = material.description;
+
+  // Tags
+  const tagsRow = document.querySelector('.tags-row');
+  if (tagsRow) {
+    const tags = [material.discipline, material.type, material.course].filter(Boolean);
+    tagsRow.innerHTML = tags.map((t) => `<span class="tag">#${t}</span>`).join('');
+  }
+
+  // Formato no painel de detalhes
+  document.querySelectorAll('.detail-row').forEach((row) => {
+    const key = row.querySelector('.detail-key');
+    const val = row.querySelector('.detail-val');
+    if (key && val && key.textContent.trim() === 'Formato' && material.type) {
+      val.textContent = material.type;
+    }
+  });
 }
 
 /* ============================================================
-   2. FAVORITAR / DESFAVORITAR – com localStorage
+   1. FAVORITAR / DESFAVORITAR – com localStorage
    ============================================================ */
 
 function initFavorite() {
@@ -755,13 +780,15 @@ function initProfileCta() {
    ============================================================ */
 
 document.addEventListener('DOMContentLoaded', () => {
+  // Popula a página com o material clicado no feed (deve vir antes de loadState)
+  loadMaterialFromFeed();
+
   // Carrega estado persistido (ou valores-base do HTML)
   STATE = loadState();
 
   // Aplica contadores ao DOM antes de qualquer incremento
   applyStatsToDOM();
 
-  initSidebar();
   initFavorite();
   initExistingComments();
   renderSavedComments();   // renderiza comentários do localStorage

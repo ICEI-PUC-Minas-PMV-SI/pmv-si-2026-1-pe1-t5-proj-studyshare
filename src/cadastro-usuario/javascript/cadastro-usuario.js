@@ -461,8 +461,8 @@ function initFormSubmit() {
     submitBtn.disabled  = true;
     const originalHTML  = submitBtn.innerHTML;
     submitBtn.innerHTML =
-      `<img src="../../docs/icons/progress.svg" alt="" aria-hidden="true"
-        style="width:18px;height:18px;animation:spin 1s linear infinite;" /> Criando conta…`;;
+      `<img src="docs/icons/progress.svg" alt="" aria-hidden="true"
+        style="width:18px;height:18px;animation:spin 1s linear infinite;" /> Criando conta…`;
 
     // Simula latência de rede (1,5 s)
     await new Promise((resolve) => setTimeout(resolve, 1500));
@@ -479,11 +479,11 @@ function initFormSubmit() {
     const usuario = cadastrarUsuario(dados);
 
     // --- Feedback de sucesso ---
-    submitBtn.innerHTML        = `<img src="../../docs/icons/check_circle.svg" alt="" aria-hidden="true" style="width:18px;height:18px;" /> Conta criada!`;
+    submitBtn.innerHTML        = `<img src="docs/icons/check_circle.svg" alt="" aria-hidden="true" style="width:18px;height:18px;" /> Conta criada!`;
     submitBtn.style.background = '#065f46';
     submitBtn.disabled         = false;
 
-    showToast(`Bem-vindo(a), ${usuario.nome}! Conta criada com sucesso.`, 'success');
+    showToast(`Bem-vindo(a), ${usuario.nome}! Conta criada com sucesso 🎉`, 'success');
 
     // Em produção: redirecionar para o feed após 2 s
     // setTimeout(() => { window.location.href = 'index.html'; }, 2000);
@@ -516,7 +516,37 @@ function initRequiredLabels() {
 }
 
 /* ============================================================
-   7. EXIBIR CONTADOR DE USUÁRIOS CADASTRADOS (DEBUG/DEMO)
+   7. USUÁRIO PADRÃO DE DEMONSTRAÇÃO
+   Se o localStorage estiver vazio, cria automaticamente um
+   registro inicial para facilitar testes sem precisar cadastrar.
+   ============================================================ */
+
+function initUsuarioPadrao() {
+  const lista = getUsuarios();
+  if (lista.length > 0) return; // já existe pelo menos um cadastro
+
+  const usuarioPadrao = {
+    id:          Date.now(),
+    nome:        'Estudante',
+    sobrenome:   'Demo',
+    email:       'estudante.demo@studyshare.com',
+    username:    'estudante_demo',
+    instituicao: 'StudyShare University',
+    criadoEm:    new Date().toISOString(),
+  };
+
+  saveUsuarios([usuarioPadrao]);
+  localStorage.setItem(LS_KEYS.usuarioLogado, JSON.stringify(usuarioPadrao));
+
+  console.info(
+    '[StudyShare] Usuário padrão criado automaticamente.\n',
+    'E-mail:   estudante.demo@studyshare.com\n',
+    'Username: estudante_demo'
+  );
+}
+
+/* ============================================================
+   8. EXIBIR CONTADOR DE USUÁRIOS CADASTRADOS (DEBUG/DEMO)
    Mostra discretamente quantos usuários já estão salvos.
    Remova este bloco em produção se não for necessário.
    ============================================================ */
@@ -541,6 +571,7 @@ function initCadastroCounter() {
    ============================================================ */
 
 document.addEventListener('DOMContentLoaded', () => {
+  initUsuarioPadrao();     // cria registro demo se localStorage estiver vazio
   initPasswordToggle();
   createStrengthIndicator();
   initUsernameCounter();
