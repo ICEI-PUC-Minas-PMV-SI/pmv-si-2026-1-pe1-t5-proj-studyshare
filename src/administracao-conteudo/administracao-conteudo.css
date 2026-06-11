@@ -442,6 +442,12 @@ body {
     color: var(--deep-black);
 }
 
+.material-title a {
+    text-decoration: none; 
+    color: inherit; 
+    cursor: pointer;
+}
+
 .material-meta {
     font-size: 13px;
     color: var(--gray-text);
