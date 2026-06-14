@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<!-- ============================================================
+     StudyShare — Tela de Recuperação de Senha (FRONT-ONLY)
+     Arquivo: redefinicao-senha.html
+
+     Versão somente frontend: HTML + CSS + JS, sem backend (PHP).
+     - Não há envio real de e-mail/SMS nem validação server-side.
+     - O submit gera uma senha provisória, grava no localStorage
+       (chave "studyshare:senha") e mostra na tela.
+     - Mantém 100% do design system do projeto (cores, fontes, ícones).
+============================================================ -->
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Recuperar Senha — StudyShare</title>
+
+  <!-- Fonte Inter — tipografia padrão do projeto -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+
+  <!-- Ícones Material Symbols — iconografia do projeto.
+       Carregamos a família completa com variações de FILL, peso e tamanho óptico. -->
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+
+  <!-- CSS externo do projeto -->
+  <link rel="stylesheet" href="redefinicao-senha.css"/>
+</head>
+<body>
+
+  <!-- Card isolado — sem sidebar ou topbar porque a tela é acessada antes do login -->
+  <div class="card">
+
+    <!-- Header azul com ícone de cadeado e título -->
+    <div class="card-header">
+      <div class="header-icon">
+        <span class="material-symbols-outlined">lock_reset</span>
+      </div>
+      <div class="header-text">
+        <h1>Recuperar senha</h1>
+        <p>Enviaremos uma senha provisória para você</p>
+      </div>
+    </div>
+
+    <div class="card-body">
+
+      <!-- ══════════════════════════════════════════
+           FORM STATE — estado padrão (formulário)
+           Exibido quando a página carrega. O JS oculta este bloco
+           e mostra o success-state após o "envio".
+      ══════════════════════════════════════════ -->
+      <div id="form-state">
+
+        <!-- Link para voltar à tela de login (caminho relativo a partir de src/recuperarSenha/) -->
+        <a href="../login-e-perfil/login.html" class="back-link">
+          <span class="material-symbols-outlined">arrow_back</span>
+          Voltar para o login
+        </a>
+
+        <!-- Banner de erro — oculto por padrão (usado só para feedback de UI) -->
+        <div class="alert" id="alert-box" role="alert">
+          <span class="material-symbols-outlined">error</span>
+          <span id="alert-msg"></span>
+        </div>
+
+        <!-- Seletor de canal — opção de envio por e-mail OU SMS -->
+        <span class="section-label">Enviar via</span>
+        <div class="method-row" role="group" aria-label="Método de recuperação">
+          <button class="method-btn active" id="btn-email" type="button">
+            <span class="material-symbols-outlined">email</span>
+            E-mail
+          </button>
+          <button class="method-btn" id="btn-sms" type="button">
+            <span class="material-symbols-outlined">phone_android</span>
+            SMS
+          </button>
+        </div>
+
+        <form class="form" id="recovery-form" novalidate>
+          <!-- novalidate desativa a validação nativa do browser -->
+
+          <!-- Campo de e-mail — visível por padrão, oculto quando seleciona SMS -->
+          <div class="field" id="email-field">
+            <label for="input-email">Endereço de e-mail</label>
+            <div class="input-row">
+              <span class="material-symbols-outlined input-ico">email</span>
+              <input
+                type="email"
+                id="input-email"
+                placeholder="seu@email.com"
+                autocomplete="email"
+                inputmode="email"
+              />
+            </div>
+            <span class="hint">Use o e-mail cadastrado na sua conta StudyShare.</span>
+          </div>
+
+          <!-- Campo de telefone — oculto por padrão, exibido pelo JS quando seleciona SMS -->
+          <div class="field" id="phone-field">
+            <label for="input-phone">Número de celular</label>
+            <div class="input-row">
+              <span class="material-symbols-outlined input-ico">phone_android</span>
+              <input
+                type="tel"
+                id="input-phone"
+                placeholder="(00) 00000-0000"
+                autocomplete="tel"
+                inputmode="tel"
+              />
+            </div>
+            <span class="hint">Número com DDD cadastrado na sua conta.</span>
+          </div>
+
+          <!-- Botão de envio — o JS troca ícone+texto por spinner durante o "loading" -->
+          <button type="submit" class="btn-submit" id="btn-submit">
+            <div class="spinner" id="spinner"></div>
+            <span class="material-symbols-outlined" id="btn-icon">send</span>
+            <span id="btn-label">Enviar senha provisória</span>
+          </button>
+
+        </form>
+
+        <!-- Divisor visual com texto "ou" -->
+        <div class="divider">
+          <div class="div-line"></div>
+          <span class="div-text">ou</span>
+          <div class="div-line"></div>
+        </div>
+
+        <!-- Link alternativo para quem lembrou da senha -->
+        <div class="card-footer">
+          Lembrou sua senha? <a href="../login-e-perfil/login.html">Entrar agora</a>
+        </div>
+
+      </div><!-- /form-state -->
+
+      <!-- ══════════════════════════════════════════
+           SUCCESS STATE — estado de confirmação
+           Exibido após o "envio". O JS preenche #success-target
+           com o e-mail ou telefone mascarado e #prov-senha com a
+           senha provisória gerada, antes de mostrar este bloco.
+      ══════════════════════════════════════════ -->
+      <div class="success-state" id="success-state">
+
+        <!-- Ícone de check em círculo verde — feedback visual positivo -->
+        <div class="success-circle">
+          <span class="material-symbols-outlined">check_circle</span>
+        </div>
+
+        <h2 class="success-title" id="success-title">Senha enviada!</h2>
+
+        <!-- Mensagem dinâmica — o JS reescreve dependendo do canal e insere o destino -->
+        <p class="success-msg" id="success-msg">
+          Uma senha provisória foi enviada para <strong id="success-target"></strong>.
+        </p>
+
+        <!-- ── Caixa da senha provisória (demo) ──
+             Como não há e-mail/SMS real, a senha aparece aqui para o
+             usuário copiar e usar no login. O JS preenche #prov-senha. -->
+        <div class="prov-box" id="prov-box">
+          <span class="prov-label">Sua senha provisória</span>
+          <div class="prov-row">
+            <code class="prov-senha" id="prov-senha">--------</code>
+            <button type="button" class="btn-copy" id="btn-copy" aria-label="Copiar senha">
+              <span class="material-symbols-outlined">content_copy</span>
+              <span data-copy-label>Copiar</span>
+            </button>
+          </div>
+          <span class="prov-hint">Use esta senha para entrar e troque-a depois no seu perfil.</span>
+        </div>
+
+        <a href="../login-e-perfil/login.html" class="btn-outline">
+          <span class="material-symbols-outlined">arrow_back</span>
+          Voltar para o login
+        </a>
+
+        <!-- Opção de reenvio — gera uma nova senha provisória no lugar -->
+        <p class="resend-note">
+          Não recebeu? <a id="link-resend">Reenviar agora</a>
+        </p>
+
+      </div><!-- /success-state -->
+
+    </div><!-- /card-body -->
+  </div><!-- /card -->
+
+  <!-- JS externo do projeto -->
+  <script src="redefinicao-senha.js"></script>
+
+</body>
+</html>
