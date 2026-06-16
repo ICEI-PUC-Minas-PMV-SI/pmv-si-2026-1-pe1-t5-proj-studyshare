@@ -23,8 +23,8 @@
          ============================================================ -->
     <header>
         <div class="logo-topo">
-            <a href="feed.html">
-                <img src="img/logostudyshare.png" alt="Logo StudyShare - Início">
+            <a href="..\..\src\feed\index.html">
+                <img src="..\..\docs\img\logostudyshare_reduzida.png" alt="Logo StudyShare - Início">
             </a>
         </div>
 
@@ -163,46 +163,7 @@
 
     </main>
 
-    <!-- ============================================================
-         JavaScript simples (apenas para demonstrar os requisitos)
-         ============================================================ -->
-    <script>
-        // ---- RF-07: mostrar/esconder formulário de edição ----
-        function ativarEdicao() {
-            document.getElementById("formEdicao").style.display = "block";
-            document.getElementById("formEdicao").scrollIntoView({ behavior: "smooth" });
-        }
-
-        function salvarEdicao() {
-            // Atualiza os textos do perfil com o que foi digitado
-            document.querySelector(".perfil-centro h1").innerText =
-                document.getElementById("nome").value;
-            document.querySelector(".perfil-centro .usuario").innerText =
-                document.getElementById("usuarioInput").value;
-            document.querySelector(".perfil-centro .curso").innerText =
-                document.getElementById("cursoInput").value;
-            document.querySelector(".perfil-centro .bio").innerText =
-                document.getElementById("bioInput").value;
-
-            document.getElementById("formEdicao").style.display = "none";
-            alert("Perfil atualizado com sucesso!");
-        }
-
-        function cancelarEdicao() {
-            document.getElementById("formEdicao").style.display = "none";
-        }
-
-        // ---- RF-08: seguir / deixar de seguir ----
-        function seguir() {
-            document.getElementById("btnSeguir").style.display = "none";
-            document.getElementById("btnDeixarSeguir").style.display = "inline-flex";
-        }
-
-        function deixarDeSeguir() {
-            document.getElementById("btnDeixarSeguir").style.display = "none";
-            document.getElementById("btnSeguir").style.display = "inline-flex";
-        }
-    </script>
+    <script src="javascript/perfil-usuario.js"></script>
 
 </body>
 </html>
