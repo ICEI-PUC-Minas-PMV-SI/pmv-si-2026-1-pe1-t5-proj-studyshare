@@ -205,6 +205,73 @@ function logout() {
 }
 
 /* ============================================================
+   MATERIAIS DEMO
+   ============================================================ */
+
+const MATERIAIS_DEMO = [
+  {
+    id:          'mat_perfil_1',
+    title:       'Resumo de Banco de Dados',
+    type:        'PDF',
+    discipline:  'Banco de Dados',
+    course:      'Sistemas de Informação',
+    description: 'Resumo completo dos principais conceitos de modelagem e SQL.',
+    date:        '10/05/2026',
+  },
+  {
+    id:          'mat_perfil_2',
+    title:       'Slides de Engenharia de Software',
+    type:        'Slides',
+    discipline:  'Engenharia de Software',
+    course:      'Sistemas de Informação',
+    description: 'Apresentação sobre metodologias ágeis e ciclo de vida do software.',
+    date:        '08/05/2026',
+  },
+  {
+    id:          'mat_perfil_3',
+    title:       'Anotações de Algoritmos',
+    type:        'Anotações',
+    discipline:  'Algoritmos',
+    course:      'Sistemas de Informação',
+    description: 'Anotações e exercícios resolvidos de estruturas de dados.',
+    date:        '05/05/2026',
+  },
+];
+
+function initMateriaisDemo() {
+  if (localStorage.getItem('ss_materiais_perfil')) return;
+
+  const usuario = getUsuarioLogado();
+  const autor   = usuario
+    ? `${usuario.nome} ${usuario.sobrenome}`.trim()
+    : 'Estudante Demo';
+
+  const materiais = MATERIAIS_DEMO.map((m) => ({ ...m, author: autor }));
+  localStorage.setItem('ss_materiais_perfil', JSON.stringify(materiais));
+}
+
+function initBotoesMateriais() {
+  const usuario = getUsuarioLogado();
+  const autor   = usuario
+    ? `${usuario.nome} ${usuario.sobrenome}`.trim()
+    : 'Estudante Demo';
+
+  document.querySelectorAll('.card-material').forEach((card, index) => {
+    const btn      = card.querySelector('.botao-primario');
+    const material = MATERIAIS_DEMO[index];
+    if (!btn || !material) return;
+
+    btn.addEventListener('click', () => {
+      localStorage.setItem(
+        'ss_selected_material',
+        JSON.stringify({ ...material, author: autor })
+      );
+      window.location.href = '../visualizacao-conteudo/visualizacao-conteudo.html';
+    });
+  });
+}
+
+/* ============================================================
    RF-08: SEGUIR / DEIXAR DE SEGUIR
    ============================================================ */
 
@@ -225,4 +292,6 @@ function deixarDeSeguir() {
 document.addEventListener('DOMContentLoaded', () => {
   initUsuarioPadrao();
   carregarPerfil();
+  initMateriaisDemo();
+  initBotoesMateriais();
 });

@@ -18,6 +18,7 @@ let ratings = loadJson(STORAGE_KEYS.ratings, {});
 setupFilters();
 setupLikeButtons();
 setupRatingControls();
+setupMaterialLinks();
 updateVisibleCards();
 
 function setupFilters() {
@@ -150,6 +151,36 @@ function renderRating(card, container) {
 
     container.appendChild(button);
   }
+}
+
+function setupMaterialLinks() {
+  cards.forEach((card) => {
+    card.querySelectorAll('a[href*="visualizacao-conteudo"]').forEach((link) => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+
+        let date = '';
+        card.querySelectorAll('.material-meta span').forEach((span) => {
+          if (span.textContent.includes('Publicado em:')) {
+            date = span.textContent.replace('Publicado em:', '').trim();
+          }
+        });
+
+        const material = {
+          title:       card.dataset.title       || '',
+          type:        card.dataset.type        || '',
+          discipline:  card.dataset.discipline  || '',
+          course:      card.dataset.course      || '',
+          description: card.dataset.description || '',
+          author:      card.dataset.author      || '',
+          date,
+        };
+
+        saveJson('ss_selected_material', material);
+        window.location.href = link.href;
+      });
+    });
+  });
 }
 
 function formatResultCount(total) {
