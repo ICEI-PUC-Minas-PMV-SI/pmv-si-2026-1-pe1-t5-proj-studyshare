@@ -95,6 +95,17 @@ function carregarPerfil() {
   const avatarTopo = document.querySelector('.acoes-topo .avatar-topo');
   if (avatarTopo) avatarTopo.textContent = iniciais || '?';
 
+  // --- Visibilidade dos botões: perfil próprio ocult seguir/seguindo ---
+  const btnSeguir       = document.getElementById('btnSeguir');
+  const btnDeixarSeguir = document.getElementById('btnDeixarSeguir');
+  const btnEditar       = document.getElementById('btnEditar');
+  const btnLogout       = document.getElementById('btnLogout');
+
+  if (btnSeguir)       btnSeguir.style.display       = 'none';
+  if (btnDeixarSeguir) btnDeixarSeguir.style.display = 'none';
+  if (btnEditar)       btnEditar.style.display       = 'inline-flex';
+  if (btnLogout)       btnLogout.style.display       = 'inline-flex';
+
   // --- Pré-preenchimento do formulário de edição ---
   const nomeInput = document.getElementById('nome');
   if (nomeInput) nomeInput.value = nomeCompleto;
@@ -182,6 +193,15 @@ function salvarEdicao() {
 function cancelarEdicao() {
   const form = document.getElementById('formEdicao');
   if (form) form.style.display = 'none';
+}
+
+/* ============================================================
+   LOGOUT
+   ============================================================ */
+
+function logout() {
+  localStorage.removeItem(LS_KEYS.usuarioLogado);
+  window.location.href = '../login/index.html';
 }
 
 /* ============================================================
