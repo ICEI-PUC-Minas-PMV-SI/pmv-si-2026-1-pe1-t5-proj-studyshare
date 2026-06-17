@@ -10,6 +10,7 @@ const courseFilter = document.querySelector("#courseFilter");
 const typeFilter = document.querySelector("#typeFilter");
 const resultCount = document.querySelector("#resultCount");
 const emptyState = document.querySelector("#emptyState");
+const interactionFeedback = document.querySelector("#interactionFeedback");
 const cards = [...document.querySelectorAll(".js-material-card")];
 
 const likedMaterials = new Set(loadJson(STORAGE_KEYS.liked, []));
@@ -18,6 +19,7 @@ let ratings = loadJson(STORAGE_KEYS.ratings, {});
 setupFilters();
 setupLikeButtons();
 setupRatingControls();
+setupFeedbackActions();
 setupMaterialLinks();
 updateVisibleCards();
 
@@ -67,6 +69,17 @@ function setupRatingControls() {
     }
 
     renderRating(card, ratingContainer);
+  });
+}
+
+function setupFeedbackActions() {
+  const feedbackActions = [...document.querySelectorAll("[data-feedback-message]")];
+
+  feedbackActions.forEach((action) => {
+    action.addEventListener("click", (event) => {
+      event.preventDefault();
+      showInteractionFeedback(action.dataset.feedbackMessage);
+    });
   });
 }
 
@@ -153,38 +166,47 @@ function renderRating(card, container) {
   }
 }
 
+function formatResultCount(total) {
+  return total === 1 ? "1 material encontrado" : `${total} materiais encontrados`;
+}
+
+function showInteractionFeedback(message) {
+  if (!interactionFeedback) {
+    return;
+  }
+
+  interactionFeedback.textContent = message;
+  interactionFeedback.classList.add("is-visible");
+}
+
 function setupMaterialLinks() {
   cards.forEach((card) => {
     card.querySelectorAll('a[href*="visualizacao-conteudo"]').forEach((link) => {
-      link.addEventListener('click', (e) => {
-        e.preventDefault();
+      link.addEventListener("click", (event) => {
+        event.preventDefault();
 
-        let date = '';
-        card.querySelectorAll('.material-meta span').forEach((span) => {
-          if (span.textContent.includes('Publicado em:')) {
-            date = span.textContent.replace('Publicado em:', '').trim();
+        let date = "";
+        card.querySelectorAll(".material-meta span").forEach((span) => {
+          if (span.textContent.includes("Publicado em:")) {
+            date = span.textContent.replace("Publicado em:", "").trim();
           }
         });
 
         const material = {
-          title:       card.dataset.title       || '',
-          type:        card.dataset.type        || '',
-          discipline:  card.dataset.discipline  || '',
-          course:      card.dataset.course      || '',
-          description: card.dataset.description || '',
-          author:      card.dataset.author      || '',
+          title: card.dataset.title || "",
+          type: card.dataset.type || "",
+          discipline: card.dataset.discipline || "",
+          course: card.dataset.course || "",
+          description: card.dataset.description || "",
+          author: card.dataset.author || "",
           date,
         };
 
-        saveJson('ss_selected_material', material);
+        saveJson("ss_selected_material", material);
         window.location.href = link.href;
       });
     });
   });
-}
-
-function formatResultCount(total) {
-  return total === 1 ? "1 material encontrado" : `${total} materiais encontrados`;
 }
 
 function normalizeText(text) {
