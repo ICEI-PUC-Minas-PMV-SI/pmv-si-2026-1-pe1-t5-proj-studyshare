@@ -82,12 +82,132 @@ Instruções para verificação:
 
 Observação: nesta etapa, os dados exibidos na tela são simulados no front-end. A integração com banco de dados e backend pode ser realizada em etapa posterior do projeto.
 
+## Funcionalidade: Cadastro de Usuário
+
+Responsável: Ana Paula
+
+Arquivos criados:
+
+- `src/cadastro-usuario/cadastro-usuario.html`
+- `src/cadastro-usuario/css/estilo-cadastro-usuario.css`
+- `src/cadastro-usuario/javascript/cadastro-usuario.js`
+
+A tela de Cadastro de Usuário permite que novos estudantes criem uma conta na plataforma StudyShare. O formulário coleta nome, sobrenome, e-mail, nome de usuário, instituição de ensino e senha, com validação em tempo real e persistência no `localStorage`. A página também cria automaticamente um perfil de demonstração caso o armazenamento local esteja vazio, garantindo que outras telas do sistema funcionem mesmo sem um cadastro prévio.
+
+Requisitos atendidos:
+
+- `RF-06`: o formulário valida todos os campos obrigatórios, verifica duplicidade de e-mail e nome de usuário, exibe indicador de força de senha e, ao concluir, persiste o usuário nas chaves `ss_usuarios` e `ss_usuario_logado` do `localStorage`.
+
+Estruturas e dados utilizados:
+
+- O objeto de usuário é salvo no array `ss_usuarios` e uma cópia é mantida em `ss_usuario_logado` representando a sessão ativa.
+- A validação cobre comprimento mínimo e máximo, formato de e-mail, padrão de caracteres do nome de usuário e correspondência das senhas.
+- Um usuário-padrão de demonstração (`estudante.demo@studyshare.com`) é criado automaticamente ao primeiro acesso caso o `localStorage` esteja vazio.
+
+Instruções para verificação:
+
+1. Abrir o arquivo `src/cadastro-usuario/cadastro-usuario.html` no navegador.
+2. Preencher os campos do formulário com dados válidos e clicar em **Criar conta**.
+3. Verificar o toast de confirmação e abrir o DevTools → Application → Local Storage para confirmar que o objeto foi salvo em `ss_usuarios` e `ss_usuario_logado`.
+4. Tentar cadastrar um segundo usuário com o mesmo e-mail ou nome de usuário e verificar a mensagem de erro de duplicidade.
+5. Recarregar a página e verificar que os dados persistem no `localStorage`.
+
+Observação: nesta etapa, as senhas são tratadas somente no front-end para fins de demonstração. Em produção, o hash das senhas e a autenticação devem ser realizados no back-end.
+
+---
+
+## Funcionalidade: Visualização de Conteúdo
+
+Responsável: Ana Paula
+
+Arquivos criados:
+
+- `src/visualizacao-conteudo/visualizacao-conteudo.html`
+- `src/visualizacao-conteudo/css/estilo-visualizacao-conteudo.css`
+- `src/visualizacao-conteudo/javascript/visualizacao-conteudo.js`
+
+A tela de Visualização de Conteúdo exibe os detalhes de um material acadêmico selecionado a partir do feed ou do perfil do usuário. A página apresenta título, autor, descrição, tags, prévia do arquivo, estatísticas (visualizações, downloads e favoritos) e uma seção de comentários com respostas aninhadas. Todos os dados interativos são persistidos no `localStorage` por material.
+
+Requisitos atendidos:
+
+- `RF-03`: a seção de comentários permite que usuários publiquem perguntas e respostas vinculadas ao material, com persistência dos comentários e respostas no `localStorage`.
+- `RF-05`: o botão de favoritar alterna o estado do material entre favoritado e não favoritado, atualizando o contador de favoritos e persistindo a escolha no `localStorage`.
+- `RF-17`: o campo de comentário aceita a menção a outros usuários com o caractere `@` seguido do nome, permitindo marcação dentro do texto do comentário.
+- `RF-18`: o sistema aplica um filtro automático que bloqueia a publicação de comentários contendo palavras de baixo calão ou URLs externas suspeitas, exibindo uma mensagem de alerta ao usuário.
+
+Estruturas e dados utilizados:
+
+- O material a ser exibido é lido da chave `ss_selected_material` do `localStorage`, populada pelo feed ou pela página de perfil no momento do clique.
+- O estado de cada material (favorito, contadores e comentários) é salvo individualmente na chave `ss_material_{slug}`, onde `slug` é gerado a partir do título do material.
+- Os comentários postados pelo usuário são incluídos no array `comentarios` dentro do estado do material, com campos de autor, iniciais, texto, curtidas e respostas.
+- O nome e as iniciais do autor dos comentários são extraídos de `ss_usuario_logado`, garantindo que os comentários reflitam o usuário logado.
+
+Instruções para verificação:
+
+1. A partir do feed (`src/feed/index.html`), clicar em **Ver conteúdo** em qualquer card para navegar à página de visualização com os dados do material preenchidos automaticamente.
+2. Clicar no botão de favoritar e verificar a alteração visual e o incremento do contador de favoritos.
+3. Digitar um comentário no campo de texto e clicar em **Postar Comentário**; verificar que o comentário aparece abaixo com nome e iniciais do usuário logado.
+4. Clicar em **Responder** em um comentário, digitar uma resposta e confirmar; verificar que a resposta aparece aninhada.
+5. Recarregar a página e verificar que favorito, contadores e comentários continuam salvos via `localStorage`.
+6. Tentar postar um comentário com palavra de baixo calão e verificar que a publicação é bloqueada com mensagem de alerta.
+
+Observação: nesta etapa, a prévia do arquivo e o download são simulados no front-end. A integração com armazenamento de arquivos reais pode ser realizada em etapa posterior do projeto.
+
+---
+
 ## Descrição das estruturas:
 
-## Notícia
-|  **Nome**      | **Tipo**          | **Descrição**                             | **Exemplo**                                    |
-|:--------------:|-------------------|-------------------------------------------|------------------------------------------------|
-| Id             | Numero (Inteiro)  | Identificador único da notícia            | 1                                              |
-| Título         | Texto             | Título da notícia                         | Sistemas de Informação PUC Minas é o melhor                                   |
-| Conteúdo       | Texto             | Conteúdo da notícia                       | Sistemas de Informação da PUC Minas é eleito o melhor curso do Brasil                            |
-| Id do usuário  | Numero (Inteiro)  | Identificador do usuário autor da notícia | 1                                              |
+## Usuário
+Chaves no `localStorage`: `ss_usuarios` (array) · `ss_usuario_logado` (objeto da sessão ativa)
+
+|  **Nome**      | **Tipo**          | **Descrição**                                                        | **Exemplo**                          |
+|:--------------:|-------------------|----------------------------------------------------------------------|--------------------------------------|
+| id             | Número (Inteiro)  | Identificador único gerado por `Date.now()`                          | 1716393600000                        |
+| nome           | Texto             | Primeiro nome do usuário                                             | Estudante                            |
+| sobrenome      | Texto             | Sobrenome do usuário                                                 | Demo                                 |
+| email          | Texto             | Endereço de e-mail único utilizado no login                          | estudante.demo@studyshare.com        |
+| username       | Texto             | Nome de usuário único, sem espaços                                   | estudante_demo                       |
+| instituicao    | Texto             | Instituição de ensino informada no cadastro (campo opcional)         | StudyShare University                |
+| bio            | Texto             | Biografia exibida no perfil (preenchida após edição do perfil)       | Compartilhando resumos acadêmicos.   |
+| criadoEm       | Texto (ISO 8601)  | Data e hora de criação da conta                                      | 2026-05-22T14:00:00.000Z             |
+
+## Material Selecionado
+Chave no `localStorage`: `ss_selected_material`
+
+Objeto temporário gravado pelo feed ou pela página de perfil no momento em que o usuário clica para visualizar um material. Lido pela página de Visualização de Conteúdo ao carregar.
+
+|  **Nome**      | **Tipo**  | **Descrição**                                            | **Exemplo**                                          |
+|:--------------:|-----------|----------------------------------------------------------|------------------------------------------------------|
+| title          | Texto     | Título do material                                       | Resumo de Modelagem Relacional                       |
+| type           | Texto     | Tipo do arquivo                                          | PDF                                                  |
+| discipline     | Texto     | Disciplina à qual o material está vinculado              | Banco de Dados                                       |
+| course         | Texto     | Curso ao qual o material pertence                        | Sistemas de Informação                               |
+| description    | Texto     | Descrição breve do conteúdo do material                  | Material com conceitos de entidade e relacionamento. |
+| author         | Texto     | Nome completo do autor do material                       | Helena Campos                                        |
+| date           | Texto     | Data de publicação no formato DD/MM/AAAA                 | 18/05/2026                                           |
+
+## Estado do Material
+Chave no `localStorage`: `ss_material_{slug}` (uma entrada por material, onde `slug` é gerado a partir do título)
+
+|  **Nome**      | **Tipo**          | **Descrição**                                                              | **Exemplo**    |
+|:--------------:|-------------------|----------------------------------------------------------------------------|----------------|
+| favoritado     | Booleano          | Indica se o usuário atual favoritou o material                             | true           |
+| downloads      | Número (Inteiro)  | Contador acumulado de downloads do material                                | 235            |
+| visualizacoes  | Número (Inteiro)  | Contador acumulado de visualizações do material                            | 1206           |
+| favoritos      | Número (Inteiro)  | Contador acumulado de vezes que o material foi favoritado                  | 46             |
+| comentarios    | Array de objetos  | Lista de comentários postados pelo usuário na página do material           | (ver abaixo)   |
+
+### Comentário (item do array `comentarios`)
+
+|  **Nome**      | **Tipo**          | **Descrição**                                                  | **Exemplo**              |
+|:--------------:|-------------------|----------------------------------------------------------------|--------------------------|
+| id             | Texto             | Identificador único do comentário gerado por `Date.now()`     | c_1716393600000          |
+| texto          | Texto             | Conteúdo do comentário postado pelo usuário                   | Ótimo material!          |
+| autor          | Texto             | Nome completo do usuário que postou o comentário              | Estudante Demo           |
+| initials       | Texto             | Iniciais do autor para exibição no avatar                     | ED                       |
+| avatarColor    | Texto (hex/CSS)   | Cor de fundo gerada para o avatar do comentário               | #004AAD                  |
+| datetime       | Texto (ISO 8601)  | Data e hora de criação do comentário                          | 2026-05-22T14:00:00.000Z |
+| tempoLabel     | Texto             | Rótulo de tempo exibido na interface                          | Agora mesmo              |
+| curtidas       | Número (Inteiro)  | Quantidade de curtidas recebidas pelo comentário              | 3                        |
+| liked          | Booleano          | Indica se o usuário atual curtiu este comentário              | false                    |
+| respostas      | Array de objetos  | Lista de respostas aninhadas ao comentário                    | []                       |

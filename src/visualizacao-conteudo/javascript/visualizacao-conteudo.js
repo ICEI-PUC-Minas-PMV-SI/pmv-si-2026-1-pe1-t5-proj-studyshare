@@ -369,7 +369,7 @@ function insertCommentCard(data, saveToStorage = true) {
       <span class="comment-name">${escapeHtml(data.autor || 'Você')}</span>
       <time class="comment-time" datetime="${data.datetime}">${escapeHtml(data.tempoLabel)}</time>
     </div>
-    <p class="comment-body">${escapeHtml(data.texto)}</p>
+    <p class="comment-body">${renderTextoComentario(data.texto)}</p>
     <div class="comment-actions-row">
       <button class="comment-action-btn like-btn" type="button"
         data-count="${data.curtidas || 0}"
@@ -426,7 +426,7 @@ function buildReplyElement(texto) {
   replyEl.innerHTML = `
     <span style="font:600 12px/1 Inter,sans-serif;color:#000;">Você</span>
     <span style="font:400 12px/1 Inter,sans-serif;color:#718096;margin-left:8px;">Anteriormente</span>
-    <p style="font:400 13px/1.5 Inter,sans-serif;color:#4a5568;margin-top:4px;">${escapeHtml(texto)}</p>
+    <p style="font:400 13px/1.5 Inter,sans-serif;color:#4a5568;margin-top:4px;">${renderTextoComentario(texto)}</p>
   `;
   return replyEl;
 }
@@ -519,7 +519,9 @@ function bindCommentActions(card) {
       `;
 
       card.appendChild(replyForm);
-      replyForm.querySelector('textarea').focus();
+      const replyTextarea = replyForm.querySelector('textarea');
+      initMentions(replyTextarea);
+      replyTextarea.focus();
 
       replyForm.querySelector('.cancel-reply-btn').addEventListener('click', () => {
         replyForm.remove();
@@ -528,6 +530,9 @@ function bindCommentActions(card) {
       replyForm.querySelector('.send-reply-btn').addEventListener('click', () => {
         const text = replyForm.querySelector('textarea').value.trim();
         if (!text) { showToast('Digite algo para responder.', 'error'); return; }
+
+        const filtro = filtrarConteudo(text);
+        if (!filtro.valido) { showToast(filtro.motivo, 'error'); return; }
 
         const replyEl = buildReplyElement(text);
         replyForm.replaceWith(replyEl);
@@ -563,6 +568,222 @@ function renderSavedComments() {
   updateCommentCount(STATE.comentarios.length);
 }
 
+/* ============================================================
+   RF-18: FILTRO DE CONTEÚDO INADEQUADO
+   ============================================================ */
+
+const PALAVRAS_BLOQUEADAS = [
+  'merda', 'porra', 'caralho', 'foda', 'foda-se', 'fodase',
+  'puta', 'viado', 'buceta', 'cu', 'desgraca', 'desgraça',
+  'idiota', 'imbecil', 'babaca', 'cretino', 'otario', 'otário',
+  'fdp', 'filhadaputa', 'arrombado', 'vsf',
+];
+
+const PADRAO_URL_SUSPEITA = /https?:\/\/\S+|www\.\S+/i;
+
+/**
+ * Verifica se o texto contém palavras de baixo calão ou URLs suspeitas.
+ * @param {string} texto
+ * @returns {{ valido: boolean, motivo: string }}
+ */
+function filtrarConteudo(texto) {
+  const normalizado = texto
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '');
+
+  const temPalavraBloqueada = PALAVRAS_BLOQUEADAS.some((p) => normalizado.includes(p));
+
+  if (temPalavraBloqueada) {
+    return {
+      valido: false,
+      motivo: 'Seu comentário contém linguagem inadequada e não pode ser publicado.',
+    };
+  }
+
+  if (PADRAO_URL_SUSPEITA.test(texto)) {
+    return {
+      valido: false,
+      motivo: 'Seu comentário contém um link externo suspeito e não pode ser publicado.',
+    };
+  }
+
+  return { valido: true, motivo: '' };
+}
+
+/* ============================================================
+   RF-17: MENÇÃO DE USUÁRIOS COM @
+   ============================================================ */
+
+function getUsuariosLS() {
+  try {
+    return JSON.parse(localStorage.getItem('ss_usuarios') || '[]');
+  } catch {
+    return [];
+  }
+}
+
+function injetarEstilosMencao() {
+  if (document.getElementById('ss-mention-style')) return;
+  const style = document.createElement('style');
+  style.id = 'ss-mention-style';
+  style.textContent = `
+    .ss-mention {
+      color: #004AAD;
+      font-weight: 600;
+      background: #e6eef8;
+      border-radius: 4px;
+      padding: 0 3px;
+    }
+    .mention-dropdown {
+      position: absolute;
+      background: #fff;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      list-style: none;
+      margin: 0;
+      padding: 4px 0;
+      min-width: 200px;
+      max-width: 300px;
+      z-index: 9999;
+      font-family: 'Inter', sans-serif;
+    }
+    .mention-dropdown li {
+      padding: 8px 14px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .mention-dropdown li:hover,
+    .mention-dropdown li.is-active {
+      background: #e6eef8;
+    }
+    .mention-dropdown .mention-username {
+      font: 600 13px/1 Inter, sans-serif;
+      color: #004AAD;
+    }
+    .mention-dropdown .mention-fullname {
+      font: 400 11px/1 Inter, sans-serif;
+      color: #718096;
+    }
+  `;
+  document.head.appendChild(style);
+}
+
+/**
+ * Substitui @username no texto por um span estilizado.
+ * Deve ser chamada após escapeHtml para evitar XSS.
+ * @param {string} texto
+ * @returns {string} HTML seguro com menções destacadas
+ */
+function renderTextoComentario(texto) {
+  return escapeHtml(texto).replace(
+    /@([A-Za-z0-9_.\\-]+)/g,
+    '<span class="ss-mention">@$1</span>'
+  );
+}
+
+/**
+ * Ativa o autocomplete de @ em um textarea.
+ * @param {HTMLTextAreaElement} textarea
+ */
+function initMentions(textarea) {
+  let dropdown  = null;
+  let activeIdx = -1;
+
+  function fecharDropdown() {
+    if (dropdown) { dropdown.remove(); dropdown = null; }
+    activeIdx = -1;
+  }
+
+  function getMencaoAtual() {
+    const cursor = textarea.selectionStart;
+    const antes  = textarea.value.slice(0, cursor);
+    const match  = antes.match(/@([A-Za-z0-9_.]*)$/);
+    return match ? { termo: match[1], inicio: cursor - match[0].length } : null;
+  }
+
+  function inserirUsername(usuario, mencao) {
+    const cursor    = textarea.selectionStart;
+    const antes     = textarea.value.slice(0, mencao.inicio);
+    const depois    = textarea.value.slice(cursor);
+    textarea.value  = `${antes}@${usuario.username} ${depois}`;
+    fecharDropdown();
+    textarea.focus();
+    const pos = mencao.inicio + usuario.username.length + 2;
+    textarea.setSelectionRange(pos, pos);
+  }
+
+  function renderDropdown(filtrados, mencao) {
+    if (!dropdown) {
+      dropdown = document.createElement('ul');
+      dropdown.className = 'mention-dropdown';
+      dropdown.setAttribute('role', 'listbox');
+      document.body.appendChild(dropdown);
+    }
+
+    const rect = textarea.getBoundingClientRect();
+    dropdown.style.top  = `${rect.bottom + window.scrollY + 4}px`;
+    dropdown.style.left = `${rect.left  + window.scrollX}px`;
+    activeIdx = -1;
+
+    dropdown.innerHTML = '';
+    filtrados.forEach((u) => {
+      const li = document.createElement('li');
+      li.setAttribute('role', 'option');
+      li.innerHTML = `
+        <span class="mention-username">@${escapeHtml(u.username)}</span>
+        <span class="mention-fullname">${escapeHtml(u.nome)} ${escapeHtml(u.sobrenome)}</span>
+      `;
+      li.addEventListener('mousedown', (e) => {
+        e.preventDefault();
+        inserirUsername(u, mencao);
+      });
+      dropdown.appendChild(li);
+    });
+  }
+
+  textarea.addEventListener('input', () => {
+    const mencao = getMencaoAtual();
+    if (!mencao) { fecharDropdown(); return; }
+
+    const filtrados = getUsuariosLS()
+      .filter((u) => u.username.toLowerCase().startsWith(mencao.termo.toLowerCase()))
+      .slice(0, 5);
+
+    if (!filtrados.length) { fecharDropdown(); return; }
+    renderDropdown(filtrados, mencao);
+  });
+
+  textarea.addEventListener('keydown', (e) => {
+    if (!dropdown) return;
+    const items = [...dropdown.querySelectorAll('li')];
+
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      if (activeIdx >= 0) items[activeIdx].classList.remove('is-active');
+      activeIdx = (activeIdx + 1) % items.length;
+      items[activeIdx].classList.add('is-active');
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      if (activeIdx >= 0) items[activeIdx].classList.remove('is-active');
+      activeIdx = (activeIdx - 1 + items.length) % items.length;
+      items[activeIdx].classList.add('is-active');
+    } else if (e.key === 'Enter' && activeIdx >= 0) {
+      e.preventDefault();
+      items[activeIdx].dispatchEvent(new MouseEvent('mousedown'));
+    } else if (e.key === 'Escape') {
+      fecharDropdown();
+    }
+  });
+
+  textarea.addEventListener('blur', () => {
+    setTimeout(fecharDropdown, 150);
+  });
+}
+
 /**
  * Inicializa o campo de postagem de novo comentário.
  */
@@ -570,6 +791,8 @@ function initCommentPost() {
   const textarea = document.querySelector('.comment-textarea');
   const postBtn  = document.querySelector('.btn-post');
   if (!textarea || !postBtn) return;
+
+  initMentions(textarea);
 
   // Atalho Ctrl+Enter
   textarea.addEventListener('keydown', (e) => {
@@ -586,6 +809,13 @@ function initCommentPost() {
     const text = textarea.value.trim();
     if (!text) {
       showToast('Digite algo antes de postar.', 'error');
+      textarea.focus();
+      return;
+    }
+
+    const filtro = filtrarConteudo(text);
+    if (!filtro.valido) {
+      showToast(filtro.motivo, 'error');
       textarea.focus();
       return;
     }
@@ -780,6 +1010,8 @@ function initProfileCta() {
    ============================================================ */
 
 document.addEventListener('DOMContentLoaded', () => {
+  injetarEstilosMencao();
+
   // Popula a página com o material clicado no feed (deve vir antes de loadState)
   loadMaterialFromFeed();
 
