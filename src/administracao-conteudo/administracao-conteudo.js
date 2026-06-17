@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const buttons = document.querySelectorAll('.filter-btn');
     const contents = document.querySelectorAll('.tab-content');
 
+    // Lógica das abas
     buttons.forEach(button => {
         button.addEventListener('click', () => {
             buttons.forEach(btn => btn.classList.remove('active'));
@@ -15,33 +16,48 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
+    // ==========================================
+    // MÉTRICAS DO LOCAL STORAGE
+    // ==========================================
 
-    // A mesma chave usada no seu sistema de cadastro (estilo-cadastro-usuario.js)
-    const LS_KEY_USUARIOS = 'ss_usuarios';
+    const LS_KEY_USUARIOS = 'ss_usuarios'; 
+    const LS_KEY_UPLOADS = 'ss_materiais';
 
+    // Atualiza Total de Usuários
     function atualizarMetricaUsuarios() {
         try {
-            // Puxa a string do localStorage (se não tiver nada, puxa uma string de array vazio)
             const dadosSalvos = localStorage.getItem(LS_KEY_USUARIOS) || '[]';
-            
-            // Transforma a string de volta em uma lista (Array)
             const listaUsuarios = JSON.parse(dadosSalvos);
-            
-            // O número total é o tamanho da lista
             const totalReal = listaUsuarios.length;
             
-            // Pega o span no HTML pelo ID que adicionamos
             const elementoContador = document.getElementById('total-usuarios-dash');
             
             if (elementoContador) {
-                // Se o número for maior que 1000, formata com ponto (ex: 1.256)
                 elementoContador.textContent = totalReal.toLocaleString('pt-BR');
             }
         } catch (erro) {
-            console.error("Erro ao ler dados do localStorage:", erro);
+            console.error("Erro ao ler dados de usuários do localStorage:", erro);
         }
     }
 
-    // Chama a função para atualizar o número assim que a página carregar
+    // Atualiza Total de Uploads
+    function atualizarMetricaUploads() {
+        try {
+            const dadosSalvos = localStorage.getItem(LS_KEY_UPLOADS) || '[]';
+            const listaUploads = JSON.parse(dadosSalvos);
+            const totalReal = listaUploads.length;
+            
+            const elementoContador = document.getElementById('total-uploads-dash');
+            
+            if (elementoContador) {
+                elementoContador.textContent = totalReal.toLocaleString('pt-BR');
+            }
+        } catch (erro) {
+            console.error("Erro ao ler dados de uploads do localStorage:", erro);
+        }
+    }
+
+    // Chama as funções para atualizar os números assim que a página carregar
     atualizarMetricaUsuarios();
+    atualizarMetricaUploads();
 });
