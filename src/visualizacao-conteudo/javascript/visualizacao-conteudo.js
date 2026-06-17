@@ -255,7 +255,7 @@ function loadMaterialFromFeed() {
         ? (parts[0][0] + parts[parts.length - 1][0]).toUpperCase()
         : parts[0][0].toUpperCase();
     }
-    const nameSpan = metaRow.querySelectorAll('span')[1];
+    const nameSpan = metaRow.querySelectorAll('span')[0];
     if (nameSpan) nameSpan.textContent = material.author;
   }
 
